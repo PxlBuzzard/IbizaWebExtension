@@ -1,5 +1,10 @@
+import utils from "utils";
+
 saveLocalStorage = function() {
-  
+  utils.getBrowserContext(function(t, w) {
+    console.log(t);
+    console.log(w);
+  });
   window.close();
 };
 
