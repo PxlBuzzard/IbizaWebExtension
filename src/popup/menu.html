@@ -2,14 +2,23 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="menu.css"/>
-    <title>Popup Menu</title>
+    <link rel="stylesheet" href="pure.css"/>
+    <title>Main Menu</title>
+    <style>
+      html, body {
+        width: 200px;
+      }
+    </style>
   </head>
 
 <body>
-  <div class="button action" onclick="loadLocalStorage()">Save Local Storage</div>
-  <div class="button action" onclick="loadLocalStorage()">Load Local Storage</div>
-  <div class="button clear" onclick="clearLocalStorage()">Clear Local Storage</div>
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+        <li class="pure-menu-item"><a href="params/menu-params.html" class="pure-menu-link">URL Parameters</a></li>
+        <li class="pure-menu-item"><a href="#" class="pure-menu-link" onclick="loadLocalStorage()">Users</a></li>
+        <li class="pure-menu-item"><a href="#" class="pure-menu-link" onclick="loadLocalStorage()">Telemetry</a></li>
+    </ul>
+</div>
   <script src="menu.js"></script>
 </body>
 
