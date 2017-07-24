@@ -1,0 +1,20 @@
+{
+
+  "manifest_version": 2,
+  "name": "Ibiza Developer Extension",
+  "version": "1.0",
+
+  "description": "",
+
+  "icons": {
+    "48": "assets/icon-48.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": [ "*://portal.azure.com/*" ],
+      "js": [ "src/main.js" ]
+    }
+  ]
+
+}
