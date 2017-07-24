@@ -1,31 +1,20 @@
-/*
-Listen for clicks in the popup.
-If the click is on one of the beasts:
-  Inject the "beastify.js" content script in the active tab.
-  Then get the active tab and send "beastify.js" a message
-  containing the URL to the chosen beast's image.
-If it's on a button wich contains class "clear":
-  Reload the page.
-  Close the popup. This is needed, as the content script malfunctions after page reloads.
-*/
 document.addEventListener("click", (e) => {
-  if (e.target.classList.contains("beast")) {
-    var chosenBeast = e.target.textContent;
-    var chosenBeastURL = browser.extension.getURL("assets/icon-48.png");
+  if (e.target.classList.contains("action")) {
 
-    browser.tabs.executeScript(null, {
-      file: "/src/main.js"
-    });
-
-    var gettingActiveTab = browser.tabs.query({active: true, currentWindow: true});
-    gettingActiveTab.then((tabs) => {
-      browser.tabs.sendMessage(tabs[0].id, {beastURL: chosenBeastURL});
-    });
-  }
-  else if (e.target.classList.contains("clear")) {
-    browser.tabs.reload();
-    window.close();
-
-    return;
+    // browser.tabs.executeScript(null, {
+    //   code:"document.body.style.border = '5px solid red'"
+    // });
+    chrome.tabs.executeScript(null,
+      { code:"document.body.style.border = '5px solid red'" }
+    );
+  window.close();
   }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+  var divs = document.querySelectorAll('div');
+  for (var i = 0; i < divs.length; i++) {
+    divs[i].addEventListener('click', click);
+  }
+});
+
