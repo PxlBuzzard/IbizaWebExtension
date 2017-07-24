@@ -22,7 +22,7 @@
 
   "content_scripts": [
     {
-      "matches": [ "*://portal.azure.com/*" ],
+      "matches": [ "*://*.portal.azure.com/*" ],
       "js": [ "src/main.js" ]
     }
   ]
