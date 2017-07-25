@@ -3,11 +3,12 @@ saveUserSession = function() {
     chrome.tabs.sendMessage(currentTab.id, {eventName: "saveUserSession"}, function(response) {
       // Check the existing list of user sessions
       chrome.storage.local.get("userSessions", function(e) {
-        users = new Map(JSON.parse(e.userSessions));
-        console.log(users);
-        if (typeof users !== 'Map') {
+        try {
+          users = new Map(JSON.parse(e.userSessions));
+        } catch (ex) {
           users = new Map();
         }
+        console.log(users);
 
         // Add the session to the list (or overwrite it if it already exists)
         // NOTE: the key is the username (i.e. UPN/email address)

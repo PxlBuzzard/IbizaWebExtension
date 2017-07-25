@@ -202,8 +202,10 @@ function saveUserSession(request, sender, sendResponse) {
     var cookie = document.cookie;
     var username = document.getElementsByClassName("fxs-avatarmenu-username")[0].innerHTML;
     var avatarIconUrl = document.getElementsByClassName("fxs-avatarmenu-tenant-image")[0].getAttribute("src");
+    var portalUrl = window.location.href;
     
     sendResponse({
+        portalUrl,
         username,
         avatarIconUrl,
         localStorage,
