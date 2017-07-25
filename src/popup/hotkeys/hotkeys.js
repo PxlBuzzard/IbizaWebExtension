@@ -14,4 +14,23 @@ $(document).ready(function () {
 	};
 
 	document.getElementById('toggle-debug').addEventListener('click', toggleDebugModeEvent);
+
+	downloadDebugInfo = function() {
+		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+		  chrome.tabs.sendMessage(tabs[0].id, {eventName: "downloadDebugInfo"}, function(response) {
+		    console.log(response);
+		  });
+		});
+	};
+
+	document.getElementById('download-debug-info').addEventListener('click', downloadDebugInfo);
+
+	downloadPerfDataEvent = function() {
+		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+		    console.log("Dowloading Perf Data!");
+		});
+	};
+
+	document.getElementById('download-perf-data').addEventListener('click', downloadPerfDataEvent);
+	
 });
