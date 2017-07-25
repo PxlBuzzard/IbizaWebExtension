@@ -182,7 +182,10 @@ chrome.runtime.onMessage.addListener(
         case "toggleDebug": toggleDebug(request, sender, sendResponse); break;
         case "downloadDebugInfo": downloadDebugInfo(request, sender, sendResponse); break;
         case "saveUserSession": saveUserSession(request, sender, sendResponse); break;
-        default: console.error("Unknown event '" + request.eventName + "'");
+        case "loadUserSession": loadUserSesssion(request, sender, sendResponse); break;
+        case "clearActiveUserSession": clearActiveUserSession(request, sender, sendResponse); break;
+        case "createNewBug": createNewBug(request, sender, sendResponse); break;
+        default: console.error(`Unknown event "${request.eventName}"`); break;
     }
   }
 );
@@ -205,13 +208,53 @@ downloadDebugInfo = function(request, sender, sendResponse) {
 	sendResponse({message: "Download Debug Info seccussful"});
 }
 
-saveUserSession = function(request, sender, sendResponse) {
-    var clonedLocalStorage = JSON.parse(JSON.stringify(window.localStorage));
-    var clonedSessionStorage = JSON.parse(JSON.stringify(window.sessionStorage));
-    var clonedCookie = document.cookie;
+function saveUserSession(request, sender, sendResponse) {
+    var localStorage = JSON.parse(JSON.stringify(window.localStorage));
+    var sessionStorage = JSON.parse(JSON.stringify(window.sessionStorage));
+    var cookie = document.cookie;
+    var username = document.getElementsByClassName("fxs-avatarmenu-username")[0].innerHTML;
+    var avatarIconUrl = document.getElementsByClassName("fxs-avatarmenu-tenant-image")[0].getAttribute("src");
+    var portalUrl = window.location.href;
+    
     sendResponse({
-        localStorage: clonedLocalStorage,
-        sessionStorage: clonedSessionStorage,
-        cookie: clonedCookie
+        portalUrl,
+        username,
+        avatarIconUrl,
+        localStorage,
+        sessionStorage,
+        cookie
     });
+}
+
+function loadUserSession(request, sender, sendResponse) {
+    //TODO: load the response
+    var userLocalStorage = request.userStorage.localStorage;
+    var userSessionStorage = request.userStorage.sessionStorage;
+    // var userCookies = request.userStorage.userCookies;
+    setUserStorageHelper("local", userLocalStorage);
+    setUserStorageHelper("session", userSessionStorage);
+
+    sendResponse("Active user session set sucessfully for the tab.");
+}
+
+
+function clearActiveUserSession(request, sender, sendResponse) {
+    window.localStorage.clear();
+    window.sessionStorage.clear();g
+    sendResponse("Active user session cleared successfully for the tab.")
+}
+
+function setUserStorageHelper(category, userStorage) {
+    if (userStorage == null) return null;
+    var storage = null;
+    switch (category) {
+        case "local": storage = window.localStorage; break;
+        case "session": storage = chrome.sessionStorage; break;
+        default: console.error(`Unknown storage type "${category}"`); break;
+    }
+    if (storage == null) return;
+
+    storage.forEach(function(key, value) {
+        storage.setItem(key, value);
+    }, this);
 }

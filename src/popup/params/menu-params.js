@@ -10,16 +10,43 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
   params = parseQueryString(query);
 
   // add suggested params if not present
-  params.clientOptimizations = params.clientOptimizations || new Param("clientOptimizations", "The parameter that determines whether optimizations should be enabled.", "true");
-  params.nocdn = params.nocdn || new Param("nocdn", "The parameter to set the value of the cookie that determines whether CDN is enabled for the application.", "false");
+  params.clientOptimizations = params.clientOptimizations || allParams.clientOptimizations;
+  params.nocdn = params.nocdn || allParams.nocdn;
 
   // build table
+  var $tbody = $("#params-table > tbody");
+  function addRow(set, name, value) {
+    $tbody.append($("<tr />")
+      .append($("<td />").append($("<input type=\"checkbox\" />").attr("checked", set)))
+      .append($("<td />").append($("<input type=\"text\" />").val(name)))
+      .append($("<td />").append($("<input type=\"text\" />").val(value))));
+  }
+
+  // row for adding new parameters
+  var $addName = $("<select />");
+  var $addValue = $("<input type=\"text\" />");
+  $tbody.append($("<tr />")
+    .append($("<td />").append($("<button class=\"button-xsmall pure-button\">+</button>").click(function() {
+      if ($addName.scombobox("val")) {
+        addRow(true, $addName.scombobox("val"), $addValue.val());
+        $addName.scombobox("val", "");
+        $addValue.val("");
+      }
+    })))
+    .append($("<td />").append($addName))
+    .append($("<td />").append($addValue)));
+  $addName.scombobox({
+    data: Object.keys(allParams).map(function (param) {
+      return { value: param, text: param }
+    }),
+    invalidAsValue: true,
+    empty: true
+  });
+  $addName = $(".scombobox"); // scombobox init messed with the jquery object so reset it
+
+  // rows for existing params
   for (var param in params) {
-    var $tr = $("<tr />");
-    $tr.append($("<td />").append($("<input type=\"checkbox\" />").attr("checked", params[param].set)));
-    $tr.append($("<td />").append($("<input type=\"text\" />").attr("value", params[param].name)));
-    $tr.append($("<td />").append($("<input type=\"text\" />").attr("value", params[param].value)));
-    $("#params-table > tbody").append($tr);
+    addRow(params[param].set, params[param].name, params[param].value);
   }
 });
 
@@ -30,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
                        .getElementsByTagName("tbody")[0]
                        .getElementsByTagName("tr");
     var query = "";
-    for (var i = 0; i < rows.length; ++i) {
+    for (var i = 1; i < rows.length; ++i) {
         var cells = rows[i].getElementsByTagName("td");
         var active = cells[0].getElementsByTagName("input")[0].checked;
         var name = cells[1].getElementsByTagName("input")[0].value;
