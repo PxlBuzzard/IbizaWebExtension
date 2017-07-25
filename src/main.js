@@ -182,7 +182,8 @@ chrome.runtime.onMessage.addListener(
         case "toggleDebug": toggleDebug(request, sender, sendResponse); break;
         case "saveUserSession": saveUserSession(request, sender, sendResponse); break;
         case "loadUserSession": loadUserSesssion(request, sender, sendResponse); break;
-        default: console.error("Unknown event '" + request.eventName + "'");
+        case "createNewBug": createNewBug(request, sender, sendResponse); break;
+        default: console.error(`Unknown event "${request.eventName}"`); break;
     }
   }
 );
