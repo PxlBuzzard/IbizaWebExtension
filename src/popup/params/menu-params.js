@@ -14,27 +14,27 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
   params.nocdn = params.nocdn || allParams.nocdn;
 
   // build table
-  var $tbody = $("#params-table > tbody");
+  var $tbody = $('#params-table > tbody');
   function addRow(set, name, value) {
-    $tbody.append($("<tr />")
-      .append($("<td />").append($("<input type=\"checkbox\" />").attr("checked", set)))
-      .append($("<td />").append($("<input type=\"text\" />").val(name)))
-      .append($("<td />").append($("<input type=\"text\" />").val(value))));
+    $tbody.append($('<tr />')
+      .append($('<td />').append($('<input type="checkbox" />').attr("checked", set)))
+      .append($('<td />').append($('<input type="text" />').val(name)))
+      .append($('<td />').append($('<input type="text" />').val(value))));
   }
 
   // row for adding new parameters
-  var $addName = $("<select />");
-  var $addValue = $("<input type=\"text\" />");
-  $tbody.append($("<tr />")
-    .append($("<td />").append($("<button class=\"button-xsmall pure-button\">+</button>").click(function() {
+  var $addName = $('<select />');
+  var $addValue = $('<input type="text" />');
+  $tbody.append($('<tr />')
+    .append($('<td />').append($('<button id="addButton" class="button-xsmall pure-button">+</button>').click(function() {
       if ($addName.scombobox("val")) {
         addRow(true, $addName.scombobox("val"), $addValue.val());
         $addName.scombobox("val", "");
         $addValue.val("");
       }
     })))
-    .append($("<td />").append($addName))
-    .append($("<td />").append($addValue)));
+    .append($('<td />').append($addName))
+    .append($('<td />').append($addValue)));
   $addName.scombobox({
     data: Object.keys(allParams).map(function (param) {
       return { value: param, text: param }
@@ -42,7 +42,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     invalidAsValue: true,
     empty: true
   });
-  $addName = $(".scombobox"); // scombobox init messed with the jquery object so reset it
+  $addName = $('.scombobox'); // scombobox init messed with the jquery object so reset it
 
   // rows for existing params
   for (var param in params) {
@@ -67,8 +67,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    chrome.tabs.update({ url: baseUrl + 
-      (query ? "?" + query.substring(1) : "") + 
+    chrome.tabs.update({ url: baseUrl +
+      (query ? "?" + query.substring(1) : "") +
       (anchor ? "#" + anchor : "") });
   });
 });

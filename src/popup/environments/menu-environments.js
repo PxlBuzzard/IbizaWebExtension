@@ -13,9 +13,6 @@ $('form').on('submit', function(event) {
 // Hide table change button
 $('#saveAllChanges').hide();
 
-newEnvironment("Test Environment");
-newEnvironment("Test 2");
-
 /// Functions
 // Click handler
 var clickHandler = function(click) {
@@ -37,11 +34,13 @@ function changeActiveEnvironment(target) {
   }
   // disable last active
   else if (activeEnv) {
+    $(activeEnv).removeClass('selected');
     $(activeEnv.nextSibling).removeClass('active');
   }
 
   // set new active
   activeEnv = target;
+  $(target).addClass('selected');
   $(target.nextSibling).addClass('active');
 }
 

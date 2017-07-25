@@ -1,5 +1,5 @@
 html, body {
-  width: 380px;
+  width: 332px;
 }
 
 .pure-form {
@@ -8,6 +8,14 @@ html, body {
 
 .pure-table {
   display: none;
+}
+
+.pure-menu-link:before {
+  content: "❭ ";
+}
+
+.pure-menu-link.selected:before {
+  content: "❱ ";
 }
 
 .active {
