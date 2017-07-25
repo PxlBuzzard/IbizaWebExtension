@@ -8,8 +8,6 @@ function createNewBugInternal(request, sender)
   console.log("Begin new bug creation session.");
   if ($("#create-bug-dialog").length === 0)
   {
-    //var screenshot = chrome.tabs.captureVisibleTab();
-    console.log(request);
     console.log("Element does not exist");
     $("body").append(`
       <div 
@@ -30,9 +28,8 @@ function createNewBugInternal(request, sender)
               <img style="float:left; max-width: 400px; max-height:400px; width:auto; height:auto;" id="page-screenshot" />
           </div>
       </div>`);
-    $("#close-bug-dialog").click(closeCreateBugDialog)
+    $("#close-bug-dialog").click(closeCreateBugDialog);
 
-    console.log(request.screenshot);
     setScreenshot(request.screenshot);
   }
   else
