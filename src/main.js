@@ -194,12 +194,17 @@ toggleDebug = function(request, sender, sendResponse) {
 }
 
 saveUserSession = function(request, sender, sendResponse) {
-    var clonedLocalStorage = JSON.parse(JSON.stringify(window.localStorage));
-    var clonedSessionStorage = JSON.parse(JSON.stringify(window.sessionStorage));
-    var clonedCookie = document.cookie;
+    var localStorage = JSON.parse(JSON.stringify(window.localStorage));
+    var sessionStorage = JSON.parse(JSON.stringify(window.sessionStorage));
+    var cookie = document.cookie;
+    var username = document.getElementsByClassName("fxs-avatarmenu-username")[0].innerHTML;
+    var avatarIconUrl = document.getElementsByClassName("fxs-avatarmenu-tenant-image")[0].getAttribute("src");
+    
     sendResponse({
-        localStorage: clonedLocalStorage,
-        sessionStorage: clonedSessionStorage,
-        cookie: clonedCookie
+        username,
+        avatarIconUrl,
+        localStorage,
+        sessionStorage,
+        cookie
     });
 }
