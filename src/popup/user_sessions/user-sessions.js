@@ -2,19 +2,24 @@ saveUserSession = function() {
   Utils.getBrowserContext(function(currentTab, currentWindow) {
     chrome.tabs.sendMessage(currentTab.id, {eventName: "saveUserSession"}, function(response) {
       // Check the existing list of user sessions
-      chrome.storage.sync.get("users", function(users) {
+      chrome.storage.local.get("userSessions", function(e) {
+        users = new Map(JSON.parse(e.userSessions));
+        console.log(users);
         if (typeof users !== 'Map') {
-          users = new Map([]);
+          users = new Map();
         }
 
         // Add the session to the list (or overwrite it if it already exists)
         // NOTE: the key is the username (i.e. UPN/email address)
         users.set(response.username, response);
-        console.log(users);
 
         // Put the list back in storage
-        chrome.storage.sync.set(users, function() {
+        chrome.storage.local.set({"userSessions": JSON.stringify(Array.from(users.entries()))}, function() {
           console.log("Saved user");
+
+          chrome.storage.local.get("userSessions", function(e) {
+            console.log(new Map(JSON.parse(e.userSessions)));
+          });
         });
       });
     });
