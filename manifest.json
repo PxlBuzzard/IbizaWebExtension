@@ -12,7 +12,6 @@
 
   "permissions": [
     "activeTab",
-    "storage",
     "tabs"
   ],
 
@@ -24,7 +23,7 @@
 
   "content_scripts": [
     {
-      "matches": [ "*://*.portal.azure.com/*" ],
+      "matches": [ "*://*.portal.azure.com/*", "*://df.onecloud.azure-test.net/*" ],
       "js": [ "src/main.js" ]
     }
   ]
