@@ -27,10 +27,12 @@ $(document).ready(function () {
 
 	downloadPerfDataEvent = function() {
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-		    console.log("Dowloading Perf Data!");
+		  chrome.tabs.sendMessage(tabs[0].id, {eventName: "downloadPerfData"}, function(response) {
+		    console.log(response);
+		  });
 		});
 	};
 
 	document.getElementById('download-perf-data').addEventListener('click', downloadPerfDataEvent);
-	
+
 });

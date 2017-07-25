@@ -181,6 +181,7 @@ chrome.runtime.onMessage.addListener(
     switch (request.eventName) {
         case "toggleDebug": toggleDebug(request, sender, sendResponse); break;
         case "downloadDebugInfo": downloadDebugInfo(request, sender, sendResponse); break;
+        case "downloadPerfData": downloadPerfData(request, sender, sendResponse); break;
         case "saveUserSession": saveUserSession(request, sender, sendResponse); break;
         case "loadUserSession": loadUserSession(request, sender, sendResponse); break;
         case "clearActiveUserSession": clearActiveUserSession(request, sender, sendResponse); break;
@@ -206,6 +207,76 @@ downloadDebugInfo = function(request, sender, sendResponse) {
 	console.log(keyEvent);
 	document.dispatchEvent(keyEvent);
 	sendResponse({message: "Download Debug Info seccussful"});
+}
+
+function getPerfData() {
+	var perfLinks = document.getElementsByClassName("fxs-sticky-link");
+	perfLinks = Array.prototype.slice.call(perfLinks);
+	perfLinks = perfLinks.filter(function(elem) {
+		return elem.innerHTML === "All perf";
+	});
+	perfLinks.map(elem => elem.click());
+
+	var perfBoxes = document.getElementsByClassName("fxs-sticky fxs-sticky-inline");
+	perfBoxes = Array.prototype.slice.call(perfBoxes);
+	var perfDetails = perfBoxes.map(function(elem) {
+		return elem.innerText;
+	});
+	perfDetails = perfDetails.map(elem => elem.split(/\r?\n/).slice(0, 2));
+	var perfBlades = perfBoxes.map(box => box.parentElement.innerText.split("\n")[0]);
+	var perfMap = new Map();
+
+	for (var i = 0; i < perfDetails.length; i++) {
+		perfMap.set(perfBlades[i], perfDetails[i]);
+	}
+
+	var perfObj = {};
+	perfMap.forEach((value, key) => {
+	    var keys = key.split('.'),
+	        last = keys.pop();
+	    keys.reduce((r, a) => r[a] = r[a] || {}, perfObj)[last] = value;
+	});
+
+	return perfMap;
+}
+
+function closeDebugMode() {
+	var closeButtons = document.getElementsByClassName("fxs-debuginfo-closebutton");
+	closeButtons = Array.prototype.slice.call(closeButtons);
+	closeButtons.map(elem => elem.click());
+}
+
+function downloadFile(filename, text) {
+    var pom = document.createElement('a');
+    pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    pom.setAttribute('download', filename);
+
+    if (document.createEvent) {
+        var event = document.createEvent('MouseEvents');
+        event.initEvent('click', true, true);
+        pom.dispatchEvent(event);
+    }
+    else {
+        pom.click();
+    }
+}
+
+downloadPerfData = function(request, sender, sendResponse) {
+	perfMap = getPerfData();
+	closeDebugMode();
+
+	perfStr = "";
+	perfMap.forEach((val, key) => {
+		perfStr += key;
+		perfStr += "\n";
+		perfStr += val;
+		perfStr += "\n";
+		perfStr += "\n";
+	});
+	
+	downloadFile("perfData.txt", perfStr);
+	// alert("Your Perf Data for each Blade:\n" + perfStr);
+	sendResponse("Downloading Perf Data was successful!");
 }
 
 function saveUserSession(request, sender, sendResponse) {
