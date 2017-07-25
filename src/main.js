@@ -237,12 +237,12 @@ function setUserStorageHelper(category, userStorage) {
     var storage = null;
     switch (category) {
         case "local": storage = window.localStorage; break;
-        case "session": storage = chrome.sessionStorage; break;
+        case "session": storage = window.sessionStorage; break;
         default: console.error(`Unknown storage type "${category}"`); break;
     }
     if (storage == null) return;
 
     storage.forEach(function(key, value) {
         storage.setItem(key, userStorage[key]);
-    }, this);
+    });
 }
