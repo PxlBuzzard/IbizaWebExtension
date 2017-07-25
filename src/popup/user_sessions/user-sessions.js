@@ -36,7 +36,7 @@ function saveUserSession() {
       });
     });
   });
-};
+}
 
 function loadUserSession() {
   Utils.getBrowserContext(function(currentTab, currentWindow) {
@@ -46,7 +46,7 @@ function loadUserSession() {
     });
   });
   //window.close();
-};
+}
 
 function clearActiveUserSession() {
   Utils.getBrowserContext(function(currentTab, currentWindow) {
@@ -55,7 +55,7 @@ function clearActiveUserSession() {
     });
   });
   //window.close();
-};
+}
 
 function deleteUserSession() {
 }
@@ -73,6 +73,6 @@ function clickHandler(click) {
     case "deleteAllUserSessions": deleteAllUserSessions(); break;
     default: console.error(`Unknown button name "${button.id}"`); break;
   }
-};
+}
 
 document.addEventListener("click", clickHandler);
