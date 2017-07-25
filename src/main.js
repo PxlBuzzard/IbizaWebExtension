@@ -1,3 +1,4 @@
+
 void function() {
 // Got this from - https://gist.github.com/termi/4654819
 var global = this
@@ -175,8 +176,8 @@ global.crossBrowser_initKeyboardEvent = crossBrowser_initKeyboardEvent;
 }.call(this);
 
 chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    console.log("Event name on the content script side: " + request.eventName);
+  function(request, sender, sendResponse) {	
+    console.log("Event name: " + request.eventName);
     switch (request.eventName) {
         case "toggleDebug": toggleDebug(request, sender, sendResponse); break;
         case "saveUserSession": saveUserSession(request, sender, sendResponse); break;
@@ -187,24 +188,25 @@ chrome.runtime.onMessage.addListener(
 );
 
 toggleDebug = function(request, sender, sendResponse) {
-    console.log("from the extension");
-    if (request.toggleDebug)
-    {
-      var eventObject = crossBrowser_initKeyboardEvent("keydown", {key : "d", char : "D", ctrlKey: true, altKey: true, keyCode: 68});
-      console.log(eventObject);
-      unsafeWindow.document.body.dispatchEvent(eventObject);
-      sendResponse({message: "Toggled Debug mode"});
-    }
+	// var keyEvent = crossBrowser_initKeyboardEvent("keydown", {key : "d", char : "D", ctrlKey: true, altKey: true, keyCode: 68});
+	var keyEvent = new KeyboardEvent("keydown", {key : "d", char : "D", ctrlKey: true, altKey: true, keyCode: 68});
+	document.dispatchEvent(keyEvent);
+	sendResponse({message: "Toggled Debug mode"});
 }
 
 saveUserSession = function(request, sender, sendResponse) {
-    var clonedLocalStorage = JSON.parse(JSON.stringify(window.localStorage));
-    var clonedSessionStorage = JSON.parse(JSON.stringify(window.sessionStorage));
-    var clonedCookie = document.cookie;
+    var localStorage = JSON.parse(JSON.stringify(window.localStorage));
+    var sessionStorage = JSON.parse(JSON.stringify(window.sessionStorage));
+    var cookie = document.cookie;
+    var username = document.getElementsByClassName("fxs-avatarmenu-username")[0].innerHTML;
+    var avatarIconUrl = document.getElementsByClassName("fxs-avatarmenu-tenant-image")[0].getAttribute("src");
+    
     sendResponse({
-        localStorage: clonedLocalStorage,
-        sessionStorage: clonedSessionStorage,
-        cookie: clonedCookie
+        username,
+        avatarIconUrl,
+        localStorage,
+        sessionStorage,
+        cookie
     });
 }
 

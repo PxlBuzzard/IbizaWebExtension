@@ -1,26 +1,7 @@
 class User {
-    constructor() {
-        this.dict = {local: null, session: null, cookie: null};
+    constructor(localStorage, sessionStorage, cookieStorage) {
+        this.local = localStorage;
+        this.session = sessionStorage;
+        this.cookie = cookieStorage;
     }
-    
-    //Set local storage
-    setLocalStorage(localStorage) {
-        this.dict["local"] = localStorage;
-    }
-
-    //Set session storage
-    setSessionStorage(sessionStorage) {
-        this.dict["session"] = sessionStorage;
-    }
-
-    //Set cookie storage
-    setCookieStorage(cookieStorage) {
-        this.dict["cookie"] = cookieStorage;
-    }
-
-    //Get storage table
-    get getStorageTable() {
-        return this.dict;
-    }
-
 }

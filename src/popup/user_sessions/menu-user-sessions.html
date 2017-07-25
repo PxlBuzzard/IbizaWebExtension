@@ -13,13 +13,18 @@
 
 <body>
   <a href="../menu.html"><button class="button-xsmall pure-button">&#10096; Back</button></a>
-    <div id="saveLocalStorageButton" class="button">Save Local Storage</div>
-    <div id="loadLocalStorageButton" class="button">Load Local Storage</div>
-    <div id="clearLocalStorageButton" class="button">Clear Local Storage</div>
+  <ul class="pure-menu-list">
+    <li class="pure-menu-item">
+      <div align = "center">
+        <button id="saveUserSessionButton" class="pure-button">Save Local Storage</button>
+        <button id="loadUserSessionButton" class="pure-button">Load Local Storage</button>
+        <button id="clearUserSessionButton" class="pure-button">Clear Local Storage</button>
+      </div>
+    </li>
+  </ul>
 
-    <script src="../utils.js"></script>
-    <script src="user.js"></script>
-    <script src="user-sessions.js"></script>
+  <script src="../utils.js"></script>
+  <script src="user-sessions.js"></script>
 </body>
 
 </html>

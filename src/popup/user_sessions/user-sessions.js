@@ -1,25 +1,27 @@
-saveLocalStorage = function() {
+saveUserSession = function() {
   Utils.getBrowserContext(function(currentTab, currentWindow) {
-    // TODO: do stuff with tab and window
     chrome.tabs.sendMessage(currentTab.id, {eventName: "saveUserSession"}, function(response) {
-      console.log(response);
+      // Check the existing list of user sessions
+      chrome.storage.sync.get("users", function(users) {
+        if (typeof users !== 'Map') {
+          users = new Map([]);
+        }
 
-      var user = new User();
-      user.setLocalStorage(response.localStorage);
-      user.setSessionStorage(response.sessionStorage);
-      user.setCookieStorage(response.cookie);
+        // Add the session to the list (or overwrite it if it already exists)
+        // NOTE: the key is the username (i.e. UPN/email address)
+        users.set(response.username, response);
+        console.log(users);
 
-      var userStorage = window.localStorage.getItem('userStorage');
-      if (userStorage == null){
-        window.localStorage.setItem('userStorage', [user]);
-      } else {
-        window.localStorage.setItem('userStorage', userStorage.push(user));
-      }
+        // Put the list back in storage
+        chrome.storage.sync.set(users, function() {
+          console.log("Saved user");
+        });
+      });
     });
   });
 };
 
-loadLocalStorage = function() {
+loadUserSession = function() {
   Utils.getBrowserContext(function(currentTab, currentWindow) {
     // TODO: do stuff with tab and window
     chrome.tabs.sendMessage(currentTab.id, {eventName: "loadUserSession", userStorage: window.localStorage.getItem('userStorage')}, function(response) {
@@ -29,7 +31,7 @@ loadLocalStorage = function() {
   //window.close();
 };
 
-clearLocalStorage = function() {
+clearUserSession = function() {
   Utils.getBrowserContext(function(currentTab, currentWindow) {
     // TODO: do stuff with tab and window
   });
@@ -38,12 +40,12 @@ clearLocalStorage = function() {
 
 clickHandler = function(click) {
   var button = click.target;
-  if (button.id === "saveLocalStorageButton") {
-    saveLocalStorage();
-  } else if (button.id === "loadLocalStorageButton") {
-    loadLocalStorage();
-  } else if (button.id === "clearLocalStorageButton") {
-    clearLocalStorage();
+  if (button.id === "saveUserSessionButton") {
+    saveUserSession();
+  } else if (button.id === "loadUserSessionButton") {
+    loadUserSession();
+  } else if (button.id === "clearUserSessionButton") {
+    clearUserSession();
   }
 };
 
