@@ -1,10 +1,9 @@
 function createBug()
 {
-  var gettingActiveTab = browser.tabs.query({active: true, currentWindow: true});
-  gettingActiveTab.then((tabs) => {
+  chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     console.log("Sending message to create bug dialog.");
     chrome.tabs.captureVisibleTab(chrome.windows.WINDOW_ID_CURRENT, {"format": "jpeg"}, function (image) {
-      browser.tabs.sendMessage(tabs[0].id, {eventName: "createNewBug", screenshot: image }, function(response) {
+      chrome.tabs.sendMessage(tabs[0].id, {eventName: "createNewBug", screenshot: image }, function(response) {
         console.log(`Response (create bug): ${response.status} - ${response.message}`);
         window.close();
       });

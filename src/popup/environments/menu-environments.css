@@ -1,0 +1,23 @@
+html, body {
+  width: 332px;
+}
+
+.pure-form {
+  display: inline-block;
+}
+
+.pure-table {
+  display: none;
+}
+
+.pure-menu-link:before {
+  content: "❭ ";
+}
+
+.pure-menu-link.selected:before {
+  content: "❱ ";
+}
+
+.active {
+  display: block;
+}
