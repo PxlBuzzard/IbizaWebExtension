@@ -1,7 +1,9 @@
 saveLocalStorage = function() {
-  a = new User();
   Utils.getBrowserContext(function(currentTab, currentWindow) {
     // TODO: do stuff with tab and window
+    chrome.tabs.sendMessage(currentTab.id, {eventName: "saveUserSession"}, function(response) {
+      console.log(response);
+    });
   });
 
   //window.close();

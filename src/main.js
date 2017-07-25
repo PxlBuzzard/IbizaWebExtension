@@ -1,4 +1,3 @@
-
 void function() {
 // Got this from - https://gist.github.com/termi/4654819
 var global = this
@@ -175,17 +174,35 @@ global.crossBrowser_initKeyboardEvent = crossBrowser_initKeyboardEvent;
 
 }.call(this);
 
-
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-    console.log("from the extension");
-    if (request.toggleDebug)
-    {
-	  var eventObject = crossBrowser_initKeyboardEvent("keydown", {key : "d", char : "D", ctrlKey: true, altKey: true, keyCode: 68});
-	  console.log(eventObject);
-	  document.body.dispatchEvent(eventObject);
-	  sendResponse({message: "Toggled Debug mode"});
-	}
+    console.log("Event name: " + request.eventName);
+    switch (request.eventName) {
+        case "toggleDebug": toggleDebug(request, sender, sendResponse); break;
+        case "saveUserSession": saveUserSession(request, sender, sendResponse); break;
+        default: console.error("Unknown event '" + request.eventName + "'");
+    }
   }
 );
 
+toggleDebug = function(request, sender, sendResponse) {
+    console.log("from the extension");
+    if (request.toggleDebug)
+    {
+      var eventObject = crossBrowser_initKeyboardEvent("keydown", {key : "d", char : "D", ctrlKey: true, altKey: true, keyCode: 68});
+      console.log(eventObject);
+      unsafeWindow.document.body.dispatchEvent(eventObject);
+      sendResponse({message: "Toggled Debug mode"});
+    }
+}
+
+saveUserSession = function(request, sender, sendResponse) {
+    var clonedLocalStorage = JSON.parse(JSON.stringify(window.localStorage));
+    var clonedSessionStorage = JSON.parse(JSON.stringify(window.sessionStorage));
+    var clonedCookie = document.cookie;
+    sendResponse({
+        localStorage: clonedLocalStorage,
+        sessionStorage: clonedSessionStorage,
+        cookie: clonedCookie
+    });
+}
