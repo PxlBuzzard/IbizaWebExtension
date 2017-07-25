@@ -176,10 +176,11 @@ global.crossBrowser_initKeyboardEvent = crossBrowser_initKeyboardEvent;
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-    console.log("Event name: " + request.eventName);
+    console.log("Event name on the content script side: " + request.eventName);
     switch (request.eventName) {
         case "toggleDebug": toggleDebug(request, sender, sendResponse); break;
         case "saveUserSession": saveUserSession(request, sender, sendResponse); break;
+        case "loadUserSession": loadUserSesssion(request, sender, sendResponse); break;
         default: console.error("Unknown event '" + request.eventName + "'");
     }
   }
@@ -205,4 +206,10 @@ saveUserSession = function(request, sender, sendResponse) {
         sessionStorage: clonedSessionStorage,
         cookie: clonedCookie
     });
+}
+
+loadUserSession = function(request, sender, sendResponse) {
+    sendResponse();
+    //TODO: load the response
+    userStorage = request.userStorage;
 }
