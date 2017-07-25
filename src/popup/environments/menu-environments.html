@@ -3,28 +3,21 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="../pure.css"/>
+    <link rel="stylesheet" href="menu-environments.css"/>
     <title>Parameter Selection Menu</title>
-    <style>
-      html, body {
-        width: 380px;
-      }
-
-      .pure-table {
-        display: none;
-      }
-
-      .active {
-        display: block;
-      }
-    </style>
   </head>
 
 <body>
-  <a href="../menu.html"><button class="button-xsmall pure-button">&#10096; Back</button></a>
+  <a href="../menu.html" class="pure-button button-xsmall">&#10096; Back</a>
+  <form class="pure-form">
+    <fieldset>
+      <input id="newEnvironment" type="text" placeholder="New Environment Name">
+      <input id="addNewEnv" type="submit" class="pure-button pure-button-primary">
+    </fieldset>
+  </form>
 
-    <ul id="env-list" class="pure-menu-list">
-      <li id="add-new-env" class="pure-menu-item"><a href="#" class="pure-menu-link">Add New...</a></li>
-    </ul>
+  <ul id="envList" class="pure-menu-list"></ul>
+
   <script src="../jquery-3.2.1.min.js"></script>
   <script src="menu-environments.js"></script>
 </body>
