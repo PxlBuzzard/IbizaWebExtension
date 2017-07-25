@@ -42,7 +42,7 @@ function loadUserSession(username) {
   Utils.getBrowserContext(function(currentTab, currentWindow) {
     // TODO: do stuff with tab and window
     getUserSessions(function(users) {
-      chrome.tabs.sendMessage(currentTab.id, {eventName: "loadUserSession", userStorage: users.get("xiaoxliu@microsoft.com")}, function(response) {
+      chrome.tabs.sendMessage(currentTab.id, {eventName: "loadUserSession", userStorage: users.get(username)}, function(response) {
         console.log(response);
       });
     });
