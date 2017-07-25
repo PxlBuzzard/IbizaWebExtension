@@ -1,13 +1,27 @@
-saveUserSession = function() {
+// Returns a Map of user sessions
+function getUserSessions(callback) {
+  chrome.storage.local.get("userSessions", function(result) {
+    var users;
+    try {
+      users = new Map(JSON.parse(result.userSessions));
+    } catch (ex) {
+      users = new Map();
+    }
+    callback(users);
+  });
+}
+
+function setUserSessions(callback) {
+  chrome.storage.local.set({"userSessions": JSON.stringify(Array.from(users.entries()))}, function() {
+    callback();
+  });
+}
+
+function saveUserSession() {
   Utils.getBrowserContext(function(currentTab, currentWindow) {
     chrome.tabs.sendMessage(currentTab.id, {eventName: "saveUserSession"}, function(response) {
       // Check the existing list of user sessions
-      chrome.storage.local.get("userSessions", function(e) {
-        try {
-          users = new Map(JSON.parse(e.userSessions));
-        } catch (ex) {
-          users = new Map();
-        }
+      getUserSessions(function(users) {
         console.log(users);
 
         // Add the session to the list (or overwrite it if it already exists)
@@ -15,19 +29,16 @@ saveUserSession = function() {
         users.set(response.username, response);
 
         // Put the list back in storage
-        chrome.storage.local.set({"userSessions": JSON.stringify(Array.from(users.entries()))}, function() {
-          console.log("Saved user");
-
-          chrome.storage.local.get("userSessions", function(e) {
-            console.log(new Map(JSON.parse(e.userSessions)));
-          });
+        setUserSessions(function() {
+          console.log("Saved user: " + response.username);
+          window.close();
         });
       });
     });
   });
 };
 
-loadUserSession = function() {
+function loadUserSession() {
   Utils.getBrowserContext(function(currentTab, currentWindow) {
     // TODO: do stuff with tab and window
     chrome.tabs.sendMessage(currentTab.id, {eventName: "loadUserSession", userStorage: window.localStorage.getItem('userStorage')}, function(response) {
@@ -37,7 +48,7 @@ loadUserSession = function() {
   //window.close();
 };
 
-clearActiveUserSession = function() {
+function clearActiveUserSession() {
   Utils.getBrowserContext(function(currentTab, currentWindow) {
     chrome.tabs.sendMessage(currentTab.id, {eventName: "clearActiveUserSession"}, function(response) {
       console.log(response);
@@ -46,14 +57,14 @@ clearActiveUserSession = function() {
   //window.close();
 };
 
-deleteUserSession = function() { //TODO
+function deleteUserSession() {
 }
 
-deleteAllUserSessions = function() {
+function deleteAllUserSessions() {
   chrome.storage.local.clear(function(e) {console.log(e)});
 }
 
-clickHandler = function(click) {
+function clickHandler(click) {
   var button = click.target;
   switch (button.id) {
     case "saveUserSessionButton": saveUserSession(); break;
