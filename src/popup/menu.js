@@ -1,9 +1,9 @@
 saveLocalStorage = function() {
-  a = new User();
   Utils.getBrowserContext(function(currentTab, currentWindow) {
     console.log(currentTab);
     console.log(currentWindow);
 
+    // console.print(currentTab.sessionStorage);
     // TODO: do stuff with tab and window
   });
 
