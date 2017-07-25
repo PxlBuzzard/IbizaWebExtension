@@ -1,10 +1,11 @@
-import utils from "utils";
-
 saveLocalStorage = function() {
+  a = new User();
   utils.getBrowserContext(function(t, w) {
     console.log(t);
     console.log(w);
   });
+
+  sessionStorage.set()
   window.close();
 };
 
