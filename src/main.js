@@ -228,7 +228,7 @@ function loadUserSession(request, sender, sendResponse) {
 
 function clearActiveUserSession(request, sender, sendResponse) {
     window.localStorage.clear();
-    window.sessionStorage.clear();
+    window.sessionStorage.clear();g
     sendResponse("Active user session cleared successfully for the tab.")
 }
 

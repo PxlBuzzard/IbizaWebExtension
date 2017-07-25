@@ -41,8 +41,10 @@ function saveUserSession() {
 function loadUserSession() {
   Utils.getBrowserContext(function(currentTab, currentWindow) {
     // TODO: do stuff with tab and window
-    chrome.tabs.sendMessage(currentTab.id, {eventName: "loadUserSession", userStorage: window.localStorage.getItem('userStorage')}, function(response) {
-      console.log(reponse);
+    getUserSessions(function(users) {
+      chrome.tabs.sendMessage(currentTab.id, {eventName: "loadUserSession", userStorage: users.get("xiaoxliu@microsoft.com")}, function(response) {
+        console.log(response);
+      });
     });
   });
   //window.close();
