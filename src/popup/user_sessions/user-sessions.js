@@ -1,34 +1,26 @@
 saveLocalStorage = function() {
-  a = new User();
   Utils.getBrowserContext(function(currentTab, currentWindow) {
-    console.log(currentTab);
-    console.log(currentWindow);
-
     // TODO: do stuff with tab and window
+    chrome.tabs.sendMessage(currentTab.id, {eventName: "saveUserSession"}, function(response) {
+      console.log(response);
+    });
   });
 
-  sessionStorage.set()
-  window.close();
+  //window.close();
 };
 
 loadLocalStorage = function() {
   Utils.getBrowserContext(function(currentTab, currentWindow) {
-    console.log(currentTab);
-    console.log(currentWindow);
-
     // TODO: do stuff with tab and window
   });
-  window.close();
+  //window.close();
 };
 
 clearLocalStorage = function() {
   Utils.getBrowserContext(function(currentTab, currentWindow) {
-    console.log(currentTab);
-    console.log(currentWindow);
-
     // TODO: do stuff with tab and window
   });
-  window.close();
+  //window.close();
 };
 
 clickHandler = function(click) {
@@ -42,4 +34,4 @@ clickHandler = function(click) {
   }
 };
 
-document.addEventListener('click', clickHandler);
+document.addEventListener("click", clickHandler);
