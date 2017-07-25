@@ -7,16 +7,17 @@
   "description": "",
 
   "icons": {
-    "48": "assets/icon-48.png"
+    "64": "assets/icon-64.png"
   },
 
   "permissions": [
     "activeTab",
+    "storage",
     "tabs"
   ],
 
   "browser_action": {
-    "default_icon": "assets/icon-48.png",
+    "default_icon": "assets/icon-64.png",
     "default_title": "Ibiza Developer Extension",
     "default_popup": "src/popup/menu.html"
   },
@@ -24,7 +25,7 @@
   "content_scripts": [
     {
       "matches": [ "*://*.portal.azure.com/*", "*://df.onecloud.azure-test.net/*" ],
-      "js": [ "src/main.js" ]
+      "js": [ "/src/third-party/jquery-3.2.1.min.js", "/src/content_scripts/create-bug.js", "src/main.js" ]
     }
   ]
 
