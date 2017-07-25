@@ -45,7 +45,7 @@ clearActiveUserSession = function() {
   //window.close();
 };
 
-deleteUserSession = function() {
+deleteUserSession = function() { //TODO
 }
 
 deleteAllUserSessions = function() {
@@ -54,12 +54,12 @@ deleteAllUserSessions = function() {
 
 clickHandler = function(click) {
   var button = click.target;
-  if (button.id === "saveUserSessionButton") {
-    saveUserSession();
-  } else if (button.id === "loadUserSessionButton") {
-    loadUserSession();
-  } else if (button.id === "clearUserSessionButton") {
-    clearActiveUserSession();
+  switch (button.id) {
+    case "saveUserSessionButton": saveUserSession(); break;
+    case "loadUserSessionButton": loadUserSession(); break;
+    case "clearActiveUserSessionButton": clearActiveUserSession(); break;
+    case "deleteAllUserSessions": deleteAllUserSessions(); break;
+    default: console.error(`Unknown button name "${button.id}"`); break;
   }
 };
 

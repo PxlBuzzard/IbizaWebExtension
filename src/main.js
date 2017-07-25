@@ -236,7 +236,7 @@ function setUserStorageHelper(category, userStorage) {
     switch (category) {
         case "local": storage = window.localStorage; break;
         case "session": storage = chrome.sessionStorage; break;
-        default: console.log("ERROR: cannot set unknown storage."); break;
+        default: console.error(`Unknown storage type "${category}"`); break;
     }
     if (storage == null) return;
 
