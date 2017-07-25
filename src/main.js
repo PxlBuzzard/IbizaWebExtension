@@ -182,7 +182,7 @@ chrome.runtime.onMessage.addListener(
         case "toggleDebug": toggleDebug(request, sender, sendResponse); break;
         case "downloadDebugInfo": downloadDebugInfo(request, sender, sendResponse); break;
         case "saveUserSession": saveUserSession(request, sender, sendResponse); break;
-        case "loadUserSession": loadUserSesssion(request, sender, sendResponse); break;
+        case "loadUserSession": loadUserSession(request, sender, sendResponse); break;
         case "clearActiveUserSession": clearActiveUserSession(request, sender, sendResponse); break;
         case "createNewBug": createNewBug(request, sender, sendResponse); break;
         default: console.error(`Unknown event "${request.eventName}"`); break;
@@ -240,7 +240,7 @@ function loadUserSession(request, sender, sendResponse) {
 
 function clearActiveUserSession(request, sender, sendResponse) {
     window.localStorage.clear();
-    window.sessionStorage.clear();g
+    window.sessionStorage.clear();
     sendResponse("Active user session cleared successfully for the tab.")
 }
 
@@ -249,12 +249,12 @@ function setUserStorageHelper(category, userStorage) {
     var storage = null;
     switch (category) {
         case "local": storage = window.localStorage; break;
-        case "session": storage = chrome.sessionStorage; break;
+        case "session": storage = window.sessionStorage; break;
         default: console.error(`Unknown storage type "${category}"`); break;
     }
     if (storage == null) return;
 
     storage.forEach(function(key, value) {
-        storage.setItem(key, value);
-    }, this);
+        storage.setItem(key, userStorage[key]);
+    });
 }
