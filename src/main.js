@@ -182,19 +182,20 @@ chrome.runtime.onMessage.addListener(
         case "toggleDebug": toggleDebug(request, sender, sendResponse); break;
         case "saveUserSession": saveUserSession(request, sender, sendResponse); break;
         case "loadUserSession": loadUserSesssion(request, sender, sendResponse); break;
+        case "clearActiveUserSession": clearActiveUserSession(request, sender, sendResponse); break;
         default: console.error("Unknown event '" + request.eventName + "'");
     }
   }
 );
 
-toggleDebug = function(request, sender, sendResponse) {
+function toggleDebug(request, sender, sendResponse) {
 	// var keyEvent = crossBrowser_initKeyboardEvent("keydown", {key : "d", char : "D", ctrlKey: true, altKey: true, keyCode: 68});
 	var keyEvent = new KeyboardEvent("keydown", {key : "d", char : "D", ctrlKey: true, altKey: true, keyCode: 68});
 	document.dispatchEvent(keyEvent);
 	sendResponse({message: "Toggled Debug mode"});
 }
 
-saveUserSession = function(request, sender, sendResponse) {
+function saveUserSession(request, sender, sendResponse) {
     var localStorage = JSON.parse(JSON.stringify(window.localStorage));
     var sessionStorage = JSON.parse(JSON.stringify(window.sessionStorage));
     var cookie = document.cookie;
@@ -210,8 +211,35 @@ saveUserSession = function(request, sender, sendResponse) {
     });
 }
 
-loadUserSession = function(request, sender, sendResponse) {
-    sendResponse();
+function loadUserSession(request, sender, sendResponse) {
     //TODO: load the response
-    userStorage = request.userStorage;
+    var userLocalStorage = request.userStorage.localStorage;
+    var userSessionStorage = request.userStorage.sessionStorage;
+    // var userCookies = request.userStorage.userCookies;
+    setUserStorageHelper("local", userLocalStorage);
+    setUserStorageHelper("session", userSessionStorage);
+
+    sendResponse("Active user session set sucessfully for the tab.");
+}
+
+
+function clearActiveUserSession(request, sender, sendResponse) {
+    window.localStorage.clear();
+    window.sessionStorage.clear();
+    sendResponse("Active user session cleared successfully for the tab.")
+}
+
+function setUserStorageHelper(category, userStorage) {
+    if (userStorage == null) return null;
+    var storage = null;
+    switch (category) {
+        case "local": storage = window.localStorage; break;
+        case "session": storage = chrome.sessionStorage; break;
+        default: console.log("ERROR: cannot set unknown storage."); break;
+    }
+    if (storage == null) return;
+
+    storage.forEach(function(key, value) {
+        storage.setItem(key, value);
+    }, this);
 }

@@ -25,18 +25,27 @@ loadUserSession = function() {
   Utils.getBrowserContext(function(currentTab, currentWindow) {
     // TODO: do stuff with tab and window
     chrome.tabs.sendMessage(currentTab.id, {eventName: "loadUserSession", userStorage: window.localStorage.getItem('userStorage')}, function(response) {
-      console.log("Communication with content script succeeded for loadUserSession.");
+      console.log(reponse);
     });
   });
   //window.close();
 };
 
-clearUserSession = function() {
+clearActiveUserSession = function() {
   Utils.getBrowserContext(function(currentTab, currentWindow) {
-    // TODO: do stuff with tab and window
+    chrome.tabs.sendMessage(currentTab.id, {eventName: "clearActiveUserSession"}, function(response) {
+      console.log(response);
+    });
   });
   //window.close();
 };
+
+deleteUserSession = function() {
+}
+
+deleteAllUserSessions = function() {
+  chrome.storage.local.clear(function(e) {console.log(e)});
+}
 
 clickHandler = function(click) {
   var button = click.target;
@@ -45,7 +54,7 @@ clickHandler = function(click) {
   } else if (button.id === "loadUserSessionButton") {
     loadUserSession();
   } else if (button.id === "clearUserSessionButton") {
-    clearUserSession();
+    clearActiveUserSession();
   }
 };
 
