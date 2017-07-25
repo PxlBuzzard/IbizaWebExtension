@@ -8,21 +8,24 @@
       html, body {
         width: 380px;
       }
+
+      .pure-table {
+        display: none;
+      }
+
+      .active {
+        display: block;
+      }
     </style>
   </head>
 
 <body>
   <a href="../menu.html"><button class="button-xsmall pure-button">&#10096; Back</button></a>
-  <table id="params-table" class="pure-table pure-table-horizontal">
-    <thead>
-        <tr>
-            <th>From</th>
-            <th>To</th>
-        </tr>
-    </thead>
 
-    <tbody></tbody>
-  </table>
+    <ul id="env-list" class="pure-menu-list">
+      <li id="add-new-env" class="pure-menu-item"><a href="#" class="pure-menu-link">Add New...</a></li>
+    </ul>
+  <script src="../jquery-3.2.1.min.js"></script>
   <script src="menu-environments.js"></script>
 </body>
 
