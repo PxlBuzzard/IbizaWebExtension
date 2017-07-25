@@ -11,7 +11,7 @@ function getUserSessions(callback) {
   });
 }
 
-function setUserSessions(callback) {
+function setUserSessions(users, callback) {
   chrome.storage.local.set({"userSessions": JSON.stringify(Array.from(users.entries()))}, function() {
     callback();
   });
@@ -29,7 +29,7 @@ function saveUserSession() {
         users.set(response.username, response);
 
         // Put the list back in storage
-        setUserSessions(function() {
+        setUserSessions(users, function() {
           console.log("Saved user: " + response.username);
           window.close();
         });
