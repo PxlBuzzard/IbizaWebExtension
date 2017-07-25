@@ -180,6 +180,7 @@ chrome.runtime.onMessage.addListener(
     console.log("Event name: " + request.eventName);
     switch (request.eventName) {
         case "toggleDebug": toggleDebug(request, sender, sendResponse); break;
+        case "downloadDebugInfo": downloadDebugInfo(request, sender, sendResponse); break;
         case "saveUserSession": saveUserSession(request, sender, sendResponse); break;
         case "loadUserSession": loadUserSession(request, sender, sendResponse); break;
         case "clearActiveUserSession": clearActiveUserSession(request, sender, sendResponse); break;
@@ -189,11 +190,22 @@ chrome.runtime.onMessage.addListener(
   }
 );
 
-function toggleDebug(request, sender, sendResponse) {
-	// var keyEvent = crossBrowser_initKeyboardEvent("keydown", {key : "d", char : "D", ctrlKey: true, altKey: true, keyCode: 68});
-	var keyEvent = new KeyboardEvent("keydown", {key : "d", char : "D", ctrlKey: true, altKey: true, keyCode: 68});
+toggleDebug = function(request, sender, sendResponse) {
+	// var keyEvent = crossBrowser_initKeyboardEvent("keydown", {key : "d", char : "d", ctrlKey: true, altKey: true, keyCode: 68, target: window});
+	var keyEvent = new KeyboardEvent("keydown", {key : "D", code: "KeyD", ctrlKey: true, altKey: true, keyCode: 68});
+	
+	console.log(keyEvent);
 	document.dispatchEvent(keyEvent);
 	sendResponse({message: "Toggled Debug mode"});
+}
+
+downloadDebugInfo = function(request, sender, sendResponse) {
+	// var keyEvent = crossBrowser_initKeyboardEvent("keydown", {key : "a", char : "a", ctrlKey: true, altKey: true, keyCode: 65});
+	var keyEvent = new KeyboardEvent("keydown", {key : "A", code: "KeyA", ctrlKey: true, altKey: true, keyCode: 65});
+	
+	console.log(keyEvent);
+	document.dispatchEvent(keyEvent);
+	sendResponse({message: "Download Debug Info seccussful"});
 }
 
 function saveUserSession(request, sender, sendResponse) {
