@@ -186,6 +186,7 @@ chrome.runtime.onMessage.addListener(
         case "loadUserSession": loadUserSession(request, sender, sendResponse); break;
         case "clearActiveUserSession": clearActiveUserSession(request, sender, sendResponse); break;
         case "createNewBug": createNewBug(request, sender, sendResponse); break;
+        case "alertEvent": alertEvent(request, sender, sendResponse); break;
         default: console.error(`Unknown event "${request.eventName}"`); break;
     }
   }
@@ -277,6 +278,11 @@ downloadPerfData = function(request, sender, sendResponse) {
 	downloadFile("perfData.txt", perfStr);
 	// alert("Your Perf Data for each Blade:\n" + perfStr);
 	sendResponse("Downloading Perf Data was successful!");
+}
+
+alertEvent = function(request, sender, sendResponse) {
+	alert(request.message);
+	sendResponse("Alert raised successfully!");
 }
 
 function saveUserSession(request, sender, sendResponse) {

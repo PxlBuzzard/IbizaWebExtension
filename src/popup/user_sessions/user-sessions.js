@@ -67,6 +67,32 @@ function deleteAllUserSessions() {
   chrome.storage.local.clear(function(e) {console.log(e)});
 }
 
+function createUserSession() {
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
+    console.log(username);
+    console.log(password);
+    var url = "http://localhost:3000/createBrowser/";
+
+    if(username && password) {
+      url =  url + username + "/" + password;
+    }
+    else {
+      Utils.getBrowserContext(function(currentTab, currentWindow) {
+        chrome.tabs.sendMessage(currentTab.id, {eventName: "alertEvent", message: "Didn't specify username-password! Creating a default session!"}, 
+          function(response) {
+            console.log(response);
+          }
+        );
+      });
+    }
+
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", url, false );
+    xmlHttp.send( null );
+    console.log(xmlHttp.responseText);
+}
+
 function clickHandler(click) {
   var button = click.target;
   switch (button.id) {
@@ -74,6 +100,7 @@ function clickHandler(click) {
     case "loadUserSessionButton": loadUserSession(button.getAttribute("data")); break;
     case "clearActiveUserSessionButton": clearActiveUserSession(); break;
     case "deleteAllUserSessions": deleteAllUserSessions(); break;
+    case "createUserSessionButton": createUserSession(); break;
     default: console.error(`Unknown button name "${button.id}"`); break;
   }
 }
