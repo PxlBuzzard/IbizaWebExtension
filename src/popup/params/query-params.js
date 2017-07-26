@@ -45,3 +45,79 @@ const allParams = {
   storagepolyfill: new Param("storagepolyfill", "A value indicating if polyfilling web storage is needed.", ""),
   sdkVersion: new Param("sdkVersion", "A value indicating the SDK version. This value is passed to extensions.", "")
 };
+
+function buildTable($table, initParams) {
+  $table.append($("<thead><tr><th>&#10003;</th><th>Parameter</th><th>Value</th></tr></thead>"));
+  var $tbody = $("<tbody />");
+  $table.append($tbody);
+
+  function addRow(set, name, value) {
+    $tbody.append($("<tr />")
+      .append($("<td />").append($("<input type=\"checkbox\" />").attr("checked", set)))
+      .append($("<td />").append($("<input type=\"text\" />").val(name)))
+      .append($("<td />").append($("<input type=\"text\" />").val(value))));
+  }
+
+  // row for adding new parameters
+  var $addName = $("<select />");
+  var $addValue = $("<input type=\"text\" />");
+  $tbody.append($("<tr />")
+    .append($("<td />").append($("<button id=\"addButton\" class=\"button-xsmall pure-button\">+</button>").click(function() {
+      if ($addName.scombobox("val")) {
+        addRow(true, $addName.scombobox("val"), $addValue.val());
+        $addName.scombobox("val", "");
+        $addValue.val("");
+      }
+    })))
+    .append($("<td />").append($addName))
+    .append($("<td />").append($addValue)));
+  $addName.scombobox({
+    data: Object.keys(allParams).map(function (param) {
+      return { value: param, text: param }
+    }),
+    invalidAsValue: true,
+    empty: true
+  });
+  $addName = $(".scombobox"); // scombobox init messed with the jquery object so reset it
+
+  // rows for existing params
+  for (var param in initParams) {
+    addRow(initParams[param].set, initParams[param].name, initParams[param].value);
+  }
+}
+
+function getParams($table) {
+  var params = {};
+  $table.find("tbody").find("tr").each(function () {
+    var $cells = $(this).children();
+    var $checkbox = $cells.eq(0).find("input");
+    if ($checkbox.length > 0 && $checkbox[0].checked) {
+      params[$cells.eq(1).find("input").val()] = $cells.eq(2).find("input").val();
+    }
+  });
+
+  return params;
+}
+
+function storeDefaults(params) {
+  chrome.storage.local.set({
+    defaultParams: JSON.stringify(params)
+  });
+}
+
+function getDefaults(callback, active = false) {
+  chrome.storage.local.get("defaultParams", function(result) {
+    var params;
+    if (result.defaultParams) {
+      params = JSON.parse(result.defaultParams);
+    } else {
+      params = { clientOptimizations: "true", nocdn: "false" }; // default defaults
+      storeDefaults(params);
+    }
+    for (var param in params) {
+        params[param] = new Param(param, allParams[param] && allParams[param].description || "", params[param], active);
+    }
+
+    callback(params);
+  });
+}
