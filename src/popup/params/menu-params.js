@@ -26,8 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
       query += "&" + param + "=" + params[param];
     }
 
-    chrome.tabs.update({ url: baseUrl + 
-      (query ? "?" + query.substring(1) : "") + 
+    chrome.tabs.update({ url: baseUrl +
+      (query ? "?" + query.substring(1) : "") +
       (anchor ? "#" + anchor : "") });
   });
 });

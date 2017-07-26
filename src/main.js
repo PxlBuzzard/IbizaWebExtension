@@ -180,8 +180,10 @@ chrome.runtime.onMessage.addListener(
     console.log("Event name: " + request.eventName);
     switch (request.eventName) {
         case "toggleDebug": toggleDebug(request, sender, sendResponse); break;
+        case "downloadDebugInfo": downloadDebugInfo(request, sender, sendResponse); break;
+        case "downloadPerfData": downloadPerfData(request, sender, sendResponse); break;
         case "saveUserSession": saveUserSession(request, sender, sendResponse); break;
-        case "loadUserSession": loadUserSesssion(request, sender, sendResponse); break;
+        case "loadUserSession": loadUserSession(request, sender, sendResponse); break;
         case "clearActiveUserSession": clearActiveUserSession(request, sender, sendResponse); break;
         case "createNewBug": createNewBug(request, sender, sendResponse); break;
         default: console.error(`Unknown event "${request.eventName}"`); break;
@@ -189,11 +191,92 @@ chrome.runtime.onMessage.addListener(
   }
 );
 
-function toggleDebug(request, sender, sendResponse) {
-	// var keyEvent = crossBrowser_initKeyboardEvent("keydown", {key : "d", char : "D", ctrlKey: true, altKey: true, keyCode: 68});
-	var keyEvent = new KeyboardEvent("keydown", {key : "d", char : "D", ctrlKey: true, altKey: true, keyCode: 68});
+toggleDebug = function(request, sender, sendResponse) {
+	// var keyEvent = crossBrowser_initKeyboardEvent("keydown", {key : "d", char : "d", ctrlKey: true, altKey: true, keyCode: 68, target: window});
+	var keyEvent = new KeyboardEvent("keydown", {key : "D", code: "KeyD", ctrlKey: true, altKey: true, keyCode: 68});
+	
+	console.log(keyEvent);
 	document.dispatchEvent(keyEvent);
 	sendResponse({message: "Toggled Debug mode"});
+}
+
+downloadDebugInfo = function(request, sender, sendResponse) {
+	// var keyEvent = crossBrowser_initKeyboardEvent("keydown", {key : "a", char : "a", ctrlKey: true, altKey: true, keyCode: 65});
+	var keyEvent = new KeyboardEvent("keydown", {key : "A", code: "KeyA", ctrlKey: true, altKey: true, keyCode: 65});
+	
+	console.log(keyEvent);
+	document.dispatchEvent(keyEvent);
+	sendResponse({message: "Download Debug Info seccussful"});
+}
+
+function getPerfData() {
+	var perfLinks = document.getElementsByClassName("fxs-sticky-link");
+	perfLinks = Array.prototype.slice.call(perfLinks);
+	perfLinks = perfLinks.filter(function(elem) {
+		return elem.innerHTML === "All perf";
+	});
+	perfLinks.map(elem => elem.click());
+
+	var perfBoxes = document.getElementsByClassName("fxs-sticky fxs-sticky-inline");
+	perfBoxes = Array.prototype.slice.call(perfBoxes);
+	var perfDetails = perfBoxes.map(function(elem) {
+		return elem.innerText;
+	});
+	perfDetails = perfDetails.map(elem => elem.split(/\r?\n/).slice(0, 2));
+	var perfBlades = perfBoxes.map(box => box.parentElement.innerText.split("\n")[0]);
+	var perfMap = new Map();
+
+	for (var i = 0; i < perfDetails.length; i++) {
+		perfMap.set(perfBlades[i], perfDetails[i]);
+	}
+
+	var perfObj = {};
+	perfMap.forEach((value, key) => {
+	    var keys = key.split('.'),
+	        last = keys.pop();
+	    keys.reduce((r, a) => r[a] = r[a] || {}, perfObj)[last] = value;
+	});
+
+	return perfMap;
+}
+
+function closeDebugMode() {
+	var closeButtons = document.getElementsByClassName("fxs-debuginfo-closebutton");
+	closeButtons = Array.prototype.slice.call(closeButtons);
+	closeButtons.map(elem => elem.click());
+}
+
+function downloadFile(filename, text) {
+    var pom = document.createElement('a');
+    pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    pom.setAttribute('download', filename);
+
+    if (document.createEvent) {
+        var event = document.createEvent('MouseEvents');
+        event.initEvent('click', true, true);
+        pom.dispatchEvent(event);
+    }
+    else {
+        pom.click();
+    }
+}
+
+downloadPerfData = function(request, sender, sendResponse) {
+	perfMap = getPerfData();
+	closeDebugMode();
+
+	perfStr = "";
+	perfMap.forEach((val, key) => {
+		perfStr += key;
+		perfStr += "\n";
+		perfStr += val;
+		perfStr += "\n";
+		perfStr += "\n";
+	});
+	
+	downloadFile("perfData.txt", perfStr);
+	// alert("Your Perf Data for each Blade:\n" + perfStr);
+	sendResponse("Downloading Perf Data was successful!");
 }
 
 function saveUserSession(request, sender, sendResponse) {
@@ -222,6 +305,9 @@ function loadUserSession(request, sender, sendResponse) {
     setUserStorageHelper("local", userLocalStorage);
     setUserStorageHelper("session", userSessionStorage);
 
+    document.location.href = request.userStorage.portalUrl;
+    document.location.reload(true);
+
     sendResponse("Active user session set sucessfully for the tab.");
 }
 
@@ -233,16 +319,17 @@ function clearActiveUserSession(request, sender, sendResponse) {
 }
 
 function setUserStorageHelper(category, userStorage) {
-    if (userStorage == null) return null;
-    var storage = null;
+    if (!userStorage) return null;
+    var storage;
     switch (category) {
         case "local": storage = window.localStorage; break;
-        case "session": storage = chrome.sessionStorage; break;
+        case "session": storage = window.sessionStorage; break;
         default: console.error(`Unknown storage type "${category}"`); break;
     }
-    if (storage == null) return;
+    if (!storage) return;
 
-    storage.forEach(function(key, value) {
-        storage.setItem(key, value);
-    }, this);
+    storage.clear();
+    for (var key in userStorage){
+        storage.setItem(key, userStorage[key]);
+    }
 }

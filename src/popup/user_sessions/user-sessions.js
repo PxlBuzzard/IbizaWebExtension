@@ -11,9 +11,9 @@ function getUserSessions(callback) {
   });
 }
 
-function setUserSessions(users, callback) {
+function setUserSessions(users, callback = null) {
   chrome.storage.local.set({"userSessions": JSON.stringify(Array.from(users.entries()))}, function() {
-    callback();
+    if (callback) { callback() }
   });
 }
 
@@ -38,11 +38,14 @@ function saveUserSession() {
   });
 }
 
-function loadUserSession() {
+function loadUserSession(username) {
   Utils.getBrowserContext(function(currentTab, currentWindow) {
     // TODO: do stuff with tab and window
-    chrome.tabs.sendMessage(currentTab.id, {eventName: "loadUserSession", userStorage: window.localStorage.getItem('userStorage')}, function(response) {
-      console.log(reponse);
+    getUserSessions(function(users) {
+      var user = users.get(username);
+      chrome.tabs.sendMessage(currentTab.id, {eventName: "loadUserSession", userStorage: user}, function(response) {
+        console.log(response);
+      });
     });
   });
   //window.close();
@@ -68,7 +71,7 @@ function clickHandler(click) {
   var button = click.target;
   switch (button.id) {
     case "saveUserSessionButton": saveUserSession(); break;
-    case "loadUserSessionButton": loadUserSession(); break;
+    case "loadUserSessionButton": loadUserSession(button.getAttribute("data")); break;
     case "clearActiveUserSessionButton": clearActiveUserSession(); break;
     case "deleteAllUserSessions": deleteAllUserSessions(); break;
     default: console.error(`Unknown button name "${button.id}"`); break;

@@ -7,17 +7,18 @@
   "description": "",
 
   "icons": {
-    "48": "assets/icon-48.png"
+    "64": "assets/icon-64.png"
   },
 
   "permissions": [
     "activeTab",
     "storage",
-    "tabs"
+    "tabs",
+    "<all_urls>"
   ],
 
   "browser_action": {
-    "default_icon": "assets/icon-48.png",
+    "default_icon": "assets/icon-64.png",
     "default_title": "Ibiza Developer Extension",
     "default_popup": "src/popup/menu.html"
   },
