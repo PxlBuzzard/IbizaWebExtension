@@ -305,6 +305,9 @@ function loadUserSession(request, sender, sendResponse) {
     setUserStorageHelper("local", userLocalStorage);
     setUserStorageHelper("session", userSessionStorage);
 
+    document.location.href = request.userStorage.portalUrl;
+    document.location.reload(true);
+
     sendResponse("Active user session set sucessfully for the tab.");
 }
 
@@ -316,16 +319,17 @@ function clearActiveUserSession(request, sender, sendResponse) {
 }
 
 function setUserStorageHelper(category, userStorage) {
-    if (userStorage == null) return null;
-    var storage = null;
+    if (!userStorage) return null;
+    var storage;
     switch (category) {
         case "local": storage = window.localStorage; break;
         case "session": storage = window.sessionStorage; break;
         default: console.error(`Unknown storage type "${category}"`); break;
     }
-    if (storage == null) return;
+    if (!storage) return;
 
-    storage.forEach(function(key, value) {
+    storage.clear();
+    for (var key in userStorage){
         storage.setItem(key, userStorage[key]);
-    });
+    }
 }
