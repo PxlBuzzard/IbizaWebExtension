@@ -121,3 +121,15 @@ function getDefaults(callback, active = false) {
     callback(params);
   });
 }
+
+function storeTestExtensions(extensions) {
+  chrome.storage.local.set({
+    testExtensions: extensions
+  });
+}
+
+function getTestExtensions(callback) {
+  chrome.storage.local.get("testExtensions", function(result) {
+    callback(result.testExtensions);
+  });
+}

@@ -6,10 +6,14 @@
   <link rel="stylesheet" href="/src/popup/jquery.scombobox.min.css" />
 </head>
 <body>
-  <h2>Default Query Parameters</h2>
-  <p>Add commonly used query parameters and their default values. These will appear as suggestions in the URL parameters section of the web extension. Ibiza extensions can also be injected in this way.</p>
   <form>
+    <h2>Default Query Parameters</h2>
+    <p>Add commonly used query parameters and their default values. These will appear as suggestions in the URL parameters section of the web extension.</p>
     <table id="params-table" class="pure-table pure-table-horizontal"></table>
+    <h2>Test Extensions</h2>
+    <p>List extensions (comma-separated) you would like to side-load into the portal.</p>
+    <input id="test-extensions" type="text" />
+    <br />
     <button type="submit" class="button-xsmall pure-button">Save</button>
   </form>
   <script src="/src/third-party/jquery-3.2.1.min.js"></script>
