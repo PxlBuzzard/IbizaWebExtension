@@ -93,6 +93,11 @@ function addTableRow($table) {
 
 // Add new item to localStorage and menu
 function saveAllChanges() {
+  // iterate over the input fields
+  $('table tbody tr td input').each(function (i) {
+
+  });
+
   $('#saveAllChanges').hide();
 }
 
