@@ -5,7 +5,7 @@ app.get('/', function (req, res) {
   res.send('Hello World!');
 });
 
-function createBrowser(username, password) {
+function createBrowser(username, password, url) {
 	var webdriver = require('selenium-webdriver'),
 	    By = webdriver.By,
 	    until = webdriver.until;
@@ -14,7 +14,7 @@ function createBrowser(username, password) {
 	    .forBrowser('chrome')
 	    .build();
 	driver.manage().window().maximize();
-	driver.get('https://portal.azure.com');
+	driver.get(url);
 	var query = driver.wait(until.elementLocated(By.name('login')));
 	query.sendKeys(username);
 
@@ -27,15 +27,24 @@ function createBrowser(username, password) {
 };
 
 app.get('/createBrowser', function (req, res) {
-  var username = 'admin@abbytestvppa06.onmicrosoft.com';
-  var password = 'Hello$World';
-  createBrowser(username, password);
+  createBrowser('', '');
   res.send('Created a browser successfully!');
 });
 
 app.get('/createBrowser/:username/:password', function(req, res) {
-  createBrowser(req.params.username, req.params.password);
-  res.send('Created a browser with ' + req.params.username + ' password ' + req.params.password);
+	var username = decodeURIComponent(req.params.username);
+	var password = decodeURIComponent(req.params.password);
+	var url = decodeURIComponent('https://portal.azure.com');
+  createBrowser(username, password, url);
+  res.send('Created a browser with ' + username + ' password ' + password);
+});
+
+app.get('/createBrowser/:username/:password/:url', function(req, res) {
+	var username = decodeURIComponent(req.params.username);
+	var password = decodeURIComponent(req.params.password);
+	var url = decodeURIComponent(req.params.url);
+  createBrowser(username, password, url);
+  res.send('Created a browser with ' + username + ' password ' + password + ' url ' + url);
 });
 
 app.listen(3000, function () {

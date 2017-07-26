@@ -75,7 +75,7 @@ function createUserSession() {
     var url = "http://localhost:3000/createBrowser/";
 
     if(username && password) {
-      url =  url + username + "/" + password;
+      url =  url + encodeURIComponent(username) + "/" + encodeURIComponent(password);
     }
     else {
       Utils.getBrowserContext(function(currentTab, currentWindow) {
@@ -85,6 +85,10 @@ function createUserSession() {
           }
         );
       });
+    }
+    var targetUrl = document.getElementById("targetUrl").value;
+    if(targetUrl) {
+      url = url + '/' + encodeURIComponent(targetUrl);
     }
 
     var xmlHttp = new XMLHttpRequest();
@@ -101,7 +105,7 @@ function clickHandler(click) {
     case "clearActiveUserSessionButton": clearActiveUserSession(); break;
     case "deleteAllUserSessions": deleteAllUserSessions(); break;
     case "createUserSessionButton": createUserSession(); break;
-    default: console.error(`Unknown button name "${button.id}"`); break;
+    default: break;
   }
 }
 
