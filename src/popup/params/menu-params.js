@@ -41,15 +41,23 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("Apply").addEventListener("click", function() {
     var params = getParams($("#paramsTable"));
-    var query = "";
+    var testEx = $("input[name=test-extension]:checked").val();
 
+    // make sure we can modify extensions if we're sideloading
+    if (testEx && !params["feature.canmodifyextensions"]) {
+      params["feature.canmodifyextensions"] = "true";
+    }
+
+    // rebuild query string
+    var query = "";
     for (var param in params) {
       query += "&" + param + "=" + params[param];
     }
 
     chrome.tabs.update({ url: baseUrl +
       (query ? "?" + query.substring(1) : "") +
-      (anchor ? "#" + anchor : "") });
+      (anchor ? "#" + anchor : "") +
+      (testEx ? `?testExtensions={"${testEx}":"https://localhost:44300/"}` : "") });
   });
 });
 
