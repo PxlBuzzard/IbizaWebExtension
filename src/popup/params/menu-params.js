@@ -10,10 +10,12 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
   params = parseQueryString(query);
 
   // add suggested params if not present
-  params.clientOptimizations = params.clientOptimizations || allParams.clientOptimizations;
-  params.nocdn = params.nocdn || allParams.nocdn;
-
-  buildTable($("#params-table"), params);
+  getDefaults(function(defaults) {
+    for (var param in defaults) {
+      params[param] = params[param] || defaults[param];
+    }
+    buildTable($("#params-table"), params);
+  });
 });
 
 // apply button listener

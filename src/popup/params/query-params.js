@@ -98,3 +98,26 @@ function getParams($table) {
 
   return params;
 }
+
+function storeDefaults(params) {
+  chrome.storage.local.set({
+    defaultParams: JSON.stringify(params)
+  });
+}
+
+function getDefaults(callback, active = false) {
+  chrome.storage.local.get("defaultParams", function(result) {
+    var params;
+    if (result.defaultParams) {
+      params = JSON.parse(result.defaultParams);
+    } else {
+      params = { clientOptimizations: "true", nocdn: "false" }; // default defaults
+      storeDefaults(params);
+    }
+    for (var param in params) {
+        params[param] = new Param(param, allParams[param] && allParams[param].description || "", params[param], active);
+    }
+    
+    callback(params);
+  });
+}
