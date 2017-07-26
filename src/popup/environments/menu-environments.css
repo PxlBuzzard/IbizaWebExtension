@@ -3,15 +3,24 @@ html, body {
 }
 
 .pure-form {
-  display: inline-block;
+  float: right;
 }
 
 .pure-table {
   display: none;
 }
 
+.pure-menu-item .pure-menu-link {
+  display: inline-block;
+  width: 80%;
+}
+
 .pure-menu-link:before {
   content: "❭ ";
+}
+
+.pure-menu-link.selected {
+  font-weight: bold;
 }
 
 .pure-menu-link.selected:before {
@@ -20,4 +29,16 @@ html, body {
 
 .active {
   display: block;
+}
+
+.close-button {
+  float: right;
+}
+
+#Back {
+  margin: 0.35em 0 0.75em;
+}
+
+#saveAllChanges {
+  margin-top: 0.5em;
 }

@@ -52,7 +52,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 
 // apply button listener
 document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("apply").addEventListener("click", function() {
+  document.getElementById("Apply").addEventListener("click", function() {
     var rows = document.getElementById("params-table")
                        .getElementsByTagName("tbody")[0]
                        .getElementsByTagName("tr");

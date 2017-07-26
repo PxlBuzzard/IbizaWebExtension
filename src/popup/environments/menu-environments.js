@@ -21,7 +21,10 @@ var clickHandler = function(click) {
     changeActiveEnvironment(target);
   }
   else if (target.id === "saveAllChanges") {
-    $('#saveAllChanges').hide();
+    saveAllChanges();
+  }
+  else if (target.className === "pure-button close-button") {
+    deleteEnvironment(target);
   }
 };
 document.addEventListener("click", clickHandler);
@@ -35,13 +38,13 @@ function changeActiveEnvironment(target) {
   // disable last active
   else if (activeEnv) {
     $(activeEnv).removeClass('selected');
-    $(activeEnv.nextSibling).removeClass('active');
+    $(activeEnv.nextSibling.nextSibling).removeClass('active');
   }
 
   // set new active
   activeEnv = target;
   $(target).addClass('selected');
-  $(target.nextSibling).addClass('active');
+  $(target.nextSibling.nextSibling).addClass('active');
 }
 
 // Save from localStorage chrome.storage.sync
@@ -53,7 +56,9 @@ function newEnvironment(name) {
   // build the section header
   var $listItem = $('<li />').addClass('pure-menu-item');
   var $link = $('<a>' + name + '</a>').addClass('pure-menu-link');
+  var $close = $('<button>X</button>').addClass('pure-button close-button');
   $listItem.append($link);
+  $listItem.append($close);
 
   // build the table
   var $table = $('<table></table>').addClass('pure-table pure-table-bordered');
@@ -71,12 +76,14 @@ function newEnvironment(name) {
   });
 }
 
+// Add a new row to the active table
 function addTableRow($table) {
+  // only add new row if the bottom row is changed
   if ($('tr:last input', $table).val() !== '') {
     $('tbody', $table).append($(tInputs));
-    console.log("appended");
   }
 
+  // add the change event to the new row
   $('input', $table).on('change', function() {
     addTableRow($table);
   });
@@ -86,10 +93,16 @@ function addTableRow($table) {
 
 // Add new item to localStorage and menu
 function saveAllChanges() {
-
+  $('#saveAllChanges').hide();
 }
 
 // Delete env (and items) from localStorage and menu
+function deleteEnvironment(target) {
+  // delete from localStorage
+
+  // delete from menu
+  $(target.parentElement).remove();
+}
 
 // Delete item from localStorage and menu
 
