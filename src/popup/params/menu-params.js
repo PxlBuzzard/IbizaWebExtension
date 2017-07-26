@@ -1,13 +1,14 @@
-var baseUrl, params, anchor;
+var baseUrl, params, anchor, testExtension;
 
 chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
   // get current base url, params, and anchor
-  var parts1 = tabs[0].url.split("#");
-  anchor = parts1.length > 1 ? parts1[1] : "";
-  var parts2 = parts1[0].split("?");
-  baseUrl = parts2[0];
-  var query = parts2.length > 1 ? parts2[1] : "";
-  params = parseQueryString(query);
+  var halves = tabs[0].url.split("#");
+  var quarters1 = halves[0].split("?");
+  var quarters2 = halves.length > 1 ? halves[1].split("?") : [""];
+  baseUrl = quarters1[0];
+  params = parseQueryString(quarters1.length > 1 ? quarters1[1] : "");
+  anchor = quarters2[0];
+  testExtension = parseTestExtension(quarters2.length > 1 ? quarters2[1] : "");
 
   // add suggested params if not present
   getDefaults(function(defaults) {
@@ -15,6 +16,24 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       params[param] = params[param] || defaults[param];
     }
     buildTable($("#paramsTable"), params);
+  });
+
+  function addTestExtension(extension) {
+    $("#test-extensions").append($(`<br /><input type="radio" name="test-extension" value="${extension}">${extension}</input>`));
+  }
+
+  if (testExtension) {
+    addTestExtension(testExtension);
+  }
+  getTestExtensions(function(extensions) {
+    extensions = extensions.split(",");
+    for (var extension of extensions) {
+      extension = extension.trim();
+      if ($(`input[name=test-extension][value=${extension}]`).length < 1) {
+        addTestExtension(extension);
+      }
+    }
+    $(`input[name=test-extension][value=${testExtension}]`).prop("checked", true);
   });
 });
 
@@ -46,4 +65,14 @@ function parseQueryString(query) {
   }
 
   return result;
+}
+
+function parseTestExtension(testExtensions) {
+  if (!testExtensions) { return ""; }
+
+  var parts = testExtensions.split("=");
+  if (parts.length < 2 || parts[0].toLowerCase() != "testextensions") { return ""; }
+  var obj = JSON.parse(decodeURIComponent(parts[1]));
+  
+  return Object.keys(obj)[0] || "";
 }
