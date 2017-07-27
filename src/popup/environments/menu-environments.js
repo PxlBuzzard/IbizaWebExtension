@@ -59,7 +59,6 @@ var clickHandler = function(click) {
   }
   else if (target.className === "pure-button close-button") {
     deleteEnvironment(target);
-    saveAllChanges();
   }
   else if (target.className === "pure-button go-button") {
     var neighbors = target.parentElement.parentElement.getElementsByTagName("td");
@@ -75,6 +74,7 @@ document.addEventListener("click", clickHandler);
 function changeActiveEnvironment(target) {
   // If target is current, take no action
   if (target === activeEnv) {
+    $(target).removeClass('selected');
     return;
   }
   // disable last active
@@ -219,7 +219,10 @@ function deleteEnvironment(target) {
 // delete from menu
   $(target.parentElement).remove();
 
+  $('#saveAllChanges').show();
+
   // delete from storage
+  chrome.storage.sync.clear(() => console.log("Clearing out some environments"));
   saveAllChanges();
 }
 
