@@ -182,8 +182,7 @@ chrome.runtime.onMessage.addListener(
         case "toggleDebug": toggleDebug(request, sender, sendResponse); break;
         case "downloadDebugInfo": downloadDebugInfo(request, sender, sendResponse); break;
         case "downloadPerfData": downloadPerfData(request, sender, sendResponse); break;
-        case "saveUserSession": saveUserSession(request, sender, sendResponse); break;
-        case "loadUserSession": loadUserSession(request, sender, sendResponse); break;
+        case "getCurrentUser": getCurrentUser(request, sender, sendResponse); break;
         case "clearActiveUserSession": clearActiveUserSession(request, sender, sendResponse); break;
         case "createNewBug": createNewBug(request, sender, sendResponse); break;
         case "alertEvent": alertEvent(request, sender, sendResponse); break;
@@ -192,7 +191,7 @@ chrome.runtime.onMessage.addListener(
   }
 );
 
-toggleDebug = function(request, sender, sendResponse) {
+function toggleDebug(request, sender, sendResponse) {
 	// var keyEvent = crossBrowser_initKeyboardEvent("keydown", {key : "d", char : "d", ctrlKey: true, altKey: true, keyCode: 68, target: window});
 	var keyEvent = new KeyboardEvent("keydown", {key : "D", code: "KeyD", ctrlKey: true, altKey: true, keyCode: 68});
 	
@@ -201,7 +200,7 @@ toggleDebug = function(request, sender, sendResponse) {
 	sendResponse({message: "Toggled Debug mode"});
 }
 
-downloadDebugInfo = function(request, sender, sendResponse) {
+function downloadDebugInfo(request, sender, sendResponse) {
 	// var keyEvent = crossBrowser_initKeyboardEvent("keydown", {key : "a", char : "a", ctrlKey: true, altKey: true, keyCode: 65});
 	var keyEvent = new KeyboardEvent("keydown", {key : "A", code: "KeyA", ctrlKey: true, altKey: true, keyCode: 65});
 	
@@ -285,10 +284,10 @@ alertEvent = function(request, sender, sendResponse) {
 	sendResponse("Alert raised successfully!");
 }
 
-function saveUserSession(request, sender, sendResponse) {
-    var localStorage = JSON.parse(JSON.stringify(window.localStorage));
-    var sessionStorage = JSON.parse(JSON.stringify(window.sessionStorage));
-    var cookie = document.cookie;
+function getCurrentUser(request, sender, sendResponse) {
+    //var localStorage = JSON.parse(JSON.stringify(window.localStorage));
+    //var sessionStorage = JSON.parse(JSON.stringify(window.sessionStorage));
+    //var cookie = document.cookie;
     var username = document.getElementsByClassName("fxs-avatarmenu-username")[0].innerHTML;
     var avatarIconUrl = document.getElementsByClassName("fxs-avatarmenu-tenant-image")[0].getAttribute("src");
     var portalUrl = window.location.href;
@@ -297,24 +296,10 @@ function saveUserSession(request, sender, sendResponse) {
         portalUrl,
         username,
         avatarIconUrl,
-        localStorage,
-        sessionStorage,
-        cookie
+        //localStorage,
+        //sessionStorage,
+        //cookie
     });
-}
-
-function loadUserSession(request, sender, sendResponse) {
-    //TODO: load the response
-    var userLocalStorage = request.userStorage.localStorage;
-    var userSessionStorage = request.userStorage.sessionStorage;
-    // var userCookies = request.userStorage.userCookies;
-    setUserStorageHelper("local", userLocalStorage);
-    setUserStorageHelper("session", userSessionStorage);
-
-    document.location.href = request.userStorage.portalUrl;
-    document.location.reload(true);
-
-    sendResponse("Active user session set sucessfully for the tab.");
 }
 
 

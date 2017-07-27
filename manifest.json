@@ -14,6 +14,8 @@
     "activeTab",
     "storage",
     "tabs",
+    "webRequest",
+    "webRequestBlocking",
     "<all_urls>"
   ],
 
@@ -29,6 +31,10 @@
       "js": [ "/src/third-party/jquery-3.2.1.min.js", "/src/content_scripts/create-bug.js", "src/main.js" ]
     }
   ],
+
+  "background": {
+    "scripts": ["/src/content_scripts/redirect.js"]
+  },
 
   "options_ui": {
     "page": "/src/options/options.html"
