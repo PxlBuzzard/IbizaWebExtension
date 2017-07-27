@@ -39,7 +39,7 @@ span.pure-menu-link:hover {
 }
 
 .selected ~ .envUrl-field {
-  width: 100%;
+  width: 98%;
 }
 
 .selected ~ table {

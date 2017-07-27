@@ -4,13 +4,13 @@ const envPrefix = "env_";
 /// Startup code
 var activeEnv = "";
 var urltInputs =
-  '<tr><td><input class="from-field" type="url" placeholder="From" maxlength="500"></td>' +
-  '<td><input class="to-field" type="url" placeholder="To" maxlength="500"></td></tr>';
+  '<tr><td><input class="from-field left-field" type="url" placeholder="From" maxlength="500"></td>' +
+  '<td><input class="to-field right-field" type="url" placeholder="To" maxlength="500"></td></tr>';
 
 var usertInputs =
   '<tr><td><button class="pure-button go-button" disabled=true>Go</button></td>' +
-  '<td><input class="name-field" type="email" maxlength="500"></td>' +
-  '<td><input class="password-field" type="password" size="10" maxlength="500"></td></tr>';
+  '<td><input class="name-field left-field" type="email" maxlength="500"></td>' +
+  '<td><input class="password-field right-field" type="password" size="10" maxlength="500"></td></tr>';
 
 $('form').on('submit', function(event) {
   newEnvironment($('#newEnvironment').val());
@@ -20,6 +20,29 @@ $('form').on('submit', function(event) {
 
 // Hide table change button
 $('#saveAllChanges').hide();
+
+$(document).ready(function() {
+  // Load data into UI
+  getEnvironments(function(environments) {
+      for (var env of environments) {
+        // create env in the UI
+        newEnvironment(env.name);
+
+        // populate the default URL
+        $('#envUrl' + env.name).val(env.defaultUrl);
+
+        // add rows
+        for (var urlKey in env.url) {
+          addTableRow($('#url' + env.name), urlKey, env.url[urlKey]);
+        }
+        for (var userKey in env.user) {
+          addTableRow($('#user' + env.name), userKey, env.user[userKey]);
+        }
+        addTableRow($('#url' + env.name));
+        addTableRow($('#user' + env.name));
+      }
+  });
+});
 
 /// Functions
 // Click handler
@@ -69,7 +92,7 @@ function newEnvironment(name) {
   $listItem.append($close);
 
   // add the environment URL
-  var $envUrl = $('<input class="envUrl-field" type="url" placeholder="Default URL" maxlength="500">');
+  var $envUrl = $('<input class="envUrl-field" type="url" placeholder="Default URL" maxlength="500">').attr('id', 'envUrl' + name);
   $listItem.append($envUrl);
 
   // build the URL redirection table
@@ -106,18 +129,30 @@ function newEnvironment(name) {
 }
 
 // Add a new row to the active table
-function addTableRow($table) {
-  // only add new row if the bottom row is changed
-  if ($('tr:last input', $table).val() !== '') {
-    $('tbody', $table).append($($table).hasClass('url-table') ? $(urltInputs): $(usertInputs));
+function addTableRow($table, leftItem = null, rightItem = null) {
+  if (!leftItem && !rightItem) {
+    // only add new row if the bottom row is changed
+    if ($('tr:last input', $table).val() !== '') {
+      $('tbody', $table).append($($table).hasClass('url-table') ? $(urltInputs) : $(usertInputs));
+    }
+
+    // add the change event to the new row
+    $('input', $table).on('change', function() {
+      addTableRow($table);
+    });
+
+    $('#saveAllChanges').show();
   }
-
-  // add the change event to the new row
-  $('input', $table).on('change', function() {
-    addTableRow($table);
-  });
-
-  $('#saveAllChanges').show();
+  else {
+    // remove the first empty row when inserting a new row
+    if ($('tbody tr', $table).length === 1 && $('.left-field', $table).val() == "") {
+      $('tbody tr', $table).remove();
+    }
+    var $row = $($table).hasClass('url-table') ? $(urltInputs) : $(usertInputs);
+    $('.left-field', $row).val(leftItem);
+    $('.right-field', $row).val(rightItem);
+    $('tbody', $table).append($row);
+  }
 }
 
 // Add new item to localStorage and menu
@@ -127,9 +162,9 @@ function saveAllChanges() {
   $('#envList li').each(function() {
     var envObject = {};
     var env_name = $(this).find('a').text();
-    console.log(env_name);
 
     envObject['name'] = env_name;
+    envObject['defaultUrl'] = $('#envUrl' + env_name).val();
     envObject['url'] = {};
     envObject['user'] = {};
 
@@ -154,15 +189,12 @@ function saveAllChanges() {
         envObject['user'][username] = password;
       }
     }
-
     envObjects.push(envObject);
   });
 
   // Store environments only after everything has been parsed in case there's an error
   envObjects.forEach(function(envObject) {
-    storeEnvironment(envObject, function() {
-      console.log(envObject);
-    });
+    storeEnvironment(envObject);
   });
 
   $('#saveAllChanges').hide();
@@ -170,10 +202,11 @@ function saveAllChanges() {
 
 // Delete env (and items) from localStorage and menu
 function deleteEnvironment(target) {
-  // delete from localStorage
-
-  // delete from menu
+// delete from menu
   $(target.parentElement).remove();
+
+  // delete from storage
+  saveAllChanges();
 }
 
 // Check Selenium status
@@ -203,7 +236,7 @@ function getEnvironments(callback) {
         environments.push(JSON.parse(storageEntries[key]));
       }
     }
-    
+
     callback(environments);
   });
 }
@@ -229,28 +262,11 @@ function launchUserSession(username, password, targetUrl) {
     var url = "http://localhost:3000/createBrowser/";
 
     if (username && password && targetUrl) {
-      url =  url + encodeURIComponent(username) + "/" + encodeURIComponent(password) + "/" + encodeURIComponent(targetUrl);
-    } 
+      url = url + encodeURIComponent(username) + "/" + encodeURIComponent(password) + "/" + encodeURIComponent(targetUrl);
+    }
 
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", url, false);
     xmlHttp.send(null);
     console.log(xmlHttp.responseText);
 }
-
-function checkSeleniumServerStatus() {
-    var url = "http://localhost:3000/";
-    var jqxhr = $.get(url, function() {
-    }).done(function() {
-      console.log("Connected");
-    }).fail(function() {
-      console.log("Error");
-    })
-}
-
-$.ready(function() {
-  // Load data into UI
-  getEnvironments(function(environments) {
-
-  });
-});
