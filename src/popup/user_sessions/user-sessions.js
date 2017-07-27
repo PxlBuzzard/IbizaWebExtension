@@ -31,14 +31,24 @@ function launchUserSession(username, password, targetUrl) {
 
     if (username && password && targetUrl) {
       url =  url + encodeURIComponent(username) + "/" + encodeURIComponent(password) + "/" + encodeURIComponent(targetUrl);
+    } 
 
-      var xmlHttp = new XMLHttpRequest();
-      xmlHttp.open( "GET", url, false );
-      xmlHttp.send( null );
-      console.log(xmlHttp.responseText);
-    } else {
-      alert("Invalid inputs");
-    }
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", url, false );
+    xmlHttp.send( null );
+    console.log(xmlHttp.responseText);
+}
+
+function checkSeleniumServerStatus() {
+    var url = "http://localhost:3000/";
+    var jqxhr = $.get( url, function() {
+    })
+      .done(function() {
+        console.log("Connected");
+      })
+      .fail(function() {
+        console.log("Error");
+      })
 }
 
 function clickHandler(click) {
@@ -50,3 +60,4 @@ function clickHandler(click) {
 }
 
 document.addEventListener("click", clickHandler);
+setInterval(checkSeleniumServerStatus, 3000);

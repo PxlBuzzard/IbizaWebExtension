@@ -27,7 +27,7 @@ function createBrowser(username, password, url) {
 };
 
 app.get('/createBrowser', function (req, res) {
-  createBrowser('', '');
+  createBrowser('', '', 'https://portal.azure.com');
   res.send('Created a browser successfully!');
 });
 
