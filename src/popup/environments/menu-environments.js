@@ -5,7 +5,8 @@ var urltInputs =
   '<td><input class="to-field" type="url" placeholder="To"></td></tr>';
 
 var usertInputs =
-  '<tr><td><input class="name-field" type="email"></td>' +
+  '<tr><td><button class="pure-button go-button">Go</button></td>' +
+  '<td><input class="name-field" type="email"></td>' +
   '<td><input class="password-field" type="password"></td></tr>';
 
 $('form').on('submit', function(event) {
@@ -42,13 +43,11 @@ function changeActiveEnvironment(target) {
   // disable last active
   else if (activeEnv) {
     $(activeEnv).removeClass('selected');
-    $(activeEnv.nextSibling.nextSibling).removeClass('active');
   }
 
   // set new active
   activeEnv = target;
   $(target).addClass('selected');
-  $(target.nextSibling.nextSibling).addClass('active');
 }
 
 // Save from localStorage chrome.storage.sync
@@ -64,6 +63,10 @@ function newEnvironment(name) {
   $listItem.append($link);
   $listItem.append($close);
 
+  // add the environment URL
+  var $envUrl = $('<input class="envUrl-field" type="url" placeholder="Default URL">');
+  $listItem.append($envUrl);
+
   // build the URL redirection table
   var $urlTable = $('<table></table>').attr('id', 'url' + name).addClass('pure-table pure-table-bordered url-table');
   var $urltHead = $('<thead><tr><th>From</th><th>To</th></tr></thead>');
@@ -75,7 +78,7 @@ function newEnvironment(name) {
 
   // build the User table
   var $userTable = $('<table></table>').attr('id', 'user' + name).addClass('pure-table pure-table-bordered user-table');
-  var $usertHead = $('<thead><tr><th>User</th><th>Password</th></tr></thead>');
+  var $usertHead = $('<thead><tr><th>Launch</th><th>User</th><th>Password</th></tr></thead>');
   $userTable.append($usertHead);
   var $usertBody = $('<tbody></tbody>');
   $usertBody.append($(usertInputs));
@@ -124,6 +127,19 @@ function deleteEnvironment(target) {
 
   // delete from menu
   $(target.parentElement).remove();
+}
+
+// Check Selenium status
+function checkSeleniumServerStatus() {
+  var url = "http://localhost:3000/";
+  var jqxhr = $.get( url, function() {
+  })
+    .done(function() {
+      console.log("Connected");
+    })
+    .fail(function() {
+      console.log("Error");
+    })
 }
 
 // Delete item from localStorage and menu

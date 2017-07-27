@@ -6,7 +6,8 @@ html, body {
   float: right;
 }
 
-.pure-table {
+.pure-table,
+.envUrl-field {
   display: none;
 }
 
@@ -25,6 +26,12 @@ html, body {
 
 .pure-menu-link.selected:before {
   content: "❱ ";
+}
+
+
+.selected ~ .envUrl-field {
+  display: block;
+  width: 100%;
 }
 
 .selected ~ table {
