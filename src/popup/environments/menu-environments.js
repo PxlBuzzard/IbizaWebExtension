@@ -1,3 +1,6 @@
+/// Consts
+const envPrefix = "env_";
+
 /// Startup code
 var activeEnv = "";
 var urltInputs =
@@ -119,6 +122,7 @@ function addTableRow($table) {
 
 // Add new item to localStorage and menu
 function saveAllChanges() {
+  var envObjects = [];
   // iterate over the input fields
   $('#envList li').each(function() {
     var envObject = {};
@@ -127,7 +131,7 @@ function saveAllChanges() {
 
     envObject['name'] = env_name;
     envObject['url'] = {};
-    envObject['user'] = {}
+    envObject['user'] = {};
 
     var urlTable = document.getElementById('url' + env_name);
     var userTable = document.getElementById('user' + env_name);
@@ -151,7 +155,14 @@ function saveAllChanges() {
       }
     }
 
-    console.log(envObject);
+    envObjects.push(envObject);
+  });
+
+  // Store environments only after everything has been parsed in case there's an error
+  envObjects.forEach(function(envObject) {
+    storeEnvironment(envObject, function() {
+      console.log(envObject);
+    });
   });
 
   $('#saveAllChanges').hide();
@@ -181,3 +192,58 @@ function checkSeleniumServerStatus() {
 // Stretch: Import as JSON
 
 // Stretch: Export as JSON
+
+// Returns the environments object from the store
+//TODO: get all environments (prefixed with "env_")
+function getEnvironments(callback) {
+  chrome.storage.sync.get(null, function(storageEntries) {
+    var environments = [];
+    for (var key in storageEntries) {
+      if (key.startsWith(envPrefix)) {
+        environments.push(JSON.parse(storageEntries[key]));
+      }
+    }
+    
+    callback(environments);
+  });
+}
+
+// Puts the environments object in the store
+function storeEnvironment(environment, callback = undefined) {
+  var obj = {};
+  obj[envPrefix + environment.name] = JSON.stringify(environment);
+  chrome.storage.sync.set(obj, callback);
+}
+
+// Gets the currently logged in user's information from the active tab
+function getCurrentUser(callback) {
+  Utils.getBrowserContext(function(currentTab, currentWindow) {
+    chrome.tabs.sendMessage(currentTab.id, {eventName: "getCurrentUser"}, callback);
+  });
+}
+
+function launchUserSession(username, password, targetUrl) {
+    console.log(username);
+    console.log(password);
+    console.log(targetUrl);
+    var url = "http://localhost:3000/createBrowser/";
+
+    if (username && password && targetUrl) {
+      url =  url + encodeURIComponent(username) + "/" + encodeURIComponent(password) + "/" + encodeURIComponent(targetUrl);
+    } 
+
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", url, false);
+    xmlHttp.send(null);
+    console.log(xmlHttp.responseText);
+}
+
+function checkSeleniumServerStatus() {
+    var url = "http://localhost:3000/";
+    var jqxhr = $.get(url, function() {
+    }).done(function() {
+      console.log("Connected");
+    }).fail(function() {
+      console.log("Error");
+    })
+}
