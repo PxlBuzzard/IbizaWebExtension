@@ -26,14 +26,16 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     addTestExtension(testExtension);
   }
   getTestExtensions(function(extensions) {
-    extensions = extensions.split(",");
-    for (var extension of extensions) {
-      extension = extension.trim();
-      if ($(`input[name=test-extension][value=${extension}]`).length < 1) {
-        addTestExtension(extension);
+    if (extensions) {
+      extensions = extensions.split(",");
+      for (var extension of extensions) {
+        extension = extension.trim();
+        if ($(`input[name=test-extension][value="${extension}"]`).length < 1) {
+          addTestExtension(extension);
+        }
       }
     }
-    $(`input[name=test-extension][value=${testExtension}]`).prop("checked", true);
+    $(`input[name=test-extension][value="${testExtension}"]`).prop("checked", true);
   });
 });
 
