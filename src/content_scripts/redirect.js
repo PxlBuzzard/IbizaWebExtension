@@ -34,7 +34,9 @@ function normalize(url) {
 
 function getRedirectsForEnvironment(environment) {
   chrome.storage.sync.get('env_' + environment, function(env) {
-    setRedirects(env.url);
+    if(env.url) {
+        setRedirects(env.url);        
+    }
   });
 }
 
