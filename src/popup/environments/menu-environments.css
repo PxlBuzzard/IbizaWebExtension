@@ -27,8 +27,8 @@ html, body {
   content: "❱ ";
 }
 
-.active {
-  display: block;
+.selected ~ table {
+  display: table;
 }
 
 .close-button {

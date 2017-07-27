@@ -1,8 +1,12 @@
 /// Startup code
 var activeEnv = "";
-var tInputs =
-  '<tr><td><input type="text" placeholder="From"></td>' +
-  '<td><input type="text" placeholder="To"></td></tr>';
+var urltInputs =
+  '<tr><td><input class="from-field" type="url" placeholder="From"></td>' +
+  '<td><input class="to-field" type="url" placeholder="To"></td></tr>';
+
+var usertInputs =
+  '<tr><td><input class="name-field" type="email"></td>' +
+  '<td><input class="password-field" type="password"></td></tr>';
 
 $('form').on('submit', function(event) {
   newEnvironment($('#newEnvironment').val());
@@ -60,19 +64,32 @@ function newEnvironment(name) {
   $listItem.append($link);
   $listItem.append($close);
 
-  // build the tables
-  var $table = $('<table></table>').attr('id', name).addClass('pure-table pure-table-bordered');
-  var $tHead = $('<thead><tr><th>From</th><th>To</th></tr></thead>');
-  $table.append($tHead);
-  var $tBody = $('<tbody></tbody>');
-  $tBody.append($(tInputs));
-  $table.append($tBody);
-  $listItem.append($table);
+  // build the URL redirection table
+  var $urlTable = $('<table></table>').attr('id', 'url' + name).addClass('pure-table pure-table-bordered url-table');
+  var $urltHead = $('<thead><tr><th>From</th><th>To</th></tr></thead>');
+  $urlTable.append($urltHead);
+  var $urltBody = $('<tbody></tbody>');
+  $urltBody.append($(urltInputs));
+  $urlTable.append($urltBody);
+  $listItem.append($urlTable);
+
+  // build the User table
+  var $userTable = $('<table></table>').attr('id', 'user' + name).addClass('pure-table pure-table-bordered user-table');
+  var $usertHead = $('<thead><tr><th>User</th><th>Password</th></tr></thead>');
+  $userTable.append($usertHead);
+  var $usertBody = $('<tbody></tbody>');
+  $usertBody.append($(usertInputs));
+  $userTable.append($usertBody);
+  $listItem.append($userTable);
+
   $('#envList').append($listItem);
 
-  // Show save button if a change is made
-  $('input', $table).on('change', function() {
-    addTableRow($table);
+  // Add a new row on change
+  $('input', $urlTable).on('change', function() {
+    addTableRow($urlTable);
+  });
+  $('input', $userTable).on('change', function() {
+    addTableRow($userTable);
   });
 }
 
@@ -80,7 +97,7 @@ function newEnvironment(name) {
 function addTableRow($table) {
   // only add new row if the bottom row is changed
   if ($('tr:last input', $table).val() !== '') {
-    $('tbody', $table).append($(tInputs));
+    $('tbody', $table).append($($table).hasClass('url-table') ? $(urltInputs): $(usertInputs));
   }
 
   // add the change event to the new row
@@ -100,19 +117,31 @@ function saveAllChanges() {
     console.log(env_name);
 
     envObject['name'] = env_name;
-    envObject['urls'] = {};
+    envObject['url'] = {};
+    envObject['user'] = {}
 
-    var table = document.getElementById(env_name);
+    var urlTable = document.getElementById('url' + env_name);
+    var userTable = document.getElementById('user' + env_name);
 
-    for (var r = 0; r < table.rows.length; r++) {
-      var from = table.rows[r].cell[0].innerHTML;
-      var to = table.rows[r].cell[1].innerHTML;
+    for (var r = 0; r < (urlTable.rows.length - 1); r++) {
+      var from = $('#url' + env_name + ' .from-field')[r].value;
+      var to = $('#url' + env_name + ' .to-field')[r].value;
 
       // Add to list only if from is not null, skip the pair otherwise
-      if (from !== null) {
-        envObject['urls'][from] = to;
+      if (from) {
+        envObject['url'][from] = to;
       }
     }
+
+    for (r = 0; r < (userTable.rows.length - 1); r++) {
+      var username = $('#user' + env_name + ' .name-field')[r].value;
+      var password = $('#user' + env_name + ' .password-field')[r].value;
+
+      if (username && password) {
+        envObject['user'][username] = password;
+      }
+    }
+
     console.log(envObject);
   });
 
