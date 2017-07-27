@@ -86,3 +86,7 @@ function parseTestExtension(testExtensions) {
   
   return Object.keys(obj)[0] || "";
 }
+
+$("#options").click(function() {
+  chrome.runtime.openOptionsPage();
+})
