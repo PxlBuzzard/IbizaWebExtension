@@ -39,4 +39,4 @@ function getRedirectsForEnvironment(environment) {
 }
 
 /// Startup code
-getRedirectsForEnvironment(chrome.storage.sync.get("currentActiveEnvironment"));
+chrome.storage.sync.get("currentActiveEnvironment", getRedirectsForEnvironment);

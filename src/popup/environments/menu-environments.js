@@ -61,6 +61,9 @@ var clickHandler = function(click) {
     deleteEnvironment(target);
     saveAllChanges();
   }
+  else if (target.className === "pure-button go-button") {
+    launchUserSession();
+  }
 };
 document.addEventListener("click", clickHandler);
 
