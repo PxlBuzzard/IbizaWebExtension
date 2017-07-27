@@ -6,25 +6,40 @@ html, body {
   float: right;
 }
 
-.pure-table {
+.pure-table,
+.envUrl-field,
+span.pure-menu-link {
   display: none;
 }
 
-.pure-menu-item .pure-menu-link {
+.pure-menu-item a.pure-menu-link {
   display: inline-block;
   width: 80%;
 }
 
-.pure-menu-link:before {
+a.pure-menu-link:before {
   content: "❭ ";
 }
 
-.pure-menu-link.selected {
+a.pure-menu-link.selected {
   font-weight: bold;
 }
 
-.pure-menu-link.selected:before {
+a.pure-menu-link.selected:before {
   content: "❱ ";
+}
+
+span.pure-menu-link:hover {
+  background: none;
+}
+
+.selected ~ span.pure-menu-link,
+.selected ~ .envUrl-field {
+  display: block;
+}
+
+.selected ~ .envUrl-field {
+  width: 100%;
 }
 
 .selected ~ table {
