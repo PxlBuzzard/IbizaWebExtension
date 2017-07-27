@@ -59,6 +59,7 @@ var clickHandler = function(click) {
   }
   else if (target.className === "pure-button close-button") {
     deleteEnvironment(target);
+    saveAllChanges();
   }
 };
 document.addEventListener("click", clickHandler);
