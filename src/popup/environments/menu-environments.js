@@ -247,3 +247,10 @@ function checkSeleniumServerStatus() {
       console.log("Error");
     })
 }
+
+$.ready(function() {
+  // Load data into UI
+  getEnvironments(function(environments) {
+
+  });
+});
