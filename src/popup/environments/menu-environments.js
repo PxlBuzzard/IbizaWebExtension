@@ -114,8 +114,38 @@ function addTableRow($table) {
 // Add new item to localStorage and menu
 function saveAllChanges() {
   // iterate over the input fields
-  $('table tbody tr td input').each(function (i) {
+  $('#envList li').each(function() {
+    var envObject = {};
+    var env_name = $(this).find('a').text();
+    console.log(env_name);
 
+    envObject['name'] = env_name;
+    envObject['url'] = {};
+    envObject['user'] = {}
+
+    var urlTable = document.getElementById('url' + env_name);
+    var userTable = document.getElementById('user' + env_name);
+
+    for (var r = 0; r < (urlTable.rows.length - 1); r++) {
+      var from = $('#url' + env_name + ' .from-field')[r].value;
+      var to = $('#url' + env_name + ' .to-field')[r].value;
+
+      // Add to list only if from is not null, skip the pair otherwise
+      if (from) {
+        envObject['url'][from] = to;
+      }
+    }
+
+    for (r = 0; r < (userTable.rows.length - 1); r++) {
+      var username = $('#user' + env_name + ' .name-field')[r].value;
+      var password = $('#user' + env_name + ' .password-field')[r].value;
+
+      if (username && password) {
+        envObject['user'][username] = password;
+      }
+    }
+
+    console.log(envObject);
   });
 
   $('#saveAllChanges').hide();
