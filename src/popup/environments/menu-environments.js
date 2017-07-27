@@ -62,7 +62,11 @@ var clickHandler = function(click) {
     saveAllChanges();
   }
   else if (target.className === "pure-button go-button") {
-    launchUserSession();
+    var neighbors = target.parentElement.parentElement.getElementsByTagName("td");
+    var email = neighbors[1].children[0].value;
+    var password = neighbors[2].children[0].value;
+    var envUrl = target.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("envUrl-field")[0].value;
+    launchUserSession(email, password, envUrl);
   }
 };
 document.addEventListener("click", clickHandler);
@@ -271,8 +275,11 @@ function launchUserSession(username, password, targetUrl) {
     console.log(targetUrl);
     var url = "http://localhost:3000/createBrowser/";
 
-    if (username && password && targetUrl) {
-      url = url + encodeURIComponent(username) + "/" + encodeURIComponent(password) + "/" + encodeURIComponent(targetUrl);
+    if (username && password) {
+      url = url + encodeURIComponent(username) + "/" + encodeURIComponent(password);
+      if (targetUrl) {
+        url = url + "/" + encodeURIComponent(targetUrl);
+      }
     }
 
     var xmlHttp = new XMLHttpRequest();

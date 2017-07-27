@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.15.3",
+    "errorhandler": "^1.5.0",
     "selenium-webdriver": "^3.5.0"
   }
 }
