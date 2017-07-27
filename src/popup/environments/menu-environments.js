@@ -1,12 +1,12 @@
 /// Startup code
 var activeEnv = "";
 var urltInputs =
-  '<tr><td><input type="url" placeholder="From"></td>' +
-  '<td><input type="url" placeholder="To"></td></tr>';
+  '<tr><td><input class="from-field" type="url" placeholder="From"></td>' +
+  '<td><input class="to-field" type="url" placeholder="To"></td></tr>';
 
 var usertInputs =
-  '<tr><td><input type="email"></td>' +
-  '<td><input type="password"></td></tr>';
+  '<tr><td><input class="name-field" type="email"></td>' +
+  '<td><input class="password-field" type="password"></td></tr>';
 
 $('form').on('submit', function(event) {
   newEnvironment($('#newEnvironment').val());
