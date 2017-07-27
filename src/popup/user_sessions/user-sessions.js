@@ -1,80 +1,51 @@
-// Returns a Map of user sessions
-function getUserSessions(callback) {
-  chrome.storage.local.get("userSessions", function(result) {
-    var users;
+// Returns the environments object from the store
+function getEnvironments(callback) {
+  chrome.storage.sync.get("environments", function(result) {
+    var environments;
     try {
-      users = new Map(JSON.parse(result.userSessions));
+      environments = JSON.parse(result.userSessions);
     } catch (ex) {
-      users = new Map();
+      environments = undefined;
     }
-    callback(users);
+    callback(environments);
   });
 }
 
-function setUserSessions(users, callback = null) {
-  chrome.storage.local.set({"userSessions": JSON.stringify(Array.from(users.entries()))}, function() {
-    if (callback) { callback() }
-  });
+// Puts the environments object in the store
+function storeEnvironments(environments, callback = undefined) {
+  chrome.storage.sync.set({"environments": JSON.stringify(environments)}, callback);
 }
 
-function saveUserSession() {
+// Gets the currently logged in user's information from the active tab
+function getCurrentUser(callback) {
   Utils.getBrowserContext(function(currentTab, currentWindow) {
-    chrome.tabs.sendMessage(currentTab.id, {eventName: "saveUserSession"}, function(response) {
-      // Check the existing list of user sessions
-      getUserSessions(function(users) {
-        console.log(users);
-
-        // Add the session to the list (or overwrite it if it already exists)
-        // NOTE: the key is the username (i.e. UPN/email address)
-        users.set(response.username, response);
-
-        // Put the list back in storage
-        setUserSessions(users, function() {
-          console.log("Saved user: " + response.username);
-          window.close();
-        });
-      });
-    });
+    chrome.tabs.sendMessage(currentTab.id, {eventName: "getCurrentUser"}, callback);
   });
 }
 
-function loadUserSession(username) {
-  Utils.getBrowserContext(function(currentTab, currentWindow) {
-    // TODO: do stuff with tab and window
-    getUserSessions(function(users) {
-      var user = users.get(username);
-      chrome.tabs.sendMessage(currentTab.id, {eventName: "loadUserSession", userStorage: user}, function(response) {
-        console.log(response);
-      });
-    });
-  });
-  //window.close();
-}
+function launchUserSession(username, password, targetUrl) {
+    console.log(username);
+    console.log(password);
+    console.log(targetUrl);
+    var url = "http://localhost:3000/createBrowser/";
 
-function clearActiveUserSession() {
-  Utils.getBrowserContext(function(currentTab, currentWindow) {
-    chrome.tabs.sendMessage(currentTab.id, {eventName: "clearActiveUserSession"}, function(response) {
-      console.log(response);
-    });
-  });
-  //window.close();
-}
+    if (username && password && targetUrl) {
+      url =  url + encodeURIComponent(username) + "/" + encodeURIComponent(password) + "/" + encodeURIComponent(targetUrl);
 
-function deleteUserSession() {
-}
-
-function deleteAllUserSessions() {
-  chrome.storage.local.clear(function(e) {console.log(e)});
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open( "GET", url, false );
+      xmlHttp.send( null );
+      console.log(xmlHttp.responseText);
+    } else {
+      alert("Invalid inputs");
+    }
 }
 
 function clickHandler(click) {
   var button = click.target;
   switch (button.id) {
-    case "saveUserSessionButton": saveUserSession(); break;
-    case "loadUserSessionButton": loadUserSession(button.getAttribute("data")); break;
-    case "clearActiveUserSessionButton": clearActiveUserSession(); break;
-    case "deleteAllUserSessions": deleteAllUserSessions(); break;
-    default: console.error(`Unknown button name "${button.id}"`); break;
+    case "createUserSessionButton": launchUserSession(); break;
+    default: break;
   }
 }
 

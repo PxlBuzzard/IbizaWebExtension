@@ -1,8 +1,12 @@
 /// Startup code
 var activeEnv = "";
-var tInputs =
-  '<tr><td><input type="text" placeholder="From"></td>' +
-  '<td><input type="text" placeholder="To"></td></tr>';
+var urltInputs =
+  '<tr><td><input class="from-field" type="url" placeholder="From"></td>' +
+  '<td><input class="to-field" type="url" placeholder="To"></td></tr>';
+
+var usertInputs =
+  '<tr><td><input class="name-field" type="email"></td>' +
+  '<td><input class="password-field" type="password"></td></tr>';
 
 $('form').on('submit', function(event) {
   newEnvironment($('#newEnvironment').val());
@@ -60,19 +64,32 @@ function newEnvironment(name) {
   $listItem.append($link);
   $listItem.append($close);
 
-  // build the table
-  var $table = $('<table></table>').addClass('pure-table pure-table-bordered');
-  var $tHead = $('<thead><tr><th>From</th><th>To</th></tr></thead>');
-  $table.append($tHead);
-  var $tBody = $('<tbody></tbody>');
-  $tBody.append($(tInputs));
-  $table.append($tBody);
-  $listItem.append($table);
+  // build the URL redirection table
+  var $urlTable = $('<table></table>').attr('id', 'url' + name).addClass('pure-table pure-table-bordered url-table');
+  var $urltHead = $('<thead><tr><th>From</th><th>To</th></tr></thead>');
+  $urlTable.append($urltHead);
+  var $urltBody = $('<tbody></tbody>');
+  $urltBody.append($(urltInputs));
+  $urlTable.append($urltBody);
+  $listItem.append($urlTable);
+
+  // build the User table
+  var $userTable = $('<table></table>').attr('id', 'user' + name).addClass('pure-table pure-table-bordered user-table');
+  var $usertHead = $('<thead><tr><th>User</th><th>Password</th></tr></thead>');
+  $userTable.append($usertHead);
+  var $usertBody = $('<tbody></tbody>');
+  $usertBody.append($(usertInputs));
+  $userTable.append($usertBody);
+  $listItem.append($userTable);
+
   $('#envList').append($listItem);
 
-  // Show save button if a change is made
-  $('input', $table).on('change', function() {
-    addTableRow($table);
+  // Add a new row on change
+  $('input', $urlTable).on('change', function() {
+    addTableRow($urlTable);
+  });
+  $('input', $userTable).on('change', function() {
+    addTableRow($userTable);
   });
 }
 
@@ -80,7 +97,7 @@ function newEnvironment(name) {
 function addTableRow($table) {
   // only add new row if the bottom row is changed
   if ($('tr:last input', $table).val() !== '') {
-    $('tbody', $table).append($(tInputs));
+    $('tbody', $table).append($($table).hasClass('url-table') ? $(urltInputs): $(usertInputs));
   }
 
   // add the change event to the new row
