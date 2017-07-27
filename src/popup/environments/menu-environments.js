@@ -60,8 +60,8 @@ function newEnvironment(name) {
   $listItem.append($link);
   $listItem.append($close);
 
-  // build the table
-  var $table = $('<table></table>').addClass('pure-table pure-table-bordered');
+  // build the tables
+  var $table = $('<table></table>').attr('id', name).addClass('pure-table pure-table-bordered');
   var $tHead = $('<thead><tr><th>From</th><th>To</th></tr></thead>');
   $table.append($tHead);
   var $tBody = $('<tbody></tbody>');
@@ -94,8 +94,26 @@ function addTableRow($table) {
 // Add new item to localStorage and menu
 function saveAllChanges() {
   // iterate over the input fields
-  $('table tbody tr td input').each(function (i) {
+  $('#envList li').each(function() {
+    var envObject = {};
+    var env_name = $(this).find('a').text();
+    console.log(env_name);
 
+    envObject['name'] = env_name;
+    envObject['urls'] = {};
+
+    var table = document.getElementById(env_name);
+
+    for (var r = 0; r < table.rows.length; r++) {
+      var from = table.rows[r].cell[0].innerHTML;
+      var to = table.rows[r].cell[1].innerHTML;
+
+      // Add to list only if from is not null, skip the pair otherwise
+      if (from !== null) {
+        envObject['urls'][from] = to;
+      }
+    }
+    console.log(envObject);
   });
 
   $('#saveAllChanges').hide();
