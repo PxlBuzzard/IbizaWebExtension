@@ -13,7 +13,20 @@ $(document).ready(function () {
 		});
 	};
 
+	toggleDebugButtons = function() {
+		var btn1 = document.getElementById('download-perf-data');
+		var btn2 = document.getElementById('download-debug-info');
+		if(btn1.classList.contains('pure-button-disabled')) {
+			btn1.classList.remove('pure-button-disabled');
+			btn2.classList.remove('pure-button-disabled');
+		} else {
+			btn1.classList.add('pure-button-disabled');
+			btn2.classList.add('pure-button-disabled');
+		}
+	};
+
 	document.getElementById('toggle-debug').addEventListener('click', toggleDebugModeEvent);
+	document.getElementById('toggle-debug').addEventListener('click', toggleDebugButtons);
 
 	downloadDebugInfo = function() {
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
