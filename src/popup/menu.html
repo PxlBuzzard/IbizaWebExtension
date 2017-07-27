@@ -16,13 +16,18 @@
     <span class="pure-menu-heading">Ibiza Dev Extension</span>
     <ul class="pure-menu-list">
         <li class="pure-menu-item"><a href="params/menu-params.html" class="pure-menu-link">URL Parameters &#10097;</a></li>
-        <li class="pure-menu-item"><a href="hotkeys/menu-hotkeys.html" class="pure-menu-link">Debug Keys &#10097;</a></li>
         <li class="pure-menu-item"><a href="environments/menu-environments.html" class="pure-menu-link">Environments &#10097;</a></li>
-        <li class="pure-menu-item"><a href="user_sessions/menu-user-sessions.html" class="pure-menu-link">User Sessions &#10097;</a></li>
-        <li class="pure-menu-item"><a href="#" id="create-bug" class="pure-menu-link">Create bug</a></li>
+        <div align="center">
+          <button id="create-bug" class="button-xsmall pure-button">Create bug</button>
+          <button id="toggle-debug" class="button-xsmall pure-button pure-button-primary">Toggle Debug Mode</button>
+          <button id="download-perf-data" style="display: none" class="button-xsmall pure-button" >Download Perf Data</button>
+          <button id="download-debug-info" style="display: none" class="button-xsmall pure-button">Download Debug Info</button>
+        </div>
     </ul>
 </div>
+  <script src="/src/third-party/jquery-3.2.1.min.js"></script>
   <script src="menu.js"></script>
+  <script src="hotkeys/hotkeys.js"></script>
 </body>
 
 </html>

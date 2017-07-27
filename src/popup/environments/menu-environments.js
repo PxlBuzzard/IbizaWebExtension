@@ -40,6 +40,7 @@ $(document).ready(function() {
         }
         addTableRow($('#url' + env.name));
         addTableRow($('#user' + env.name));
+        $('#saveAllChanges').hide();
       }
   });
 });
@@ -119,6 +120,10 @@ function newEnvironment(name) {
 
   $('#envList').append($listItem);
 
+  // show save when default URL changes
+  $('.envUrl-field').on('change', function() {
+    $('#saveAllChanges').show();
+  });
   // Add a new row on change
   $('input', $urlTable).on('change', function() {
     addTableRow($urlTable);
@@ -190,6 +195,7 @@ function saveAllChanges() {
       }
     }
     envObjects.push(envObject);
+    chrome.storage.sync.set({"currentActiveEnvironment": $('.env-header.selected').text()});
   });
 
   // Store environments only after everything has been parsed in case there's an error

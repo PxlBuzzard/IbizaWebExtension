@@ -2,7 +2,7 @@ var redirects = {};
 
 function redirectListener(details) {
     var newUrl = details.url;
-    for (url in redirects) {
+    for (var url in redirects) {
         from = url.slice(0, -2); // remove the /*
         if (details.url.includes(from)) {
             var to = redirects[url].slice(0, -2);
@@ -15,10 +15,10 @@ function redirectListener(details) {
 
 function setRedirects(redirectsToSet) {
     redirects = {};
-    for (url in redirectsToSet) {
+    for (var url in redirectsToSet) {
         redirects[normalize(url)] = normalize(redirectsToSet[url]);
     }
-console.log(Object.keys(redirects));
+
     chrome.webRequest.onBeforeRequest.removeListener(redirectListener);
     chrome.webRequest.onBeforeRequest.addListener(
         redirectListener,
@@ -32,5 +32,11 @@ function normalize(url) {
     return url + "/*";
 }
 
-// TODO get from localstorage
-setRedirects({ "https://graph.microsoft-ppe.com/test_Intune_OneDF": "https://graph.microsoft.com/beta" });
+function getRedirectsForEnvironment(environment) {
+  chrome.storage.sync.get('env_' + environment, function(env) {
+    setRedirects(env.url);
+  });
+}
+
+/// Startup code
+getRedirectsForEnvironment(chrome.storage.sync.get("currentActiveEnvironment"));
