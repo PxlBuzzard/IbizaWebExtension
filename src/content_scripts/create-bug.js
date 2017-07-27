@@ -1,6 +1,6 @@
 function createNewBug(request, sender, sendResponse)
 {
-  sendResponse(createNewBugInternal(request, sender))
+  sendResponse(createNewBugInternal(request, sender));
 }
 
 function createNewBugInternal(request, sender)
@@ -79,11 +79,14 @@ function createNewBugInternal(request, sender)
   function showSubmitted()
   {
     console.log("Show submit success.")
+    var bugNumber = Math.floor((Math.random() * 90000) + 10000);
     $("#bug-dialog-inner").html(`
         <div style="display:table; position:absolute; height:calc(100% - 100px); width:calc(100% - 100px);">
             <div style="display:table-cell; vertical-align:middle;">
                 <div style="margin-left:auto; text-align:center; margin-right:auto; ">
-                    <span style="font-size:48px; text-align:center; width:100%;">Bug #<a href="#" target="_blank">12345</a> submitted!</span>
+                    <span style="font-size:48px; text-align:center; width:100%;">Bug #<a href="#" target="_blank">
+                    ${bugNumber}
+                    </a> submitted!</span>
                 </div>
             </div>
         </div>`);
