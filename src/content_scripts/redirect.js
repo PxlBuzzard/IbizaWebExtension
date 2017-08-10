@@ -40,5 +40,11 @@ function getRedirectsForEnvironment(environment) {
   });
 }
 
+chrome.runtime.onMessage.addListener(
+  function(request) {
+    if (request === "update-redirects")
+      chrome.storage.sync.get("currentActiveEnvironment", getRedirectsForEnvironment);
+  });
+
 /// Startup code
 chrome.storage.sync.get("currentActiveEnvironment", getRedirectsForEnvironment);
