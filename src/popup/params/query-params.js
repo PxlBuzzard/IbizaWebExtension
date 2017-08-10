@@ -100,13 +100,13 @@ function getParams($table) {
 }
 
 function storeDefaults(params) {
-  chrome.storage.local.set({
+  chrome.storage.sync.set({
     defaultParams: JSON.stringify(params)
   });
 }
 
 function getDefaults(callback, active = false) {
-  chrome.storage.local.get("defaultParams", function(result) {
+  chrome.storage.sync.get("defaultParams", function(result) {
     var params;
     if (result.defaultParams) {
       params = JSON.parse(result.defaultParams);
@@ -123,13 +123,13 @@ function getDefaults(callback, active = false) {
 }
 
 function storeTestExtensions(extensions) {
-  chrome.storage.local.set({
+  chrome.storage.sync.set({
     testExtensions: extensions
   });
 }
 
 function getTestExtensions(callback) {
-  chrome.storage.local.get("testExtensions", function(result) {
+  chrome.storage.sync.get("testExtensions", function(result) {
     callback(result.testExtensions);
   });
 }
