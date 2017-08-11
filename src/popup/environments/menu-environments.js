@@ -42,6 +42,12 @@ $(document).ready(function() {
         addTableRow($('#user' + env.name));
         $('#saveAllChanges').hide();
       }
+
+      // set the active environment
+      chrome.storage.sync.get("currentActiveEnvironment", (object) => {
+        changeActiveEnvironment($('#envList li a#' + object.currentActiveEnvironment)[0]);
+      });
+
   });
 });
 
@@ -98,7 +104,7 @@ function changeActiveEnvironment(target) {
 function newEnvironment(name) {
   // build the section header
   var $listItem = $('<li />').addClass('pure-menu-item');
-  var $link = $('<a>' + name + '</a>').addClass('pure-menu-link env-header');
+  var $link = $('<a id="' + name + '">' + name + '</a>').addClass('pure-menu-link env-header');
   var $close = $('<button>X</button>').addClass('pure-button close-button');
   $listItem.append($link);
   $listItem.append($close);
