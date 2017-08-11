@@ -86,6 +86,8 @@ function changeActiveEnvironment(target) {
   // set new active
   activeEnv = target;
   $(target).addClass('selected');
+
+  $('#saveAllChanges').show();
 }
 
 // Save from localStorage chrome.storage.sync
@@ -213,6 +215,11 @@ function saveAllChanges() {
   // Store environments only after everything has been parsed in case there's an error
   envObjects.forEach(function(envObject) {
     storeEnvironment(envObject);
+  });
+
+  // send message to client script to update url redirects to the current env
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    chrome.runtime.sendMessage("update-redirects");
   });
 
   $('#saveAllChanges').hide();
