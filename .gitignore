@@ -65,3 +65,5 @@ typings/
 
 .DS_STORE
 # End of https://www.gitignore.io/api/node
+/Java/ChromeDriverController/nbproject/private/
+/Java/ChromeDriverController/target/
