@@ -14,30 +14,41 @@ function redirectListener(details) {
 }
 
 function setRedirects(redirectsToSet) {
-    redirects = {};
-    for (var url in redirectsToSet) {
-        redirects[normalize(url)] = normalize(redirectsToSet[url]);
-    }
-
     chrome.webRequest.onBeforeRequest.removeListener(redirectListener);
-    chrome.webRequest.onBeforeRequest.addListener(
-        redirectListener,
-        { urls: Object.keys(redirects) },
-        ["blocking"]);
+
+    if (redirectsToSet) {
+        redirects = {};
+        for (var src in redirectsToSet) {
+            var dst = redirectsToSet[src];
+            if (!src.startsWith("https://")) {
+                redirects[normalize(src, "http://")] = normalize(dst, "http://");
+            }
+            if (!src.startsWith("http://")) {
+                redirects[normalize(src, "https://")] = normalize(dst, "https://");
+            }
+        }
+
+        chrome.webRequest.onBeforeRequest.addListener(
+            redirectListener,
+            { urls: Object.keys(redirects) },
+            ["blocking"]);
+    }
 }
 
-function normalize(url) {
+function normalize(url, protocol) {
+    if (protocol && !url.startsWith("http://") && !url.startsWith("https://")) {
+        url = protocol + url;
+    }
     if (url.endsWith("/*")) { return url; }
     if (url.endsWith("/")) { return url + "*"; }
     return url + "/*";
 }
 
 function getRedirectsForEnvironment(environment) {
-  chrome.storage.sync.get('env_' + environment, function(env) {
-    if(env.url) {
-        setRedirects(env.url);        
-    }
-  });
+    const key = 'env_' + environment.currentActiveEnvironment;
+    chrome.storage.sync.get(key, function(env) {
+        setRedirects(JSON.parse(env[key]).url);
+    });
 }
 
 chrome.runtime.onMessage.addListener(
