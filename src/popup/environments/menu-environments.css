@@ -56,4 +56,5 @@ span.pure-menu-link:hover {
 
 #saveAllChanges {
   margin-top: 0.5em;
+  float: right;
 }

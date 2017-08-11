@@ -1,8 +1,14 @@
 {
 
   "manifest_version": 2,
-  "name": "Ibiza Developer Extension",
+  "name": "Azure Portal Developer Extension",
   "version": "1.0",
+  "applications": {
+    "gecko": {
+      "id": "ibizadevex@microsoft.com",
+      "strict_min_version": "48.0"
+    }
+  },
 
   "description": "",
 
@@ -21,7 +27,7 @@
 
   "browser_action": {
     "default_icon": "assets/icon-64.png",
-    "default_title": "Ibiza Developer Extension",
+    "default_title": "Azure Portal Developer Extension",
     "default_popup": "src/popup/menu.html"
   },
 

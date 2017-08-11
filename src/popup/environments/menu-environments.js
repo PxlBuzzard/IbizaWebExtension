@@ -4,8 +4,8 @@ const envPrefix = "env_";
 /// Startup code
 var activeEnv = "";
 var urltInputs =
-  '<tr><td><input class="from-field left-field" type="url" placeholder="From" maxlength="500"></td>' +
-  '<td><input class="to-field right-field" type="url" placeholder="To" maxlength="500"></td></tr>';
+  '<tr><td><input class="from-field left-field" type="url" placeholder="http://graph.com/beta/*" maxlength="500"></td>' +
+  '<td><input class="to-field right-field" type="url" placeholder="http://graph.com/v1.0/*" maxlength="500"></td></tr>';
 
 var usertInputs =
   '<tr><td><button class="pure-button go-button" disabled=true>Go</button></td>' +
@@ -51,6 +51,7 @@ var clickHandler = function(click) {
   var target = click.target;
   if (target.className === "pure-menu-link env-header") {
     changeActiveEnvironment(target);
+    $('#saveAllChanges').show();
     checkSeleniumServerStatus();
   }
   else if (target.id === "saveAllChanges") {
@@ -204,6 +205,9 @@ function saveAllChanges() {
     }
     envObjects.push(envObject);
     chrome.storage.sync.set({"currentActiveEnvironment": $('.env-header.selected').text()});
+
+    // close the window
+    window.close();
   });
 
   // Store environments only after everything has been parsed in case there's an error
@@ -216,14 +220,11 @@ function saveAllChanges() {
 
 // Delete env (and items) from localStorage and menu
 function deleteEnvironment(target) {
-// delete from menu
+  // remove from storage
+  chrome.storage.sync.remove("env_" + target.previousSibling.text);
+
+  // delete from menu
   $(target.parentElement).remove();
-
-  $('#saveAllChanges').show();
-
-  // delete from storage
-  chrome.storage.sync.clear(() => console.log("Clearing out some environments"));
-  saveAllChanges();
 }
 
 // Check Selenium status

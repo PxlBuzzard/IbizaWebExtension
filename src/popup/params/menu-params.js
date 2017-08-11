@@ -19,7 +19,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
   });
 
   function addTestExtension(extension) {
-    $("#test-extensions").append($(`<br /><input type="radio" name="test-extension" value="${extension}">${extension}</input>`));
+    $("#test-extensions").append($(`<label for="${extension}" class="pure-radio"><input id="${extension}" type="radio" name="test-extension" value="${extension}" />${extension}</label>`));
   }
 
   if (testExtension) {
@@ -60,6 +60,9 @@ document.addEventListener("DOMContentLoaded", function () {
       (query ? "?" + query.substring(1) : "") +
       (anchor ? "#" + anchor : "") +
       (testEx ? `?testExtensions={"${testEx}":"https://localhost:44300/"}` : "") });
+
+    // close the popup window
+    window.close();
   });
 });
 
@@ -83,7 +86,7 @@ function parseTestExtension(testExtensions) {
   var parts = testExtensions.split("=");
   if (parts.length < 2 || parts[0].toLowerCase() != "testextensions") { return ""; }
   var obj = JSON.parse(decodeURIComponent(parts[1]));
-  
+
   return Object.keys(obj)[0] || "";
 }
 
