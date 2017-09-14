@@ -40,7 +40,7 @@
   ],
 
   "background": {
-    "scripts": ["/src/content_scripts/redirect.js"]
+    "scripts": ["/src/bg/redirect.js", "/src/bg/repro.js"]
   },
 
   "options_ui": {

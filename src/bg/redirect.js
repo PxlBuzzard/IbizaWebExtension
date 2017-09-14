@@ -47,7 +47,7 @@ function normalize(url, protocol) {
 function getRedirectsForEnvironment(environment) {
     const key = 'env_' + environment.currentActiveEnvironment;
     chrome.storage.sync.get(key, function(env) {
-        setRedirects(JSON.parse(env[key]).url);
+        setRedirects(JSON.parse(env[key] || "{}").url);
     });
 }
 
