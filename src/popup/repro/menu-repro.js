@@ -18,9 +18,9 @@ function endSession() {
     document.getElementById('repro-screen').disabled = true;
     document.getElementById('repro-end').disabled = true;
     chrome.runtime.sendMessage({ name: "reproEnd" }, function(result) {
-        // TODO
-        // network responses (graph calls) available via result.responses
-        console.log(result.responses);
+        // TODO - use the calls to generate the bug report.
+        // network requests, responses (graph calls) available via result.calls
+        console.log(result.calls);
         // screenshots available via result.screenshots
         console.log(result.screenshots);
     });
