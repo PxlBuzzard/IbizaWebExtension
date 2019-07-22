@@ -3,7 +3,7 @@
 
   "manifest_version": 2,
   "name": "Azure Portal Developer Extension",
-  "version": "1.0",
+  "version": "2.0",
   "applications": {
     "gecko": {
       "id": "ibizadevex@microsoft.com",
@@ -37,12 +37,12 @@
   "content_scripts": [
     {
       "matches": [ "*://*.portal.azure.com/*", "*://df.onecloud.azure-test.net/*" ],
-      "js": [ "/src/third-party/jquery-3.2.1.min.js", "/src/content_scripts/create-bug.js", "src/main.js" ]
+      "js": [ "/src/third-party/jquery-3.2.1.min.js", "src/main.js" ]
     }
   ],
 
   "background": {
-    "scripts": ["/src/bg/redirect.js", "/src/bg/repro.js"]
+    "scripts": ["/src/bg/redirect.js"]
   },
 
   "options_ui": {
