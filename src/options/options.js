@@ -1,13 +1,13 @@
-document.addEventListener("DOMContentLoaded", function() {
-  getDefaults(function(params) {
+document.addEventListener("DOMContentLoaded", () => {
+  getDefaults((params) => {
     buildTable($("#params-table"), params);
   }, true);
-  getTestExtensions(function(extensions) {
+  getTestExtensions((extensions) => {
     $("#test-extensions").val(extensions);
   });
 });
 
-document.querySelector("form").addEventListener("submit", function(e) {
+document.querySelector("form").addEventListener("submit", (e) => {
   e.preventDefault();
   storeDefaults(getParams($("#params-table")));
   storeTestExtensions($("#test-extensions").val());

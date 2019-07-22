@@ -62,7 +62,7 @@ function buildTable($table, initParams) {
   var $addName = $("<select />");
   var $addValue = $("<input type=\"text\" />");
   $tbody.append($("<tr />")
-    .append($("<td />").append($("<button id=\"addButton\" class=\"button-xsmall pure-button\">+</button>").click(function() {
+    .append($("<td />").append($("<button id=\"addButton\" class=\"button-xsmall pure-button\">+</button>").click(() => {
       if ($addName.scombobox("val")) {
         addRow(true, $addName.scombobox("val"), $addValue.val());
         $addName.scombobox("val", "");
@@ -72,7 +72,7 @@ function buildTable($table, initParams) {
     .append($("<td />").append($addName))
     .append($("<td />").append($addValue)));
   $addName.scombobox({
-    data: Object.keys(allParams).map(function (param) {
+    data: Object.keys(allParams).map((param) => {
       return { value: param, text: param }
     }),
     invalidAsValue: true,
@@ -106,7 +106,7 @@ function storeDefaults(params) {
 }
 
 function getDefaults(callback, active = false) {
-  chrome.storage.sync.get("defaultParams", function(result) {
+  chrome.storage.sync.get("defaultParams", (result) => {
     var params;
     if (result.defaultParams) {
       params = JSON.parse(result.defaultParams);
@@ -129,7 +129,7 @@ function storeTestExtensions(extensions) {
 }
 
 function getTestExtensions(callback) {
-  chrome.storage.sync.get("testExtensions", function(result) {
+  chrome.storage.sync.get("testExtensions", (result) => {
     callback(result.testExtensions);
   });
 }

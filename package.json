@@ -1,0 +1,25 @@
+{
+  "name": "ibizawebextension",
+  "version": "1.0.0",
+  "description": "Azure Portal Developer Web Extension",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://garage-04@dev.azure.com/garage-04/hack2017ibizaDevWebExtension/_git/hack2017ibizaDevWebExtension"
+  },
+  "keywords": [
+    "web",
+    "extension"
+  ],
+  "author": "dajost and dawils",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "typescript": "^3.5.3",
+    "vue": "^2.6.10",
+    "vue-class-component": "^7.1.0"
+  }
+}

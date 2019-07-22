@@ -1,6 +1,6 @@
 var baseUrl, params, anchor, testExtension;
 
-chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
   // get current base url, params, and anchor
   var halves = tabs[0].url.split("#");
   var quarters1 = halves[0].split("?");
@@ -11,7 +11,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
   testExtension = parseTestExtension(quarters2.length > 1 ? quarters2[1] : "");
 
   // add suggested params if not present
-  getDefaults(function(defaults) {
+  getDefaults((defaults) => {
     for (var param in defaults) {
       params[param] = params[param] || defaults[param];
     }
@@ -25,7 +25,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
   if (testExtension) {
     addTestExtension(testExtension);
   }
-  getTestExtensions(function(extensions) {
+  getTestExtensions((extensions) => {
     if (extensions) {
       extensions = extensions.split(",");
       for (var extension of extensions) {
@@ -40,8 +40,8 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 });
 
 // apply button listener
-document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("Apply").addEventListener("click", function() {
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("Apply").addEventListener("click", () => {
     var params = getParams($("#paramsTable"));
     var testEx = $("input[name=test-extension]:checked").val();
 
@@ -90,6 +90,6 @@ function parseTestExtension(testExtensions) {
   return Object.keys(obj)[0] || "";
 }
 
-$("#options").click(function() {
+$("#options").click(() => {
   chrome.runtime.openOptionsPage();
 })

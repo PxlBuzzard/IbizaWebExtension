@@ -1,0 +1,12 @@
+.container {
+    display: flex;
+    width: 500px;
+}
+
+.sidebar {
+    flex: 1;
+}
+
+.content {
+    flex: 1;
+}
