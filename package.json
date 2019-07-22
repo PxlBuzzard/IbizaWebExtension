@@ -25,6 +25,7 @@
     "vue-router": "^3.0.7"
   },
   "devDependencies": {
+    "@types/chrome": "0.0.86",
     "eslint": "^6.1.0",
     "ts-loader": "^6.0.4",
     "typescript": "^3.5.3",
