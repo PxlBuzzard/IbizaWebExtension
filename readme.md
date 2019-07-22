@@ -1,5 +1,10 @@
 # Azure Portal Developer Web Extension
 
+## Development
+
+`npm install`
+`npm run build -- --watch`
+
 ## Test
 
 - Open up chrome and go to - `chrome://extensions`
