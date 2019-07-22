@@ -5,7 +5,8 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --mode production",
+    "watch": "webpack --mode development --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,7 +17,7 @@
     "web",
     "extension"
   ],
-  "author": "dajost and dawils",
+  "author": "Daniel Jost and David Wilson",
   "license": "MIT",
   "dependencies": {
     "vue": "^2.6.10",
@@ -25,6 +26,7 @@
     "vue-router": "^3.0.7"
   },
   "devDependencies": {
+    "css-loader": "^3.1.0",
     "eslint": "^6.1.0",
     "ts-loader": "^6.0.4",
     "typescript": "^3.5.3",
