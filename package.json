@@ -20,6 +20,7 @@
   "author": "Daniel Jost and David Wilson",
   "license": "MIT",
   "dependencies": {
+    "@mdi/font": "^3.8.95",
     "vue": "^2.6.10",
     "vue-class-component": "^7.1.0",
     "vue-fluent": "^0.1.4",
