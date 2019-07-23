@@ -1,44 +1,34 @@
 <template>
-    <div id="app">
-        <div id="sidebar">
+    <div id="app" class="columns">
+        <div id="sidebar" class="column is-one-third is-narrow">
           <Sidebar/>
         </div>
-        <div id="content">
-          <Sidebar/>
+        <div id="content" class="column is-two-thirds">
+          <IbizaEnvSelector/>
         </div>
     </div>
 </template>
 
-<script>
-import Sidebar from "./components/Sidebar.vue"
+<script lang="ts">
+import IbizaEnvSelector from "./components/IbizaEnvSelector.vue";
+import Sidebar from "./components/Sidebar.vue";
 
 export default {
     components: {
+        IbizaEnvSelector,
         Sidebar
     }
 }
 </script>
 
 <style>
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
 #app {
-    max-width: 500px;
-    margin: 0 auto;
-    line-height: 1.4;
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    display: flex;
+  min-width: 800px;
 }
 
 #sidebar {
-  flex: 1;
 }
 
 #content {
-  flex: 1;
 }
 </style>

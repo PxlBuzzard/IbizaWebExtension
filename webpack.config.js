@@ -3,7 +3,7 @@ var webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
-  entry: './src/popup/index.ts',
+  entry: './src/popup/index.js',
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',

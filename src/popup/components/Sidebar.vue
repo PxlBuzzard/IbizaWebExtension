@@ -1,21 +1,22 @@
 <template>
-    <div id="sidebar">
-        <ul class="pure-menu-list">
-            <li class="pure-menu-item"><a href="params/menu-params.html" class="pure-menu-link">URL Parameters</a></li>
-            <li class="pure-menu-item"><a href="environments/menu-environments.html" class="pure-menu-link">Environments</a></li>
-            <li class="pure-menu-item"><a href="repro/menu-repro.html" class="pure-menu-link">Create bug</a></li>
-        </ul>
-    </div>
+<ul class="pure-menu-list">
+    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Ibiza Env</a></li>
+    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Intune Env</a></li>
+    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Global Flights</a></li>
+    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Extension Flights</a></li>
+</ul>
 </template>
 
 <script lang="ts">
-
+export default {
+  name: "Sidebar"
+}
 </script>
 
 <style>
-@import '../pure.css';
+@import "../pure.css";
 
 #sidebar {
-  width: 250px;
+  width: 200px;
 }
 </style>
