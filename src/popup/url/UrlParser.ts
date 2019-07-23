@@ -1,6 +1,6 @@
 import { IUrlComponents, StringMap } from "./IUrlComponents";
 
-export class UrlParser {
+export default class UrlParser {
     public parseUrl(): Promise<IUrlComponents> {
         return new Promise((resolve, reject) => {
             chrome.tabs.query({active: true, currentWindow: true}, tabs => {
