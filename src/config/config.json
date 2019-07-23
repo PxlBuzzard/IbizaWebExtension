@@ -1,0 +1,54 @@
+{
+    "version": "0.1",
+    "environments": [
+        {
+            "label": "OneDF",
+            "host": "df-devicemanagement.onecloud.azure-test.net"
+        },
+        {
+            "label": "Selfhost",
+            "host": "devicemanagement.microsoft.com",
+            "params": []
+        },
+        {
+            "label": "Canary",
+            "host": "devicemanagement.microsoft.com",
+            "params": []
+        },
+        {
+            "label": "Prod",
+            "host": "devicemanagement.microsoft.com"
+        }
+    ],
+    "localExtensions": [
+        "Microsoft_Intune",
+        "Microsoft_Intune_Apps",
+        "Microsoft_Intune_Devices",
+        "Microsoft_Intune_DeviceConfig",
+        "Microsoft_Intune_Edu",
+        "Microsoft_Intune_Enrollment",
+        "Microsoft_Intune_Workflows"
+    ],
+    "featureGroups": [
+        {
+            "label": "Global features",
+            "features": [
+                {
+                    "label": "Intune service environment",
+                    "name": "feature.intune_env",
+                    "options": ["df", "sh", "canary", "prod"]
+                },
+                {
+                    "label": "Mock graph",
+                    "name": "feature.intune_mockgraph",
+                    "options": ["true", "false"]
+                },
+                {
+                    "label": "Client optimizations",
+                    "name": "clientOptimizations",
+                    "options": ["true", "false"]
+                }
+            ]
+        }
+    ]
+}
