@@ -10,10 +10,13 @@
 </template>
 
 <script lang="ts">
+import ConfigLoader from "./config/ConfigLoader";
 import IbizaEnvSelector from "./components/IbizaEnvSelector.vue";
+import UrlParser from "./url/UrlParser";
 import Sidebar from "./components/Sidebar.vue";
+import Vue from "vue";
 
-export default {
+export default Vue.extend({
     components: {
         IbizaEnvSelector,
         Sidebar
@@ -35,10 +38,20 @@ export default {
 
         // get config
         let configLoader = new ConfigLoader();
-        let config = await configLoader.getConfigFromRemote();
-        this.config = config;
+        configLoader.loaded = config => {
+            this.config = config;
+            console.log(config);
+        };
+        configLoader.failedFetch = reason => {
+            console.error(reason);
+        }
+        configLoader.incompatible = (extVer, configVer) => {
+            console.error("incompatible", extVer, configVer);
+        }
+        
+        await configLoader.loadConfig();
     }
-}
+})
 </script>
 
 <style>
