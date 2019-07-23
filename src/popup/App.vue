@@ -6,8 +6,8 @@
             <Sidebar/>
         </div>
         <div id="content" class="column is-two-thirds">
-            <EnvSelector
-                v-bind:environments="config.environments"/>
+            <EnvSelector v-bind:environments="config.environments"/>
+            <LocalSelector v-bind:extensions="config.localExtensions"/>
         </div>
     </div>
 </div>
@@ -16,14 +16,16 @@
 <script lang="ts">
 import ConfigLoader from "./config/ConfigLoader";
 import EnvSelector from "./components/EnvSelector.vue";
+import LocalSelector from "./components/LocalSelector.vue";
 import LocalhostNotify from "./components/LocalhostNotify.vue";
-import UrlParser from "./url/UrlParser";
 import Sidebar from "./components/Sidebar.vue";
+import UrlParser from "./url/UrlParser";
 import Vue from "vue";
 
 export default Vue.extend({
     components: {
         EnvSelector,
+        LocalSelector,
         LocalhostNotify,
         Sidebar
     },
@@ -62,7 +64,7 @@ export default Vue.extend({
 
 <style>
 #app {
-  min-width: 800px;
+  width: 800px;
 }
 
 #sidebar {
