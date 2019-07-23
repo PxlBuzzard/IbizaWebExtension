@@ -17,6 +17,26 @@ export default {
     components: {
         IbizaEnvSelector,
         Sidebar
+    },
+    data() {
+        return {
+            currentUrl: {
+                host: "host",
+                queries: {}
+            },
+            config: {}
+        };
+    },
+    async mounted() {
+        // get current url
+        let url = await (new UrlParser()).parseUrl();
+        this.currentUrl.host = url.host;
+        this.currentUrl.queries = url.queries;
+
+        // get config
+        let configLoader = new ConfigLoader();
+        let config = await configLoader.getConfigFromRemote();
+        this.config = config;
     }
 }
 </script>

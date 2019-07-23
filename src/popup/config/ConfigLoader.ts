@@ -11,13 +11,14 @@ export class ConfigLoader {
         }));
     }
 
-    public getConfigEndpoint(): Promise<string> {
-        return new Promise((resolve, reject) => chrome.storage.sync.get("configEndpoint", result => {
-            resolve(result.configEndpoint || "TODO default endpoint");
-        }));
+    public async getConfigFromRemote(): Promise<any> {
+        let endpoint = await this._getConfigEndpoint();
+        return fetch(endpoint).then(response => response.json());
     }
 
-    public getConfigFromEndpoint(endpoint: string): Promise<any> {
-        return fetch(endpoint).then(response => response.json());
+    private _getConfigEndpoint(): Promise<string> {
+        return new Promise((resolve, reject) => chrome.storage.sync.get("configEndpoint", result => {
+            resolve(result.configEndpoint || "./config/config.json");
+        }));
     }
 }
