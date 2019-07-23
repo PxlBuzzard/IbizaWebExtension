@@ -33,31 +33,35 @@ export default Vue.extend({
         return {
             currentUrl: {
                 host: "host",
-                queries: {}
+                query: {}
             },
             config: {}
         };
     },
     async mounted() {
         // get current url
-        let url = await (new UrlParser()).parseUrl();
-        this.currentUrl.host = url.host;
-        this.currentUrl.queries = url.queries;
+        let urlParser = new UrlParser();
+        let url = await urlParser.parseUrl();
+        this.currentUrl.host = url.origin;
+        this.currentUrl.query = url.query;
 
         // get config
         let configLoader = new ConfigLoader();
         configLoader.loaded = config => {
             this.config = config;
-            console.log(config);
+            console.log("config", config);
         };
         configLoader.failedFetch = reason => {
-            console.error(reason);
+            console.error("config load failed", reason);
         }
         configLoader.incompatible = (extVer, configVer) => {
             console.error("incompatible", extVer, configVer);
         }
 
         await configLoader.loadConfig();
+
+        // url.query["clientOptimizations"] = "false";
+        // urlParser.setUrl(url);
     }
 })
 </script>
