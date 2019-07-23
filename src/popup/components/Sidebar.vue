@@ -18,5 +18,16 @@ export default {
 
 #sidebar {
   width: 200px;
+  background-color: #323130;
+  color: #fff;
+}
+
+.pure-menu-link {
+  color: #fff;
+}
+
+.pure-menu-link:hover {
+  background-color: rgba(128,128,128,.15);
+  color: #fff;
 }
 </style>

@@ -8,6 +8,7 @@
         <div id="content" class="column is-two-thirds">
             <EnvSelector v-bind:environments="config.environments"/>
             <LocalSelector v-bind:extensions="config.localExtensions"/>
+            <FeatureGroups v-bind:featureGroups="config.featureGroups"/>
         </div>
     </div>
 </div>
@@ -16,6 +17,7 @@
 <script lang="ts">
 import ConfigLoader from "./config/ConfigLoader";
 import EnvSelector from "./components/EnvSelector.vue";
+import FeatureGroups from "./components/FeatureGroups.vue";
 import LocalSelector from "./components/LocalSelector.vue";
 import LocalhostNotify from "./components/LocalhostNotify.vue";
 import Sidebar from "./components/Sidebar.vue";
@@ -25,6 +27,7 @@ import Vue from "vue";
 export default Vue.extend({
     components: {
         EnvSelector,
+        FeatureGroups,
         LocalSelector,
         LocalhostNotify,
         Sidebar
@@ -69,11 +72,5 @@ export default Vue.extend({
 <style>
 #app {
   width: 800px;
-}
-
-#sidebar {
-}
-
-#content {
 }
 </style>
