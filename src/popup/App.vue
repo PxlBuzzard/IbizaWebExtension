@@ -6,7 +6,8 @@
             <Sidebar/>
         </div>
         <div id="content" class="column is-two-thirds">
-            <IbizaEnvSelector/>
+            <EnvSelector
+                v-bind:environments="config.environments"/>
         </div>
     </div>
 </div>
@@ -14,7 +15,7 @@
 
 <script lang="ts">
 import ConfigLoader from "./config/ConfigLoader";
-import IbizaEnvSelector from "./components/IbizaEnvSelector.vue";
+import EnvSelector from "./components/EnvSelector.vue";
 import LocalhostNotify from "./components/LocalhostNotify.vue";
 import UrlParser from "./url/UrlParser";
 import Sidebar from "./components/Sidebar.vue";
@@ -22,7 +23,7 @@ import Vue from "vue";
 
 export default Vue.extend({
     components: {
-        IbizaEnvSelector,
+        EnvSelector,
         LocalhostNotify,
         Sidebar
     },
@@ -54,7 +55,7 @@ export default Vue.extend({
         configLoader.incompatible = (extVer, configVer) => {
             console.error("incompatible", extVer, configVer);
         }
-        
+
         await configLoader.loadConfig();
 
         // url.query["clientOptimizations"] = "false";
