@@ -1,16 +1,20 @@
 <template>
     <div id="app">
-        <h1>My Todo App!</h1>
-        <HelloComponent/>
+        <div id="sidebar">
+          <Sidebar/>
+        </div>
+        <div id="content">
+          <Sidebar/>
+        </div>
     </div>
 </template>
 
 <script>
-import HelloComponent from './components/Hello.vue'
+import Sidebar from "./components/Sidebar.vue"
 
 export default {
     components: {
-        HelloComponent
+        Sidebar
     }
 }
 </script>
@@ -21,16 +25,20 @@ export default {
 }
 
 #app {
-    max-width: 400px;
+    max-width: 500px;
     margin: 0 auto;
     line-height: 1.4;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color: #AAA;
+    display: flex;
 }
 
-h1 {
-    text-align: center;
+#sidebar {
+  flex: 1;
+}
+
+#content {
+  flex: 1;
 }
 </style>
