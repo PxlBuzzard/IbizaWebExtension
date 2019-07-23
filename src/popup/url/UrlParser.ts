@@ -1,4 +1,4 @@
-import { IUrlComponents, StringMap } from "./IUrlComponents";
+import { IUrlComponents } from "./IUrlComponents";
 
 export default class UrlParser {
     public parseUrl(): Promise<IUrlComponents> {

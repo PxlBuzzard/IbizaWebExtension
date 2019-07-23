@@ -29,6 +29,7 @@ import LocalhostNotify from "./components/LocalhostNotify.vue";
 import Sidebar from "./components/Sidebar.vue";
 import UrlParser from "./url/UrlParser";
 import Vue from "vue";
+import { IConfiguration } from "./config/Schema";
 
 export default Vue.extend({
     components: {
@@ -45,7 +46,13 @@ export default Vue.extend({
                 host: "host",
                 query: {}
             },
-            config: {}
+            config: <IConfiguration>{
+                version: "0",
+                environments: [],
+                localExtensions: [],
+                featureGroups: [],
+                dynamicFeatureGroups: []
+            }
         };
     },
     async mounted() {
@@ -59,7 +66,17 @@ export default Vue.extend({
         let configLoader = new ConfigLoader();
         configLoader.loaded = config => {
             this.config = config;
-            console.log("config", config);
+
+            // get dynamic features
+            if (config.dynamicFeatureGroups) {
+                config.dynamicFeatureGroups.forEach(async group => {
+                    let features = await configLoader.loadFeatures(group.source["sh"]); // TODO get current env
+                    this.config.featureGroups.push({
+                        label: group.label,
+                        features: features
+                    })
+                })
+            }
         };
         configLoader.failedFetch = reason => {
             console.error("config load failed", reason);

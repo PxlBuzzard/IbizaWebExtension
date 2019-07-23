@@ -1,5 +1,5 @@
 {
-    "version": "0.1",
+    "version": "0.2",
     "environments": [
         {
             "label": "OneDF",
@@ -8,16 +8,51 @@
         {
             "label": "Selfhost",
             "host": "devicemanagement.microsoft.com",
-            "params": []
+            "params": {
+                "feature.canmodifystamps": "true",
+                "feature.canmodifyextensions": "true",
+                "Microsoft_Intune": "sh",
+                "Microsoft_Intune_Apps_urlredirect": "intuneappssh",
+                "Microsoft_Intune_Devices_urlredirect": "intunedevicessh",
+                "Microsoft_Intune_DeviceSettings_urlredirect": "intunedevicesettingsselfhost",
+                "Microsoft_Intune_Enrollment_urlredirect": "intuneenrollmentsh",
+                "Microsoft_Intune_Workflows_urlredirect": "Intuneworkflowsselfhost"
+            }
         },
         {
             "label": "Canary",
             "host": "devicemanagement.microsoft.com",
-            "params": []
+            "params": {
+                "feature.canmodifystamps": "true",
+                "feature.canmodifyextensions": "true",
+                "Microsoft_Intune": "ctip",
+                "Microsoft_Intune_Apps_urlredirect": "intuneappsctip",
+                "Microsoft_Intune_Devices_urlredirect": "intunedevicesctip",
+                "Microsoft_Intune_DeviceSettings_urlredirect": "intunedevicesettingstip",
+                "Microsoft_Intune_Enrollment_urlredirect": "intuneenrollmentctip",
+                "Microsoft_Intune_Workflows_urlredirect": "intuneworkflowsctip"
+            }
         },
         {
             "label": "Prod",
             "host": "devicemanagement.microsoft.com"
+        },
+        {
+            "label": "FXB",
+            "host": "devicemanagement.portal.azure.us",
+            "params": {
+                "feature.canmodifystamps": "true",
+                "Microsoft_Intune": "fxb",
+                "Microsoft_Intune_Apps": "fxb",
+                "Microsoft_Intune_Devices": "fxb",
+                "Microsoft_Intune_DeviceSettings": "fxb",
+                "Microsoft_Intune_Enrollment": "fxb",
+                "Microsoft_Intune_Workflows": "fxb"
+            }
+        },
+        {
+            "label": "FXP",
+            "host": "devicemanagement.portal.azure.us"
         }
     ],
     "localExtensions": [
@@ -25,7 +60,6 @@
         "Microsoft_Intune_Apps",
         "Microsoft_Intune_Devices",
         "Microsoft_Intune_DeviceConfig",
-        "Microsoft_Intune_Edu",
         "Microsoft_Intune_Enrollment",
         "Microsoft_Intune_Workflows"
     ],
@@ -36,7 +70,7 @@
                 {
                     "label": "Intune service environment",
                     "name": "feature.intune_env",
-                    "options": ["df", "sh", "canary", "prod"]
+                    "options": ["df", "sh", "canary", "prod", "fxb", "fxp"]
                 },
                 {
                     "label": "Mock graph",
@@ -49,6 +83,15 @@
                     "options": ["true", "false"]
                 }
             ]
+        }
+    ],
+    "dynamicFeatureGroups": [
+        {
+            "label": "Enrollment",
+            "source": {
+                "sh": "https://intuneenrollmentsh.hosting.portal.azure.net/intuneenrollmentsh/Content/Scripts/Shared/Features.js",
+                "ctip": "https://intuneenrollmentctip.hosting.portal.azure.net/intuneenrollmentctip/Content/Scripts/Shared/Features.js"
+            }
         }
     ]
 }

@@ -1,4 +1,4 @@
-import { IConfiguration } from "./Schema";
+import { IConfiguration, IFeature } from "./Schema";
 
 const COMPATIBLE_VERSION = "0";
 
@@ -39,6 +39,17 @@ export default class ConfigLoader {
                 this.failedFetch(ex);
             }
         }
+    }
+
+    public loadFeatures(source: string): Promise<IFeature[]> {
+        return fetch(source).then(response => response.text()).then(text => {
+            const matches = text.match(/(?:\n\s*)(\w*?):/g);
+            return matches ? matches.map(match => (match.match(/\w+/) || [])[0]).map(feature => ({
+                label: feature,
+                name: feature,
+                options: ["true", "false"]
+            })) : [];
+        });
     }
 
     private _getConfigFromChromeStorage(): Promise<IConfiguration> {

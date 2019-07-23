@@ -3,6 +3,7 @@ export interface IConfiguration {
     environments: IEnvironment[];
     localExtensions: string[];
     featureGroups: IFeatureGroup[];
+    dynamicFeatureGroups: IDynamicFeatureGroup[];
 }
 
 export interface IEnvironment {
@@ -25,4 +26,9 @@ export interface IFeature {
     label: string;
     name: string;
     options?: string[];
+}
+
+export interface IDynamicFeatureGroup {
+    label: string;
+    source: StringMap<string>;
 }
