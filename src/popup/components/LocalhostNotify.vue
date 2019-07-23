@@ -1,6 +1,5 @@
 <template>
 <section>
-    <button class="button block" @click="isActive = !isActive">Toggle</button>
     <b-notification
             :active.sync="isActive"
             type="is-warning"
@@ -17,7 +16,7 @@ export default {
   name: "LocalhostNotify",
   data() {
             return {
-                isActive: true
+                isActive: false
             }
         }
 }
