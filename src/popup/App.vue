@@ -1,6 +1,11 @@
 <template>
 <div id="app">
-    <LocalhostNotify/>
+    <div class="columns no-margin">
+        <div class="column">
+            <Header/>
+            <LocalhostNotify/>
+        </div>
+    </div>
     <div class="columns">
         <div id="sidebar" class="column is-one-third is-narrow">
             <Sidebar/>
@@ -18,6 +23,7 @@
 import ConfigLoader from "./config/ConfigLoader";
 import EnvSelector from "./components/EnvSelector.vue";
 import FeatureGroups from "./components/FeatureGroups.vue";
+import Header from "./components/Header.vue";
 import LocalSelector from "./components/LocalSelector.vue";
 import LocalhostNotify from "./components/LocalhostNotify.vue";
 import Sidebar from "./components/Sidebar.vue";
@@ -28,6 +34,7 @@ export default Vue.extend({
     components: {
         EnvSelector,
         FeatureGroups,
+        Header,
         LocalSelector,
         LocalhostNotify,
         Sidebar
@@ -70,7 +77,13 @@ export default Vue.extend({
 </script>
 
 <style>
+html {
+  font-family: az_ea_font,'Segoe UI',az_font,system-ui,-apple-system,BlinkMacSystemFont,Roboto,Oxygen,Ubuntu,Cantarell,'Open Sans','Helvetica Neue',sans-serif;
+}
 #app {
   width: 800px;
+}
+.columns.no-margin {
+  margin-bottom: 0 !important;
 }
 </style>
