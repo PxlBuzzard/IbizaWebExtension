@@ -41,12 +41,12 @@ export default class ConfigLoader {
         }
     }
 
-    public loadFeatures(source: string): Promise<IFeature[]> {
+    public loadFeatures(source: string, prefix?: string): Promise<IFeature[]> {
         return fetch(source).then(response => response.text()).then(text => {
             const matches = text.match(/(?:\n\s*)(\w*?):/g);
             return matches ? matches.map(match => (match.match(/\w+/) || [])[0]).map(feature => ({
                 label: feature,
-                name: feature,
+                name: `${prefix || ""}${feature}`,
                 options: ["true", "false"]
             })) : [];
         });

@@ -100,12 +100,14 @@ export default Vue.extend({
             // get dynamic features
             if (config.dynamicFeatureGroups) {
                 config.dynamicFeatureGroups.forEach(async group => {
-                    let features = await this.configLoader.loadFeatures(group.source["sh"]); // TODO get current env
-                    this.config.featureGroups.push({
-                        label: group.label,
-                        features: features
-                    })
-                })
+                    if (group.source[this.currentEnv]) {
+                        let features = await this.configLoader.loadFeatures(group.source[this.currentEnv], group.prefix);
+                        this.config.featureGroups.push({
+                            label: group.label,
+                            features: features
+                        });
+                    }
+                });
             }
         };
         this.configLoader.failedFetch = reason => {

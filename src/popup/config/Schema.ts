@@ -26,5 +26,6 @@ export interface IFeature {
 
 export interface IDynamicFeatureGroup {
     label: string;
+    prefix?: string;
     source: StringMap<string>;
 }
