@@ -9,9 +9,10 @@
     <div class="columns">
         <div id="sidebar" class="column is-one-third is-narrow">
             <Sidebar/>
+            <button @click="apply">Apply</button>
         </div>
         <div id="content" class="column is-two-thirds">
-            <EnvSelector v-bind:environments="config.environments"/>
+            <EnvSelector v-bind:environments="config.environments" v-bind:currentEnv.sync="currentEnv"/>
             <LocalSelector v-bind:extensions="config.localExtensions"/>
             <FeatureGroups v-bind:featureGroups="config.featureGroups"/>
         </div>
@@ -30,6 +31,7 @@ import Sidebar from "./components/Sidebar.vue";
 import UrlParser from "./url/UrlParser";
 import Vue from "vue";
 import { IConfiguration } from "./config/Schema";
+import { IUrlComponents } from "./url/IUrlComponents";
 
 export default Vue.extend({
     components: {
@@ -42,10 +44,11 @@ export default Vue.extend({
     },
     data() {
         return {
-            currentUrl: {
-                host: "host",
+            currentUrl: <IUrlComponents>{
+                origin: "host",
                 query: {}
             },
+            currentEnv: "",
             config: <IConfiguration>{
                 version: "0",
                 environments: [],
@@ -55,17 +58,37 @@ export default Vue.extend({
             }
         };
     },
+    methods: {
+        apply() {
+            let urlParser = new UrlParser();
+            let env = this.config.environments.filter(e => e.label === this.currentEnv)[0];
+            
+            urlParser.setUrl({
+                origin: `https://${env.host}`,
+                query: env.params || {}, // todo add features
+                fragment: this.currentUrl.fragment,
+                testExtension: this.currentUrl.testExtension
+            });
+        }
+    },
     async mounted() {
         // get current url
         let urlParser = new UrlParser();
-        let url = await urlParser.parseUrl();
-        this.currentUrl.host = url.origin;
-        this.currentUrl.query = url.query;
+        this.currentUrl = await urlParser.parseUrl();
 
         // get config
         let configLoader = new ConfigLoader();
         configLoader.loaded = config => {
             this.config = config;
+
+            // check current env
+            for (let env of config.environments) {
+                if (this.currentUrl.origin === `https://${env.host}` && (!env.params || Object.keys(env.params).every(p => !env.params || this.currentUrl.query[p] === env.params[p]))) {
+                    console.log("match", env.label);
+                    this.currentEnv = env.label;
+                    break;
+                }
+            }
 
             // get dynamic features
             if (config.dynamicFeatureGroups) {
@@ -86,9 +109,6 @@ export default Vue.extend({
         }
 
         await configLoader.loadConfig();
-
-        // url.query["clientOptimizations"] = "false";
-        // urlParser.setUrl(url);
     }
 })
 </script>

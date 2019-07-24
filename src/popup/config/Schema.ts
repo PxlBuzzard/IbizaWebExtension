@@ -9,12 +9,7 @@ export interface IConfiguration {
 export interface IEnvironment {
     label: string;
     host: string;
-    params?: IQueryParameter[];
-}
-
-export interface IQueryParameter {
-    name: string;
-    value: string;
+    params?: StringMap<string>;
 }
 
 export interface IFeatureGroup {

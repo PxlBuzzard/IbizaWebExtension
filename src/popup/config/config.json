@@ -89,8 +89,12 @@
         {
             "label": "Enrollment",
             "source": {
+                "df": "https://hosting.onecloud.azure-test.net/intuneenrollment/Content/Scripts/Shared/Features.js",
                 "sh": "https://intuneenrollmentsh.hosting.portal.azure.net/intuneenrollmentsh/Content/Scripts/Shared/Features.js",
-                "ctip": "https://intuneenrollmentctip.hosting.portal.azure.net/intuneenrollmentctip/Content/Scripts/Shared/Features.js"
+                "canary": "https://intuneenrollmentctip.hosting.portal.azure.net/intuneenrollmentctip/Content/Scripts/Shared/Features.js",
+                "prod": "https://intuneenrollment.hosting.portal.azure.net/intuneenrollment/Content/Scripts/Shared/Features.js",
+                "fxb": "https://fxb.enrollment.mdm.ext.azure.us/Content/Scripts/Shared/Features.js",
+                "fxp": "https://fxp.enrollment.mdm.ext.azure.us/Content/Scripts/Shared/Features.js"
             }
         }
     ]
