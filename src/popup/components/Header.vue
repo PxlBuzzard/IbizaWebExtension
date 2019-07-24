@@ -2,16 +2,21 @@
 <header>
     <Azure fillColor="#fff" class="icon-2x"/>
     <h1>Azure Development</h1>
+    <div class="flex-right">
+        <Help fillColor="#fff" class=""/>
+    </div>
 </header>
 </template>
 
 <script lang="ts">
 import Azure from "icons/Azure.vue"
+import Help from "icons/Help.vue"
 
 export default {
-  name: "Sidebar",
+  name: "Header",
   components: {
-    Azure
+    Azure,
+    Help
   }
 }
 </script>
@@ -32,5 +37,11 @@ h1 {
   font-weight: 500;
   padding: 3px 0 0 10px;
   display: inline-flex;
+}
+
+.flex-right {
+  justify-content: flex-end;
+  flex: 1;
+  display:inline-flex;
 }
 </style>

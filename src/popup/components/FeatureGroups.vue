@@ -9,7 +9,7 @@
             v-bind:key="feature.label">
             <b-tooltip
             :label="feature.name"
-            position="is-right"
+            position="is-top"
             animated>
                 <h3>{{ feature.label }}</h3>
             </b-tooltip>
