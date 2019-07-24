@@ -10,7 +10,7 @@ import Vue from "vue";
 
 export default Vue.extend({
   name: "Apply",
-  props: ["config", "currentEnv", "currentUrl"],
+  props: ["config", "currentEnv", "currentUrl", "localExtension"],
   methods: {
     apply() {
         let urlParser = new UrlParser();
@@ -20,7 +20,7 @@ export default Vue.extend({
             origin: `https://${env.host}`,
             query: env.params || {}, // todo add features
             fragment: this.currentUrl.fragment,
-            testExtension: this.currentUrl.testExtension
+            testExtension: this.localExtension
         });
     }
   }

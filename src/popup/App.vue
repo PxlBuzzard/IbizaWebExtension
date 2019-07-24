@@ -12,11 +12,12 @@
             <Apply
                 v-bind:config="config"
                 v-bind:currentEnv="currentEnv"
-                v-bind:currentUrl="currentUrl"/>
+                v-bind:currentUrl="currentUrl"
+                v-bind:localExtension="localExtension"/>
         </div>
         <div id="content" class="column is-two-thirds">
             <EnvSelector v-bind:environments="config.environments" v-bind:currentEnv.sync="currentEnv"/>
-            <LocalSelector v-bind:extensions="config.localExtensions"/>
+            <LocalSelector v-bind:extensions="config.localExtensions" v-bind:localExtension.sync="localExtension"/>
             <FeatureGroups v-bind:featureGroups="config.featureGroups"/>
         </div>
     </div>
@@ -54,6 +55,7 @@ export default Vue.extend({
                 query: {}
             },
             currentEnv: "",
+            localExtension: "",
             config: <IConfiguration>{
                 version: "0",
                 environments: [],

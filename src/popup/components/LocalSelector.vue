@@ -13,15 +13,25 @@
 </template>
 
 <script lang="ts">
-export default {
+import Vue from "vue";
+
+export default Vue.extend({
     name: "LocalSelector",
-    props: ['extensions'],
+    props: ['extensions', "localExtension"],
     data() {
         return {
             extensionSelected: ""
         }
+    },
+    watch: {
+        localExtension(val: string) {
+            this.extensionSelected = val;
+        },
+        extensionSelected(val: string) {
+            this.$emit("update:localExtension", val);
+        }
     }
-}
+});
 </script>
 
 <style>
