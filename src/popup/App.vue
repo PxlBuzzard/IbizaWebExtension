@@ -115,11 +115,22 @@ export default Vue.extend({
 
 <style>
 html {
-  font-family: az_ea_font,'Segoe UI',az_font,system-ui,-apple-system,BlinkMacSystemFont,Roboto,Oxygen,Ubuntu,Cantarell,'Open Sans','Helvetica Neue',sans-serif;
+  font-family: az_ea_font, 'Segoe UI', az_font, system-ui, sans-serif;
 }
+
 #app {
   width: 800px;
 }
+.material-design-icon.icon-2x {
+  width: 40px;
+  height: 40px;
+}
+
+.material-design-icon.icon-2x > .material-design-icon__svg {
+  width: 40px;
+  height: 40px;
+}
+
 .columns.no-margin {
   margin-bottom: 0 !important;
 }

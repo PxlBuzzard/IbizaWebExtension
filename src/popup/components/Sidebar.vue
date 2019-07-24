@@ -1,15 +1,23 @@
 <template>
-<ul class="pure-menu-list">
-    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Ibiza Env</a></li>
-    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Intune Env</a></li>
-    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Global Flights</a></li>
-    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Extension Flights</a></li>
-</ul>
+<section>
+    <ul class="pure-menu-list">
+        <li class="pure-menu-item"><a href="#" class="pure-menu-link">Ibiza Env</a></li>
+        <li class="pure-menu-item"><a href="#" class="pure-menu-link">Intune Env</a></li>
+        <li class="pure-menu-item"><a href="#" class="pure-menu-link">Global Flights</a></li>
+        <li class="pure-menu-item"><a href="#" class="pure-menu-link">Extension Flights</a></li>
+    </ul>
+    <Apply/>
+</section>
 </template>
 
 <script lang="ts">
+import Apply from "./Apply.vue"
+
 export default {
-  name: "Sidebar"
+  name: "Sidebar",
+  components: {
+    Apply
+  }
 }
 </script>
 

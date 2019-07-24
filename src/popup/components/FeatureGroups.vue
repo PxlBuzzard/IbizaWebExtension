@@ -7,7 +7,12 @@
         <section
             v-for="feature in group.features"
             v-bind:key="feature.label">
-            <h3>{{ feature.label }}</h3>
+            <b-tooltip
+            :label="feature.name"
+            position="is-right"
+            animated>
+                <h3>{{ feature.label }}</h3>
+            </b-tooltip>
             <b-field>
                 <b-radio-button
                     v-for="option in feature.options"
