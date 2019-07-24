@@ -14,6 +14,7 @@
                 v-bind:currentUrl="currentUrl"
                 v-bind:localExtension="localExtension"
                 v-bind:featureGroups="config.featureGroups"/>
+            <Versions />
         </div>
         <div id="content" class="column is-two-thirds">
             <NotifyUnknownPortal v-bind:currentEnv="currentEnv"/>
@@ -37,6 +38,7 @@ import NotifyUnknownPortal from "./components/NotifyUnknownPortal.vue";
 import Settings from "./components/Settings.vue";
 import Sidebar from "./components/Sidebar.vue";
 import UrlParser from "./url/UrlParser";
+import Versions from "./components/Versions.vue";
 import Vue from "vue";
 import { IConfiguration } from "./config/Schema";
 import { IUrlComponents } from "./url/IUrlComponents";
@@ -50,7 +52,8 @@ export default Vue.extend({
         Header,
         LocalSelector,
         NotifyUnknownPortal,
-        Sidebar
+        Sidebar,
+        Versions
     },
     data() {
         return {
