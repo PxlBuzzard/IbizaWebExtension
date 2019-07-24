@@ -6,7 +6,7 @@
         </div>
     </div>
     <div class="columns">
-        <div id="sidebar" class="column is-one-third is-narrow">
+        <div id="sidebar" class="column is-one-quarter">
             <Apply
                 v-bind:config="config"
                 v-bind:currentEnv="currentEnv"
@@ -16,7 +16,7 @@
             <Sidebar/>
             <Versions />
         </div>
-        <main id="content" class="column is-two-thirds">
+        <main id="content" class="column">
             <NotifyUnknownPortal v-bind:currentEnv="currentEnv"/>
             <EnvSelector v-bind:environments="config.environments" v-bind:currentEnv.sync="currentEnv"/>
             <LocalSelector v-bind:extensions="config.localExtensions" v-bind:localExtension.sync="localExtension"/>
@@ -147,6 +147,11 @@ html {
 
 #app {
   width: 780px;
+}
+
+#content {
+  overflow: auto;
+  height: 500px;
 }
 
 #content h2 {
