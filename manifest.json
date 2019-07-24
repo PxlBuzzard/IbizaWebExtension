@@ -2,7 +2,6 @@
   "key": "bfabnilaocpdpencidgmplhhejooclbn",
 
   "manifest_version": 2,
-  "content_security_policy": "script-src 'self'; object-src 'self'",
   "name": "Azure Portal Developer Extension",
   "version": "2.0",
   "applications": {
@@ -20,12 +19,8 @@
   },
 
   "permissions": [
-    "identity",
     "activeTab",
     "storage",
-    "tabs",
-    "webRequest",
-    "webRequestBlocking",
     "<all_urls>"
   ],
 
@@ -33,20 +28,5 @@
     "default_icon": "assets/icon-48.png",
     "default_title": "Azure Portal Developer Extension",
     "default_popup": "src/popup/index.html"
-  },
-
-  "content_scripts": [
-    {
-      "matches": [ "*://*.portal.azure.com/*", "*://df.onecloud.azure-test.net/*" ],
-      "js": [ "/src/third-party/jquery-3.2.1.min.js", "src/main.js" ]
-    }
-  ],
-
-  "background": {
-    "scripts": ["/src/bg/redirect.js"]
-  },
-
-  "options_ui": {
-    "page": "/src/options/options.html"
   }
 }
