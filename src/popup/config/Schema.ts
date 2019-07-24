@@ -21,6 +21,7 @@ export interface IFeature {
     label: string;
     name: string;
     options?: string[];
+    selected?: string;
 }
 
 export interface IDynamicFeatureGroup {

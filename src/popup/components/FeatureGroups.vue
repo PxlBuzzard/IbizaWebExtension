@@ -17,6 +17,7 @@
                 <b-radio-button
                     v-for="option in feature.options"
                     v-bind:key="option"
+                    v-model="feature.selected"
                     :native-value="option">
                     {{ option }}
                 </b-radio-button>

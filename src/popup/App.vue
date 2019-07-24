@@ -12,13 +12,14 @@
                 v-bind:config="config"
                 v-bind:currentEnv="currentEnv"
                 v-bind:currentUrl="currentUrl"
-                v-bind:localExtension="localExtension"/>
+                v-bind:localExtension="localExtension"
+                v-bind:featureGroups="config.featureGroups"/>
         </div>
         <div id="content" class="column is-two-thirds">
             <NotifyUnknownPortal v-bind:currentEnv="currentEnv"/>
             <EnvSelector v-bind:environments="config.environments" v-bind:currentEnv.sync="currentEnv"/>
             <LocalSelector v-bind:extensions="config.localExtensions" v-bind:localExtension.sync="localExtension"/>
-            <FeatureGroups v-bind:featureGroups="config.featureGroups"/>
+            <FeatureGroups v-bind:featureGroups.sync="config.featureGroups"/>
         </div>
     </div>
 </div>
@@ -54,7 +55,7 @@ export default Vue.extend({
                 origin: "host",
                 query: {}
             },
-            currentEnv: undefined,
+            currentEnv: "",
             localExtension: "",
             config: <IConfiguration>{
                 version: "0",
@@ -85,8 +86,8 @@ export default Vue.extend({
             }
 
             // hack to set currentEnv to something
-            if (this.currentEnv == undefined) {
-                this.currentEnv = "";
+            if (this.currentEnv == "") {
+                this.currentEnv = "unknown";
             }
 
             // get dynamic features

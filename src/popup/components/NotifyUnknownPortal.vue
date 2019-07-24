@@ -19,7 +19,7 @@ export default Vue.extend({
     props: ["currentEnv"],
     computed: {
         isVisible: function() {
-            return this.currentEnv == "";
+            return this.currentEnv == "unknown";
         }
     }
 });
