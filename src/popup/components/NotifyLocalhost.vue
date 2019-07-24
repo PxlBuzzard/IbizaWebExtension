@@ -13,7 +13,7 @@
 
 <script lang="ts">
 export default {
-  name: "LocalhostNotify",
+  name: "NotifyLocalhost",
   data() {
             return {
                 isActive: false

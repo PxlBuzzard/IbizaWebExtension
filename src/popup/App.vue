@@ -3,7 +3,6 @@
     <div class="columns no-margin">
         <div class="column">
             <Header/>
-            <LocalhostNotify/>
         </div>
     </div>
     <div class="columns">
@@ -16,6 +15,7 @@
                 v-bind:localExtension="localExtension"/>
         </div>
         <div id="content" class="column is-two-thirds">
+            <NotifyUnknownPortal v-bind:currentEnv="currentEnv"/>
             <EnvSelector v-bind:environments="config.environments" v-bind:currentEnv.sync="currentEnv"/>
             <LocalSelector v-bind:extensions="config.localExtensions" v-bind:localExtension.sync="localExtension"/>
             <FeatureGroups v-bind:featureGroups="config.featureGroups"/>
@@ -31,7 +31,7 @@ import EnvSelector from "./components/EnvSelector.vue";
 import FeatureGroups from "./components/FeatureGroups.vue";
 import Header from "./components/Header.vue";
 import LocalSelector from "./components/LocalSelector.vue";
-import LocalhostNotify from "./components/LocalhostNotify.vue";
+import NotifyUnknownPortal from "./components/NotifyUnknownPortal.vue";
 import Sidebar from "./components/Sidebar.vue";
 import UrlParser from "./url/UrlParser";
 import Vue from "vue";
@@ -45,7 +45,7 @@ export default Vue.extend({
         FeatureGroups,
         Header,
         LocalSelector,
-        LocalhostNotify,
+        NotifyUnknownPortal,
         Sidebar
     },
     data() {
@@ -54,7 +54,7 @@ export default Vue.extend({
                 origin: "host",
                 query: {}
             },
-            currentEnv: "",
+            currentEnv: undefined,
             localExtension: "",
             config: <IConfiguration>{
                 version: "0",
@@ -65,7 +65,7 @@ export default Vue.extend({
             }
         };
     },
-    async mounted() {
+    async created() {
         // get current url
         let urlParser = new UrlParser();
         this.currentUrl = await urlParser.parseUrl();
@@ -82,6 +82,11 @@ export default Vue.extend({
                     this.currentEnv = env.label;
                     break;
                 }
+            }
+
+            // hack to set currentEnv to something
+            if (this.currentEnv == undefined) {
+                this.currentEnv = "";
             }
 
             // get dynamic features
