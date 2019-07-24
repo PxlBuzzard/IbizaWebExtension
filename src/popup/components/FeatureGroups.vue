@@ -15,6 +15,11 @@
             </b-tooltip>
             <b-field>
                 <b-radio-button
+                    v-model="feature.selected"
+                    :native-value="undefined">
+                    unset
+                </b-radio-button>
+                <b-radio-button
                     v-for="option in feature.options"
                     v-bind:key="option"
                     v-model="feature.selected"

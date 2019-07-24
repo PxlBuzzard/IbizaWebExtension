@@ -100,11 +100,25 @@ export default Vue.extend({
                 this.localExtension = this.currentUrl.testExtension;
             }
 
+            // check current features
+            this.config.featureGroups.forEach(group => {
+                group.features.forEach(feature => {
+                    if (this.currentUrl.query.hasOwnProperty(feature.name)) {
+                        feature.selected = this.currentUrl.query[feature.name];
+                    }
+                });
+            });
+
             // get dynamic features
             if (config.dynamicFeatureGroups) {
                 config.dynamicFeatureGroups.forEach(async group => {
                     if (group.source[this.currentEnv]) {
                         let features = await this.configLoader.loadFeatures(group.source[this.currentEnv], group.prefix);
+                        features.forEach(feature => {
+                            if (this.currentUrl.query.hasOwnProperty(feature.name)) {
+                                feature.selected = this.currentUrl.query[feature.name];
+                            }
+                        });
                         this.config.featureGroups.push({
                             label: group.label,
                             features: features
