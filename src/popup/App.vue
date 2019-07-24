@@ -126,7 +126,7 @@ html {
 }
 
 #app {
-  width: 800px;
+  width: 780px;
 }
 
 #content h2 {
