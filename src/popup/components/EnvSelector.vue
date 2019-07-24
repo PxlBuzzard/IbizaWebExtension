@@ -1,5 +1,6 @@
 <template>
 <section>
+    <h2>Environment</h2>
     <b-field>
         <b-radio-button
             v-for="env in environments"

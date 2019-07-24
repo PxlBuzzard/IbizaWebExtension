@@ -1,9 +1,11 @@
 <template>
 <section>
-    <div class="field">
+  <h2>Local Extension</h2>
+    <div
+        class="field"
+        v-for="ext in extensions"
+        v-bind:key="ext">
         <b-radio
-            v-for="ext in extensions"
-            v-bind:key="ext"
             v-model="extensionSelected"
             :native-value="ext">
             {{ ext }}

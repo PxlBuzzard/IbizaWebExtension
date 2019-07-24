@@ -115,6 +115,16 @@ html {
 #app {
   width: 800px;
 }
+
+#content h2 {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+#content section {
+  margin-bottom: 20px;
+}
+
 .material-design-icon.icon-2x {
   width: 40px;
   height: 40px;

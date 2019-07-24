@@ -3,7 +3,7 @@
     <section
         v-for="group in featureGroups"
         v-bind:key="group.label">
-        <h1>{{ group.label }}</h1>
+        <h2>{{ group.label }}</h2>
         <section
             v-for="feature in group.features"
             v-bind:key="feature.label">
