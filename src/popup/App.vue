@@ -7,7 +7,6 @@
     </div>
     <div class="columns">
         <div id="sidebar" class="column is-one-third is-narrow">
-            <Sidebar/>
             <Apply
                 v-bind:config="config"
                 v-bind:currentEnv="currentEnv"
@@ -15,14 +14,15 @@
                 v-bind:localExtension="localExtension"
                 v-bind:featureGroups="config.featureGroups"/>
             <Versions />
+            <Sidebar/>
         </div>
-        <div id="content" class="column is-two-thirds">
+        <main id="content" class="column is-two-thirds">
             <NotifyUnknownPortal v-bind:currentEnv="currentEnv"/>
             <EnvSelector v-bind:environments="config.environments" v-bind:currentEnv.sync="currentEnv"/>
             <LocalSelector v-bind:extensions="config.localExtensions" v-bind:localExtension.sync="localExtension"/>
             <FeatureGroups v-bind:featureGroups.sync="config.featureGroups"/>
             <Settings v-bind:configLoader="configLoader"></Settings>
-        </div>
+        </main>
     </div>
 </div>
 </template>
@@ -131,7 +131,7 @@ html {
 }
 
 #app {
-  width: 800px;
+  width: 780px;
 }
 
 #content h2 {

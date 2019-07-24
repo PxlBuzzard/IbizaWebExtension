@@ -1,6 +1,6 @@
 <template>
 <section>
-    <button class="button is-success" @click="apply">Apply</button>
+    <button id="apply-button" class="button is-success" @click="apply">Apply</button>
 </section>
 </template>
 
@@ -40,4 +40,9 @@ export default Vue.extend({
 </script>
 
 <style>
+#apply-button {
+  width: 107%;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
 </style>
