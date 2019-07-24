@@ -13,15 +13,25 @@
 </template>
 
 <script lang="ts">
-export default {
+import Vue from "vue";
+
+export default Vue.extend({
     name: "EnvSelector",
-    props: ['environments'],
+    props: ["environments", "currentEnv"],
     data() {
         return {
             envSelected: ""
         }
+    },
+    watch: {
+        currentEnv(val: string) {
+            this.envSelected = val;
+        },
+        envSelected(val: string) {
+            this.$emit("update:currentEnv", val);
+        }
     }
-}
+});
 </script>
 
 <style>
