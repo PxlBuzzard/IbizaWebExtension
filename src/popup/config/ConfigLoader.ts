@@ -52,6 +52,18 @@ export default class ConfigLoader {
         });
     }
 
+    public getConfigEndpoint(): Promise<string> {
+        return new Promise((resolve, reject) => chrome.storage.sync.get("configEndpoint", result => {
+            resolve(result.configEndpoint || "https://uxextensionconfig.blob.core.windows.net/configs/config.json");
+        }));
+    }
+
+    public setConfigEndpoint(endpoint: string): Promise<void> {
+        return new Promise((resolve, reject) => chrome.storage.sync.set({
+            configEndpoint: endpoint
+        }, resolve));
+    }
+
     private _getConfigFromChromeStorage(): Promise<IConfiguration> {
         return new Promise((resolve, reject) => chrome.storage.sync.get("config", result => {
             resolve(result.config && JSON.parse(result.config) || null);
@@ -59,14 +71,8 @@ export default class ConfigLoader {
     }
 
     private async _getConfigFromRemote(): Promise<IConfiguration> {
-        let endpoint = await this._getConfigEndpoint();
+        let endpoint = await this.getConfigEndpoint();
         return fetch(endpoint).then(response => response.json());
-    }
-
-    private _getConfigEndpoint(): Promise<string> {
-        return new Promise((resolve, reject) => chrome.storage.sync.get("configEndpoint", result => {
-            resolve(result.configEndpoint || "./config/config.json");
-        }));
     }
 
     private _storeConfig(config: IConfiguration): Promise<void> {

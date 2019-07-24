@@ -19,6 +19,7 @@
             <EnvSelector v-bind:environments="config.environments" v-bind:currentEnv.sync="currentEnv"/>
             <LocalSelector v-bind:extensions="config.localExtensions" v-bind:localExtension.sync="localExtension"/>
             <FeatureGroups v-bind:featureGroups="config.featureGroups"/>
+            <Settings v-bind:configLoader="configLoader"></Settings>
         </div>
     </div>
 </div>
@@ -32,6 +33,7 @@ import FeatureGroups from "./components/FeatureGroups.vue";
 import Header from "./components/Header.vue";
 import LocalSelector from "./components/LocalSelector.vue";
 import NotifyUnknownPortal from "./components/NotifyUnknownPortal.vue";
+import Settings from "./components/Settings.vue";
 import Sidebar from "./components/Sidebar.vue";
 import UrlParser from "./url/UrlParser";
 import Vue from "vue";
@@ -41,6 +43,7 @@ import { IUrlComponents } from "./url/IUrlComponents";
 export default Vue.extend({
     components: {
         Apply,
+        Settings,
         EnvSelector,
         FeatureGroups,
         Header,
@@ -56,6 +59,7 @@ export default Vue.extend({
             },
             currentEnv: <string | undefined>undefined,
             localExtension: "",
+            configLoader: new ConfigLoader(),
             config: <IConfiguration>{
                 version: "0",
                 environments: [],
@@ -71,8 +75,7 @@ export default Vue.extend({
         this.currentUrl = await urlParser.parseUrl();
 
         // get config
-        let configLoader = new ConfigLoader();
-        configLoader.loaded = config => {
+        this.configLoader.loaded = config => {
             this.config = config;
 
             // check current env
@@ -96,7 +99,7 @@ export default Vue.extend({
             // get dynamic features
             if (config.dynamicFeatureGroups) {
                 config.dynamicFeatureGroups.forEach(async group => {
-                    let features = await configLoader.loadFeatures(group.source["sh"]); // TODO get current env
+                    let features = await this.configLoader.loadFeatures(group.source["sh"]); // TODO get current env
                     this.config.featureGroups.push({
                         label: group.label,
                         features: features
@@ -104,14 +107,14 @@ export default Vue.extend({
                 })
             }
         };
-        configLoader.failedFetch = reason => {
+        this.configLoader.failedFetch = reason => {
             console.error("config load failed", reason);
         }
-        configLoader.incompatible = (extVer, configVer) => {
+        this.configLoader.incompatible = (extVer, configVer) => {
             console.error("incompatible", extVer, configVer);
         }
 
-        await configLoader.loadConfig();
+        await this.configLoader.loadConfig();
     }
 })
 </script>
