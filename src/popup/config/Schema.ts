@@ -1,5 +1,6 @@
 export interface IConfiguration {
     version: string;
+    help: string;
     environments: IEnvironment[];
     localExtensions: string[];
     featureGroups: IFeatureGroup[];

@@ -2,7 +2,7 @@
 <div id="app">
     <div class="columns no-margin">
         <div class="column">
-            <Header/>
+            <Header v-bind:helpLink="config.help"/>
         </div>
     </div>
     <div class="columns">
@@ -63,6 +63,7 @@ export default Vue.extend({
             configLoader: new ConfigLoader(),
             config: <IConfiguration>{
                 version: "0",
+                help: "",
                 environments: [],
                 localExtensions: [],
                 featureGroups: [],
@@ -148,6 +149,10 @@ html {
 .material-design-icon.icon-2x > .material-design-icon__svg {
   width: 40px;
   height: 40px;
+}
+
+.header-button-link.material-design-icon > .material-design-icon__svg {
+  position: relative;
 }
 
 .columns.no-margin {
