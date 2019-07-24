@@ -14,6 +14,7 @@
                 v-bind:localExtension="localExtension"
                 v-bind:featureGroups="config.featureGroups"/>
             <Sidebar/>
+            <Versions />
         </div>
         <main id="content" class="column is-two-thirds">
             <NotifyUnknownPortal v-bind:currentEnv="currentEnv"/>
@@ -37,6 +38,7 @@ import NotifyUnknownPortal from "./components/NotifyUnknownPortal.vue";
 import Settings from "./components/Settings.vue";
 import Sidebar from "./components/Sidebar.vue";
 import UrlParser from "./url/UrlParser";
+import Versions from "./components/Versions.vue";
 import Vue from "vue";
 import { IConfiguration } from "./config/Schema";
 import { IUrlComponents } from "./url/IUrlComponents";
@@ -50,7 +52,8 @@ export default Vue.extend({
         Header,
         LocalSelector,
         NotifyUnknownPortal,
-        Sidebar
+        Sidebar,
+        Versions
     },
     data() {
         return {
@@ -98,11 +101,25 @@ export default Vue.extend({
                 this.localExtension = this.currentUrl.testExtension;
             }
 
+            // check current features
+            this.config.featureGroups.forEach(group => {
+                group.features.forEach(feature => {
+                    if (this.currentUrl.query.hasOwnProperty(feature.name)) {
+                        feature.selected = this.currentUrl.query[feature.name];
+                    }
+                });
+            });
+
             // get dynamic features
             if (config.dynamicFeatureGroups) {
                 config.dynamicFeatureGroups.forEach(async group => {
                     if (group.source[this.currentEnv]) {
                         let features = await this.configLoader.loadFeatures(group.source[this.currentEnv], group.prefix);
+                        features.forEach(feature => {
+                            if (this.currentUrl.query.hasOwnProperty(feature.name)) {
+                                feature.selected = this.currentUrl.query[feature.name];
+                            }
+                        });
                         this.config.featureGroups.push({
                             label: group.label,
                             features: features
