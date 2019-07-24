@@ -1,6 +1,13 @@
 <template>
 <section>
   <h2>Local Extension</h2>
+    <div class="field">
+        <b-radio
+            v-model="extensionSelected"
+            :native-value="''">
+            None
+        </b-radio>
+    </div>
     <div
         class="field"
         v-for="ext in extensions"

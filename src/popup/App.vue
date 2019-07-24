@@ -20,6 +20,7 @@
             <EnvSelector v-bind:environments="config.environments" v-bind:currentEnv.sync="currentEnv"/>
             <LocalSelector v-bind:extensions="config.localExtensions" v-bind:localExtension.sync="localExtension"/>
             <FeatureGroups v-bind:featureGroups.sync="config.featureGroups"/>
+            <Settings v-bind:configLoader="configLoader"></Settings>
         </div>
     </div>
 </div>
@@ -33,6 +34,7 @@ import FeatureGroups from "./components/FeatureGroups.vue";
 import Header from "./components/Header.vue";
 import LocalSelector from "./components/LocalSelector.vue";
 import NotifyUnknownPortal from "./components/NotifyUnknownPortal.vue";
+import Settings from "./components/Settings.vue";
 import Sidebar from "./components/Sidebar.vue";
 import UrlParser from "./url/UrlParser";
 import Vue from "vue";
@@ -42,6 +44,7 @@ import { IUrlComponents } from "./url/IUrlComponents";
 export default Vue.extend({
     components: {
         Apply,
+        Settings,
         EnvSelector,
         FeatureGroups,
         Header,
@@ -57,6 +60,7 @@ export default Vue.extend({
             },
             currentEnv: "",
             localExtension: "",
+            configLoader: new ConfigLoader(),
             config: <IConfiguration>{
                 version: "0",
                 environments: [],
@@ -72,14 +76,12 @@ export default Vue.extend({
         this.currentUrl = await urlParser.parseUrl();
 
         // get config
-        let configLoader = new ConfigLoader();
-        configLoader.loaded = config => {
+        this.configLoader.loaded = config => {
             this.config = config;
 
             // check current env
             for (let env of config.environments) {
                 if (this.currentUrl.origin === `https://${env.host}` && (!env.params || Object.keys(env.params).every(p => !env.params || this.currentUrl.query[p] === env.params[p]))) {
-                    console.log("match", env.label);
                     this.currentEnv = env.label;
                     break;
                 }
@@ -90,10 +92,15 @@ export default Vue.extend({
                 this.currentEnv = "unknown";
             }
 
+            // check current local extension
+            if (this.currentUrl.query["feature.canmodifyextensions"] === "true" && this.currentUrl.testExtension) {
+                this.localExtension = this.currentUrl.testExtension;
+            }
+
             // get dynamic features
             if (config.dynamicFeatureGroups) {
                 config.dynamicFeatureGroups.forEach(async group => {
-                    let features = await configLoader.loadFeatures(group.source["sh"]); // TODO get current env
+                    let features = await this.configLoader.loadFeatures(group.source["sh"]); // TODO get current env
                     this.config.featureGroups.push({
                         label: group.label,
                         features: features
@@ -101,14 +108,14 @@ export default Vue.extend({
                 })
             }
         };
-        configLoader.failedFetch = reason => {
+        this.configLoader.failedFetch = reason => {
             console.error("config load failed", reason);
         }
-        configLoader.incompatible = (extVer, configVer) => {
+        this.configLoader.incompatible = (extVer, configVer) => {
             console.error("incompatible", extVer, configVer);
         }
 
-        await configLoader.loadConfig();
+        await this.configLoader.loadConfig();
     }
 })
 </script>
