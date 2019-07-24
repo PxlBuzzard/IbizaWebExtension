@@ -9,7 +9,10 @@
     <div class="columns">
         <div id="sidebar" class="column is-one-third is-narrow">
             <Sidebar/>
-            <button @click="apply">Apply</button>
+            <Apply
+                v-bind:config="config"
+                v-bind:currentEnv="currentEnv"
+                v-bind:currentUrl="currentUrl"/>
         </div>
         <div id="content" class="column is-two-thirds">
             <EnvSelector v-bind:environments="config.environments" v-bind:currentEnv.sync="currentEnv"/>
@@ -21,6 +24,7 @@
 </template>
 
 <script lang="ts">
+import Apply from "./components/Apply.vue";
 import ConfigLoader from "./config/ConfigLoader";
 import EnvSelector from "./components/EnvSelector.vue";
 import FeatureGroups from "./components/FeatureGroups.vue";
@@ -35,6 +39,7 @@ import { IUrlComponents } from "./url/IUrlComponents";
 
 export default Vue.extend({
     components: {
+        Apply,
         EnvSelector,
         FeatureGroups,
         Header,
@@ -57,19 +62,6 @@ export default Vue.extend({
                 dynamicFeatureGroups: []
             }
         };
-    },
-    methods: {
-        apply() {
-            let urlParser = new UrlParser();
-            let env = this.config.environments.filter(e => e.label === this.currentEnv)[0];
-            
-            urlParser.setUrl({
-                origin: `https://${env.host}`,
-                query: env.params || {}, // todo add features
-                fragment: this.currentUrl.fragment,
-                testExtension: this.currentUrl.testExtension
-            });
-        }
     },
     async mounted() {
         // get current url

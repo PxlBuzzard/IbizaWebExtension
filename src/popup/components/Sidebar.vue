@@ -6,18 +6,12 @@
         <li class="pure-menu-item"><a href="#" class="pure-menu-link">Global Flights</a></li>
         <li class="pure-menu-item"><a href="#" class="pure-menu-link">Extension Flights</a></li>
     </ul>
-    <Apply/>
 </section>
 </template>
 
 <script lang="ts">
-import Apply from "./Apply.vue"
-
 export default {
-  name: "Sidebar",
-  components: {
-    Apply
-  }
+  name: "Sidebar"
 }
 </script>
 
