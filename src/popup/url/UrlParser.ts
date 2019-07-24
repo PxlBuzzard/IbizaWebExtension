@@ -29,6 +29,9 @@ export default class UrlParser {
         let url = new URL(urlComponents.origin);
         Object.keys(urlComponents.query).forEach(key => url.searchParams.set(key, urlComponents.query[key]));
         url.hash = `${urlComponents.fragment}${urlComponents.testExtension ? `?${this._stringifyTestExtension(urlComponents.testExtension)}` : ""}`;
+        if (urlComponents.testExtension) {
+            url.searchParams.set("feature.canmodifyextensions", "true");
+        }
         return new Promise((resolve, reject) => chrome.tabs.update({ url: url.href }, () => {
             resolve();
             window.close();
@@ -37,7 +40,7 @@ export default class UrlParser {
 
     private _parseTestExtension(fragmentQuery: string): string | null {
         // testExtensions={"Microsoft_Intune_Enrollment":"https://localhost:44300/"}
-        let match = fragmentQuery.match(/^testextensions={"(.*?)":"(.*?)"}$/i);
+        let match = fragmentQuery.match(/^testextensions={(?:"|%22)(.*?)(?:"|%22):(?:"|%22)(.*?)(?:"|%22)}$/i);
         return match && match[1];
     }
 

@@ -54,7 +54,7 @@ export default Vue.extend({
                 origin: "host",
                 query: {}
             },
-            currentEnv: undefined,
+            currentEnv: <string | undefined>undefined,
             localExtension: "",
             config: <IConfiguration>{
                 version: "0",
@@ -78,7 +78,6 @@ export default Vue.extend({
             // check current env
             for (let env of config.environments) {
                 if (this.currentUrl.origin === `https://${env.host}` && (!env.params || Object.keys(env.params).every(p => !env.params || this.currentUrl.query[p] === env.params[p]))) {
-                    console.log("match", env.label);
                     this.currentEnv = env.label;
                     break;
                 }
@@ -87,6 +86,11 @@ export default Vue.extend({
             // hack to set currentEnv to something
             if (this.currentEnv == undefined) {
                 this.currentEnv = "";
+            }
+
+            // check current local extension
+            if (this.currentUrl.query["feature.canmodifyextensions"] === "true" && this.currentUrl.testExtension) {
+                this.localExtension = this.currentUrl.testExtension;
             }
 
             // get dynamic features
