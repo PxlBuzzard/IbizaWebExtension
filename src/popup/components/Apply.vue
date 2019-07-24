@@ -30,7 +30,7 @@ export default Vue.extend({
 
         urlParser.setUrl({
             origin: `https://${env.host}`,
-            query: finalQueries,
+            query: { ...finalQueries, ...env.params },
             fragment: this.currentUrl.fragment,
             testExtension: this.localExtension
         });
