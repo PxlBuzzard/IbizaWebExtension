@@ -13,8 +13,8 @@
                 v-bind:currentUrl="currentUrl"
                 v-bind:localExtension="localExtension"
                 v-bind:featureGroups="config.featureGroups"/>
-            <Versions />
             <Sidebar/>
+            <Versions />
         </div>
         <main id="content" class="column is-two-thirds">
             <NotifyUnknownPortal v-bind:currentEnv="currentEnv"/>
