@@ -19,6 +19,7 @@
         </div>
         <main id="content" class="column">
             <NotifyUnknownPortal v-bind:currentEnv="currentEnv"/>
+            <NotifyUpdate v-bind:isVisible="updateRequired"/>
             <EnvSelector v-bind:environments="config.environments" v-bind:currentEnv.sync="currentEnv"/>
             <LocalSelector v-bind:extensions="config.localExtensions" v-bind:localExtension.sync="localExtension"/>
             <FeatureGroups v-bind:featureGroups.sync="config.featureGroups"/>
@@ -37,6 +38,7 @@ import FeatureGroups from "./components/FeatureGroups.vue";
 import Header from "./components/Header.vue";
 import LocalSelector from "./components/LocalSelector.vue";
 import NotifyUnknownPortal from "./components/NotifyUnknownPortal.vue";
+import NotifyUpdate from "./components/NotifyUpdate.vue";
 import Settings from "./components/Settings.vue";
 import Sidebar from "./components/Sidebar.vue";
 import UrlParser from "./url/UrlParser";
@@ -55,6 +57,7 @@ export default Vue.extend({
         Header,
         LocalSelector,
         NotifyUnknownPortal,
+        NotifyUpdate,
         Sidebar,
         Versions
     },
@@ -74,7 +77,8 @@ export default Vue.extend({
                 localExtensions: [],
                 featureGroups: [],
                 dynamicFeatureGroups: []
-            }
+            },
+            updateRequired: false
         };
     },
     async created() {
@@ -135,7 +139,7 @@ export default Vue.extend({
             console.error("config load failed", reason);
         }
         this.configLoader.incompatible = (extVer, configVer) => {
-            console.error("incompatible", extVer, configVer);
+            this.updateRequired = true;
         }
 
         await this.configLoader.loadConfig();
