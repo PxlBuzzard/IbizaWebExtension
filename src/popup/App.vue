@@ -15,6 +15,7 @@
                 v-bind:featureGroups="config.featureGroups"/>
             <Sidebar/>
             <Versions />
+            <Analyze />
         </div>
         <main id="content" class="column is-two-thirds">
             <NotifyUnknownPortal v-bind:currentEnv="currentEnv"/>
@@ -28,6 +29,7 @@
 </template>
 
 <script lang="ts">
+import Analyze from "./components/Analyze.vue";
 import Apply from "./components/Apply.vue";
 import ConfigLoader from "./config/ConfigLoader";
 import EnvSelector from "./components/EnvSelector.vue";
@@ -45,6 +47,7 @@ import { IUrlComponents } from "./url/IUrlComponents";
 
 export default Vue.extend({
     components: {
+        Analyze,
         Apply,
         Settings,
         EnvSelector,
