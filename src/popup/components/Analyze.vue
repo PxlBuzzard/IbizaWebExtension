@@ -17,7 +17,9 @@ export default Vue.extend({
   },
     methods: {
         analyze() {
-            chrome.tabs.create({url: this.link});
+            if (this.link != "") {
+                chrome.tabs.create({url: this.link});
+            }
         }
     },
   async mounted() {

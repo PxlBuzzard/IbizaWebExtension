@@ -159,6 +159,7 @@ html {
 #content {
   overflow: auto;
   height: 500px;
+  margin-right: .75rem;
 }
 
 #content h2 {
