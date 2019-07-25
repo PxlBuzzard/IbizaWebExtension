@@ -2,11 +2,11 @@
 <section>
     <b-message
         :active="isVisible"
-        type="is-warning"
+        type="is-info"
         aria-close-label="Close message"
         role="alert"
-        title="Update required.">
-        A newer configuration is available. Please update this extension to consume it.
+        title="Update downloaded.">
+        A newer configuration is available. Please reopen this extension to get the latest and greatest.
     </b-message>
 </section>
 </template>
