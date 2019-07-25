@@ -2,11 +2,11 @@
 <div id="app">
     <div class="columns no-margin">
         <div class="column">
-            <Header/>
+            <Header v-bind:helpLink="config.help"/>
         </div>
     </div>
     <div class="columns">
-        <div id="sidebar" class="column is-one-third is-narrow">
+        <div id="sidebar" class="column is-one-quarter">
             <Apply
                 v-bind:config="config"
                 v-bind:currentEnv="currentEnv"
@@ -17,7 +17,7 @@
             <Versions />
             <Analyze />
         </div>
-        <main id="content" class="column is-two-thirds">
+        <main id="content" class="column">
             <NotifyUnknownPortal v-bind:currentEnv="currentEnv"/>
             <EnvSelector v-bind:environments="config.environments" v-bind:currentEnv.sync="currentEnv"/>
             <LocalSelector v-bind:extensions="config.localExtensions" v-bind:localExtension.sync="localExtension"/>
@@ -69,6 +69,7 @@ export default Vue.extend({
             configLoader: new ConfigLoader(),
             config: <IConfiguration>{
                 version: "0",
+                help: "",
                 environments: [],
                 localExtensions: [],
                 featureGroups: [],
@@ -151,6 +152,11 @@ html {
   width: 780px;
 }
 
+#content {
+  overflow: auto;
+  height: 500px;
+}
+
 #content h2 {
   font-size: 20px;
   font-weight: 500;
@@ -168,6 +174,10 @@ html {
 .material-design-icon.icon-2x > .material-design-icon__svg {
   width: 40px;
   height: 40px;
+}
+
+.header-button-link.material-design-icon > .material-design-icon__svg {
+  position: relative;
 }
 
 .columns.no-margin {

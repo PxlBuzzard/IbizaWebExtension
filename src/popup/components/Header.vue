@@ -3,7 +3,7 @@
     <Azure fillColor="#fff" class="icon-2x"/>
     <h1>Azure Development</h1>
     <div class="flex-right">
-        <Help fillColor="#fff" class=""/>
+        <Help fillColor="#fff" class="header-button-link" @click="helpClicked"/>
     </div>
 </header>
 </template>
@@ -11,14 +11,24 @@
 <script lang="ts">
 import Azure from "icons/Azure.vue"
 import Help from "icons/Help.vue"
+import Vue from "vue";
 
-export default {
+export default Vue.extend({
   name: "Header",
+  props: ["helpLink"],
   components: {
     Azure,
     Help
+  },
+  methods: {
+    helpClicked() {
+      return new Promise((resolve, reject) => chrome.tabs.create({ url: this.helpLink }, () => {
+        resolve();
+        window.close();
+      }));
+    }
   }
-}
+});
 </script>
 
 <style scoped>
@@ -43,5 +53,18 @@ h1 {
   justify-content: flex-end;
   flex: 1;
   display:inline-flex;
+}
+
+.header-button-link {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-button-link:hover {
+  background-color: #323130;
+  cursor: pointer;
 }
 </style>

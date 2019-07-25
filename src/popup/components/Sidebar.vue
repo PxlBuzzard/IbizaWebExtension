@@ -19,7 +19,6 @@ export default {
 @import "../pure.css";
 
 #sidebar {
-  width: 200px;
   background-color: #323130;
   color: #fff;
 }
