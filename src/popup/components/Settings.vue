@@ -9,7 +9,7 @@
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "Apply",
+  name: "Settings",
   props: ["configLoader"],
   data() {
     return {

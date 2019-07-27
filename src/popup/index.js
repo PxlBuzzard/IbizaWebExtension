@@ -1,9 +1,11 @@
+import App from "./App.vue";
 import Vue from "vue";
 import VueFluent from "vue-fluent";
-import App from "./App.vue";
 
-import "vue-material-design-icons/styles.css"
-import "vue-fluent/dist/vue-fluent.min.css"
+import "vue-material-design-icons/styles.css";
+import "vue-fluent/dist/vue-fluent.min.css";
+
+Vue.config.devtools = false;
 
 Vue.use(VueFluent);
 

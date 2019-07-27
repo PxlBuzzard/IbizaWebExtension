@@ -13,17 +13,29 @@
                 v-bind:currentUrl="currentUrl"
                 v-bind:localExtension="localExtension"
                 v-bind:featureGroups="config.featureGroups"/>
-            <Sidebar/>
-            <Versions />
-            <Analyze />
+            <Sidebar v-bind:currentContent.sync="currentContent"/>
         </div>
         <main id="content" class="column">
-            <NotifyUnknownPortal v-bind:currentEnv="currentEnv"/>
-            <NotifyUpdate v-bind:isVisible="updateRequired"/>
-            <EnvSelector v-bind:environments="config.environments" v-bind:currentEnv.sync="currentEnv"/>
-            <LocalSelector v-bind:extensions="config.localExtensions" v-bind:localExtension.sync="localExtension"/>
-            <FeatureGroups v-bind:featureGroups.sync="config.featureGroups"/>
-            <Settings v-bind:configLoader="configLoader"></Settings>
+            <div id="load-config" v-if="currentContent === 'loadConfig'">
+                <LoadConfig/>
+            </div>
+            <div id="env-editor" v-if="currentContent === 'envEditor'">
+                <NotifyUnknownPortal v-bind:currentEnv="currentEnv"/>
+                <NotifyUpdate v-bind:isVisible="updateRequired"/>
+                <EnvSelector v-bind:environments="config.environments" v-bind:currentEnv.sync="currentEnv"/>
+                <LocalSelector v-bind:extensions="config.localExtensions" v-bind:localExtension.sync="localExtension"/>
+            </div>
+            <div id="flights-editor" v-if="currentContent === 'extensionFlights'">
+                <NotifyUnknownPortal v-bind:currentEnv="currentEnv"/>
+                <NotifyUpdate v-bind:isVisible="updateRequired"/>
+                <FeatureGroups v-bind:featureGroups.sync="config.featureGroups"/>
+            </div>
+            <div id="settings-content" v-if="currentContent === 'settings'">
+                <NotifyUpdate v-bind:isVisible="updateRequired"/>
+                <Versions />
+                <Analyze />
+                <Settings v-bind:configLoader="configLoader"/>
+            </div>
         </main>
     </div>
 </div>
@@ -37,6 +49,7 @@ import EnvSelector from "./components/EnvSelector.vue";
 import FeatureGroups from "./components/FeatureGroups.vue";
 import Header from "./components/Header.vue";
 import LocalSelector from "./components/LocalSelector.vue";
+import LoadConfig from "./pages/LoadConfig.vue";
 import NotifyUnknownPortal from "./components/NotifyUnknownPortal.vue";
 import NotifyUpdate from "./components/NotifyUpdate.vue";
 import Settings from "./components/Settings.vue";
@@ -55,6 +68,7 @@ export default Vue.extend({
         EnvSelector,
         FeatureGroups,
         Header,
+        LoadConfig,
         LocalSelector,
         NotifyUnknownPortal,
         NotifyUpdate,
@@ -78,6 +92,7 @@ export default Vue.extend({
                 featureGroups: [],
                 dynamicFeatureGroups: []
             },
+            currentContent: "loadConfig",
             updateRequired: false
         };
     },
@@ -134,6 +149,8 @@ export default Vue.extend({
                     }
                 });
             }
+
+            this.currentContent = "envEditor";
         };
         this.configLoader.failedFetch = reason => {
             console.error("config load failed", reason);
