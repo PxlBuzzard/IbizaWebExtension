@@ -2,7 +2,7 @@
 <section>
     <ul class="pure-menu-list">
         <li class="pure-menu-item"><a href="#" class="pure-menu-link" @click="tabSelected = 'envEditor'" selected>Env Editor</a></li>
-        <li class="pure-menu-item"><a href="#" class="pure-menu-link" @click="tabSelected = 'extensionFlights'">Extension Flights</a></li>
+        <li class="pure-menu-item" v-for="group in featureGroups" :key="group"><a href="#" class="pure-menu-link" @click="tabSelected = group">{{ group }}</a></li>
         <li class="pure-menu-item"><a href="#" class="pure-menu-link" @click="tabSelected = 'settings'">Settings</a></li>
     </ul>
 </section>
@@ -13,7 +13,7 @@ import Vue from "vue";
 
 export default Vue.extend({
     name: "Sidebar",
-    props: ["currentContent"],
+    props: ["currentContent", "featureGroups"],
     data() {
         return {
             tabSelected: ""
