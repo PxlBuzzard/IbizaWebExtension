@@ -13,7 +13,7 @@
                 v-bind:currentUrl="currentUrl"
                 v-bind:localExtension="localExtension"
                 v-bind:featureGroups="config.featureGroups"/>
-            <Sidebar v-bind:currentContent.sync="currentContent"/>
+            <Sidebar v-bind:currentContent.sync="currentContent" v-bind:featureGroups="dynamicFeatureGroups.map(f => f.label)"/>
         </div>
         <main id="content" class="column">
             <div id="load-config" v-if="currentContent === 'loadConfig'">
@@ -24,11 +24,15 @@
                 <NotifyUpdate v-bind:isVisible="updateRequired"/>
                 <EnvSelector v-bind:environments="config.environments" v-bind:currentEnv.sync="currentEnv"/>
                 <LocalSelector v-bind:extensions="config.localExtensions" v-bind:localExtension.sync="localExtension"/>
+                <FeatureGroup
+                    v-for="group in config.featureGroups"
+                    v-bind:key="group.label"
+                    v-bind:featureGroup.sync="group"/>
             </div>
-            <div id="flights-editor" v-if="currentContent === 'extensionFlights'">
+            <div v-if="selectedDynamicGroup">
                 <NotifyUnknownPortal v-bind:currentEnv="currentEnv"/>
                 <NotifyUpdate v-bind:isVisible="updateRequired"/>
-                <FeatureGroups v-bind:featureGroups.sync="config.featureGroups"/>
+                <FeatureGroup v-bind:featureGroup.sync="selectedDynamicGroup"/>
             </div>
             <div id="analyze-blade" v-if="currentContent === 'analyzeBlade'">
                 <Analyze />
@@ -47,7 +51,7 @@ import Analyze from "./components/Analyze.vue";
 import Apply from "./components/Apply.vue";
 import ConfigLoader from "./config/ConfigLoader";
 import EnvSelector from "./components/EnvSelector.vue";
-import FeatureGroups from "./components/FeatureGroups.vue";
+import FeatureGroup from "./components/FeatureGroup.vue";
 import Header from "./components/Header.vue";
 import LocalSelector from "./components/LocalSelector.vue";
 import LoadConfig from "./pages/LoadConfig.vue";
@@ -58,7 +62,7 @@ import Sidebar from "./components/Sidebar.vue";
 import UrlParser from "./url/UrlParser";
 import Versions from "./components/Versions.vue";
 import Vue from "vue";
-import { IConfiguration } from "./config/Schema";
+import { IConfiguration, IFeature, IFeatureGroup } from "./config/Schema";
 import { IUrlComponents } from "./url/IUrlComponents";
 
 export default Vue.extend({
@@ -67,7 +71,7 @@ export default Vue.extend({
         Apply,
         Settings,
         EnvSelector,
-        FeatureGroups,
+        FeatureGroup,
         Header,
         LoadConfig,
         LocalSelector,
@@ -93,9 +97,15 @@ export default Vue.extend({
                 featureGroups: [],
                 dynamicFeatureGroups: []
             },
+            dynamicFeatureGroups: <IFeatureGroup[]>[],
             currentContent: "loadConfig",
             updateRequired: false
         };
+    },
+    computed: {
+        selectedDynamicGroup(): IFeatureGroup {
+            return this.dynamicFeatureGroups.filter(g => g.label === this.currentContent)[0];
+        }
     },
     async created() {
         // get current url
@@ -143,7 +153,7 @@ export default Vue.extend({
                                 feature.selected = this.currentUrl.query[feature.name];
                             }
                         });
-                        this.config.featureGroups.push({
+                        this.dynamicFeatureGroups.push({
                             label: group.label,
                             features: features
                         });
