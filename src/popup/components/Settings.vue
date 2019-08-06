@@ -1,24 +1,40 @@
 <template>
 <section>
-    Config source: <input v-model="configSource" />
-    <button @click="save">Save</button>
+    <h2>Help</h2>
+    <p>To learn more about the Azure Portal and this extension, visit <a @click="helpClicked">the docs</a>.</p>
+    <NotifyUpdate v-bind:isVisible="updatedConfig"/>
+    <h2>Config source</h2>
+    <p>The config powers all of the options available in the extension. By default the config is tuned for Microsoft Intune developers.</p>
+    <b-field>
+        <b-input v-model="configSource"></b-input>
+    </b-field>
+    <button class="button is-success" @click="save">Save</button>
 </section>
 </template>
 
 <script>
+import NotifyUpdate from "./NotifyUpdate.vue";
 import Vue from "vue";
 
 export default Vue.extend({
   name: "Settings",
-  props: ["configLoader"],
+  components: {NotifyUpdate},
+  props: ["configLoader", "helpLink"],
   data() {
     return {
-      configSource: ""
+      configSource: "",
+      updatedConfig: false
     }
   },
   methods: {
     async save() {
-      await this.configLoader.setConfigEndpoint(this.configSource);
+      await this.configLoader.setConfigEndpoint(this.configSource).then(() => this.updatedConfig = true);
+    },
+    helpClicked() {
+      return new Promise((resolve, reject) => chrome.tabs.create({ url: this.helpLink }, () => {
+        resolve();
+        window.close();
+      }));
     }
   },
   async mounted() {

@@ -61,6 +61,9 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition-property: all;
+  transition-duration: 600ms;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.29, 0.99);
 }
 
 .header-button-link:hover {

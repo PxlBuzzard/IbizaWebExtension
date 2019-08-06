@@ -1,14 +1,14 @@
 {
-    "version": "0.3",
+    "version": "0.4",
     "help": "https://intunewiki.com",
     "environments": [
         {
             "label": "OneDF",
-            "host": "df-devicemanagement.onecloud.azure-test.net"
+            "host": "df.onecloud.azure-test.net"
         },
         {
             "label": "Selfhost",
-            "host": "devicemanagement.microsoft.com",
+            "host": "rc.portal.azure.com",
             "params": {
                 "feature.canmodifystamps": "true",
                 "feature.canmodifyextensions": "true",
@@ -22,7 +22,7 @@
         },
         {
             "label": "Canary",
-            "host": "devicemanagement.microsoft.com",
+            "host": "ms.portal.azure.com",
             "params": {
                 "feature.canmodifystamps": "true",
                 "feature.canmodifyextensions": "true",
@@ -36,11 +36,11 @@
         },
         {
             "label": "Prod",
-            "host": "devicemanagement.microsoft.com"
+            "host": "portal.azure.com"
         },
         {
             "label": "FXB",
-            "host": "devicemanagement.portal.azure.us",
+            "host": "portal.azure.us",
             "params": {
                 "feature.canmodifystamps": "true",
                 "Microsoft_Intune": "fxb",
@@ -53,7 +53,7 @@
         },
         {
             "label": "FXP",
-            "host": "devicemanagement.portal.azure.us"
+            "host": "portal.azure.us"
         }
     ],
     "localExtensions": [

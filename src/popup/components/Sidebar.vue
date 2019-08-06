@@ -1,9 +1,9 @@
 <template>
 <section>
     <ul class="pure-menu-list">
-        <li class="pure-menu-item"><a href="#" class="pure-menu-link" @click="tabSelected = 'envEditor'" selected>Env Editor</a></li>
-        <li class="pure-menu-item" v-for="group in featureGroups" :key="group"><a href="#" class="pure-menu-link" @click="tabSelected = group">{{ group }}</a></li>
-        <li class="pure-menu-item"><a href="#" class="pure-menu-link" @click="tabSelected = 'settings'">Settings</a></li>
+        <li class="pure-menu-item"><a href="#" class="pure-menu-link" @click="tabSelected = 'envEditor'" :class="tabSelected === 'envEditor' ? 'selected' : null">Env Editor</a></li>
+        <li class="pure-menu-item" v-for="group in featureGroups" :key="group"><a href="#" class="pure-menu-link" @click="tabSelected = group" :class="tabSelected === group ? 'selected' : null">{{ group }}</a></li>
+        <li class="pure-menu-item"><a href="#" class="pure-menu-link" @click="tabSelected = 'settings'" :class="tabSelected === 'settings' ? 'selected' : null">Settings</a></li>
     </ul>
 </section>
 </template>
@@ -40,6 +40,9 @@ export default Vue.extend({
 
 .pure-menu-link {
   color: #fff;
+  transition-property: all;
+  transition-duration: 600ms;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.29, 0.99);
 }
 
 .pure-menu-link:hover {
@@ -47,8 +50,7 @@ export default Vue.extend({
   color: #fff;
 }
 
-.pure-menu-link:active,
-.pure-menu-link:focus {
+.pure-menu-link.selected {
   background-color: rgba(128,128,128,.40);
   color: #fff;
 }
