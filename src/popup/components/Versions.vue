@@ -1,9 +1,10 @@
 <template>
 <section>
-    <button class="button is-success" @click="reload">Check ext version</button>
+    <section><button class="button is-success" @click="reload">Refresh</button></section>
+    <p>Click the refresh button to reload the current page and capture what version of any portal-hosted extensions are loaded.</p>
     <dl v-for="extension in Object.keys(extensions)" :key="extension">
-        <dt>{{extension}}</dt>
-        <dd>{{extensions[extension]}}</dd>
+        <dt class="versions__extension-name">{{extension}}</dt>
+        <dd class="versions__extension-version">{{extensions[extension]}}</dd>
     </dl>
 </section>
 </template>
@@ -45,4 +46,8 @@ export default Vue.extend({
 </script>
 
 <style>
+    dt.versions__extension-name {
+        margin-top: 1em;
+        font-weight: bold;
+    }
 </style>
