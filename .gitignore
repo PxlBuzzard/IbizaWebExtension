@@ -1,5 +1,7 @@
 .vs/
 dist/
+*.zip
+*.crx
 
 # Created by https://www.gitignore.io/api/node
 
