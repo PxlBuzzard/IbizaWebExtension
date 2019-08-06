@@ -38,10 +38,10 @@
                 <Analyze />
             </div>
             <div id="check-version" v-if="currentContent === 'version'">
+                <NotifyUnknownPortal v-bind:currentEnv="currentEnv"/>
                 <Versions />
             </div>
             <div id="settings-content" v-if="currentContent === 'settings'">
-                <Versions />
                 <Settings v-bind:configLoader="configLoader" v-bind:helpLink="config.help"/>
             </div>
         </main>

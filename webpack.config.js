@@ -1,13 +1,19 @@
 var path = require('path')
 var webpack = require('webpack')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const ZipPlugin = require('zip-webpack-plugin')
 
 module.exports = {
-  entry: './src/popup/index.js',
+  entry: {
+    popup: './src/popup/index.js'
+  },
   output: {
-    path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
-    filename: 'build.js'
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '',
+    filename: '[name].js'
   },
   module: {
     rules: [
@@ -66,7 +72,21 @@ module.exports = {
   devtool: 'cheap-module-source-map',
   plugins: [
     // make sure to include the plugin for the magic
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new CleanWebpackPlugin(),
+    new CopyWebpackPlugin([
+      { from: 'assets', to: 'assets' },
+      { from: 'manifest.json', to: 'manifest.json', flatten: true },
+    ]),
+    new HtmlWebpackPlugin({
+      title: 'Popup',
+      template: './src/popup/index.html',
+      filename: 'index.html',
+    }),
+    new ZipPlugin({
+      path: '..',
+      filename: 'extension.zip'
+    }),
   ]
 }
 
@@ -80,7 +100,7 @@ if (process.env.NODE_ENV === 'production') {
       }
     }),
     new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
+      sourceMap: false,
       compress: {
         warnings: false
       }
