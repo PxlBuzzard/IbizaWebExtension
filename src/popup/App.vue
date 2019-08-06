@@ -37,6 +37,9 @@
             <div id="analyze-blade" v-if="currentContent === 'analyzeBlade'">
                 <Analyze />
             </div>
+            <div id="check-version" v-if="currentContent === 'version'">
+                <Versions />
+            </div>
             <div id="settings-content" v-if="currentContent === 'settings'">
                 <Versions />
                 <Settings v-bind:configLoader="configLoader" v-bind:helpLink="config.help"/>
