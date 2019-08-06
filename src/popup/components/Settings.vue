@@ -1,14 +1,22 @@
 <template>
 <section>
-    <h2>Help</h2>
-    <p>To learn more about the Azure Portal and this extension, visit <a @click="helpClicked">the docs</a>.</p>
     <NotifyUpdate v-bind:isVisible="updatedConfig"/>
-    <h2>Config source</h2>
-    <p>The config powers all of the options available in the extension. By default the config is tuned for Microsoft Intune developers.</p>
-    <b-field>
-        <b-input v-model="configSource" expanded></b-input>
-        <button class="button is-success" @click="save">Save</button>
-    </b-field>
+    <section>
+      <h2>Help</h2>
+      <p>To learn more about the Azure Portal and this extension, visit <a @click="helpClicked">the docs</a>.</p>
+    </section>
+    <section>
+      <h2>Config source</h2>
+      <p>The config powers all of the options available in the extension. By default the config is tuned for Microsoft Intune developers.</p>
+      <b-field>
+          <b-input v-model="configSource" expanded></b-input>
+          <button class="button is-success" @click="save">Save</button>
+      </b-field>
+    </section>
+    <section>
+      <h2>Credits</h2>
+      <p>Created by Daniel Jost and David Wilson during OneWeek 2019. Built using Vue.js, Typescript, and Fluent Design principles.</p>
+    </section>
 </section>
 </template>
 
@@ -44,4 +52,7 @@ export default Vue.extend({
 </script>
 
 <style>
+section {
+  margin-bottom: 20px;
+}
 </style>
