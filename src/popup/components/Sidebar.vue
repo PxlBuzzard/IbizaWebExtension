@@ -3,6 +3,7 @@
     <ul class="pure-menu-list">
         <li class="pure-menu-item"><a href="#" class="pure-menu-link" @click="tabSelected = 'envEditor'" :class="tabSelected === 'envEditor' ? 'selected' : null">Env Editor</a></li>
         <li class="pure-menu-item"><a href="#" class="pure-menu-link" @click="tabSelected = 'extensionFlights'" :class="tabSelected === 'extensionFlights' ? 'selected' : null">Extension Flights</a></li>
+        <li class="pure-menu-item"><a href="#" class="pure-menu-link" @click="tabSelected = 'analyzeBlade'" :class="tabSelected === 'analyzeBlade' ? 'selected' : null">Analyze Blade</a></li>
         <li class="pure-menu-item"><a href="#" class="pure-menu-link" @click="tabSelected = 'settings'" :class="tabSelected === 'settings' ? 'selected' : null">Settings</a></li>
     </ul>
 </section>

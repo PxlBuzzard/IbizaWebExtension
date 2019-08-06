@@ -30,10 +30,11 @@
                 <NotifyUpdate v-bind:isVisible="updateRequired"/>
                 <FeatureGroups v-bind:featureGroups.sync="config.featureGroups"/>
             </div>
-            <div id="settings-content" v-if="currentContent === 'settings'">
-                <NotifyUpdate v-bind:isVisible="updateRequired"/>
-                <Versions />
+            <div id="analyze-blade" v-if="currentContent === 'analyzeBlade'">
                 <Analyze />
+            </div>
+            <div id="settings-content" v-if="currentContent === 'settings'">
+                <Versions />
                 <Settings v-bind:configLoader="configLoader" v-bind:helpLink="config.help"/>
             </div>
         </main>
