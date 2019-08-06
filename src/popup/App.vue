@@ -34,12 +34,14 @@
                 <NotifyUpdate v-bind:isVisible="updateRequired"/>
                 <FeatureGroup v-bind:featureGroup.sync="selectedDynamicGroup"/>
             </div>
+            <div id="analyze-blade" v-if="currentContent === 'analyzeBlade'">
+                <Analyze />
+            </div>
             <div id="check-version" v-if="currentContent === 'version'">
                 <Versions />
             </div>
             <div id="settings-content" v-if="currentContent === 'settings'">
-                <NotifyUpdate v-bind:isVisible="updateRequired"/>
-                <Analyze />
+                <Versions />
                 <Settings v-bind:configLoader="configLoader" v-bind:helpLink="config.help"/>
             </div>
         </main>
