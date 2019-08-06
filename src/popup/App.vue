@@ -34,7 +34,7 @@
                 <NotifyUpdate v-bind:isVisible="updateRequired"/>
                 <Versions />
                 <Analyze />
-                <Settings v-bind:configLoader="configLoader"/>
+                <Settings v-bind:configLoader="configLoader" v-bind:helpLink="config.help"/>
             </div>
         </main>
     </div>

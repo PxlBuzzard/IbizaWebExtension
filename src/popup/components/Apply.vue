@@ -41,8 +41,9 @@ export default Vue.extend({
 
 <style>
 #apply-button {
-  width: 107%;
+  width: 90%;
   font-weight: 500;
   margin-bottom: 20px;
+  margin-left: 8%;
 }
 </style>
