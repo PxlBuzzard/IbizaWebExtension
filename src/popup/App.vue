@@ -141,7 +141,7 @@ export default Vue.extend({
             this.config.featureGroups.forEach(group => {
                 group.features.forEach(feature => {
                     if (this.currentUrl.query.hasOwnProperty(feature.name)) {
-                        feature.selected = this.currentUrl.query[feature.name];
+                        this.$set(feature, "selected", this.currentUrl.query[feature.name]);
                     }
                 });
             });
@@ -153,7 +153,7 @@ export default Vue.extend({
                         let features = await this.configLoader.loadFeatures(group.source[this.currentEnv], group.prefix);
                         features.forEach(feature => {
                             if (this.currentUrl.query.hasOwnProperty(feature.name)) {
-                                feature.selected = this.currentUrl.query[feature.name];
+                                this.$set(feature, "selected", this.currentUrl.query[feature.name]);
                             }
                         });
                         this.dynamicFeatureGroups.push({
