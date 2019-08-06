@@ -6,7 +6,7 @@
         aria-close-label="Close message"
         role="alert"
         title="Update downloaded.">
-        A newer configuration is available. Please reopen this extension to get the latest and greatest.
+        A newer configuration is available! Please reopen this extension to get the latest and greatest.
     </b-message>
 </section>
 </template>
