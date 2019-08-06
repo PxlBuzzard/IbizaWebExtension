@@ -4,15 +4,16 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const ZipPlugin = require('zip-webpack-plugin')
 
 module.exports = {
   entry: {
     popup: './src/popup/index.js'
   },
   output: {
-    path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
-    filename: 'build.js'
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '',
+    filename: '[name].js'
   },
   module: {
     rules: [
@@ -81,7 +82,10 @@ module.exports = {
       title: 'Popup',
       template: './src/popup/index.html',
       filename: 'index.html',
-      chunks: ['popup'],
+    }),
+    new ZipPlugin({
+      path: '..',
+      filename: 'extension.zip'
     }),
   ]
 }
