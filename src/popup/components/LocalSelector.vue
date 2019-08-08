@@ -4,7 +4,8 @@
     <div class="field">
         <b-radio
             v-model="extensionSelected"
-            :native-value="''">
+            :native-value="''"
+            @input="$emit('input', extensionSelected)">
             None
         </b-radio>
     </div>
@@ -14,7 +15,8 @@
         v-bind:key="ext">
         <b-radio
             v-model="extensionSelected"
-            :native-value="ext">
+            :native-value="ext"
+            @input="$emit('input', extensionSelected)">
             {{ ext }}
         </b-radio>
     </div>
@@ -26,19 +28,14 @@ import Vue from "vue";
 
 export default Vue.extend({
     name: "LocalSelector",
-    props: ['extensions', "localExtension"],
+    props: ["extensions", "value"],
     data() {
         return {
             extensionSelected: ""
-        }
+        };
     },
-    watch: {
-        localExtension(val: string) {
-            this.extensionSelected = val;
-        },
-        extensionSelected(val: string) {
-            this.$emit("update:localExtension", val);
-        }
+    mounted() {
+        this.extensionSelected = this.value;
     }
 });
 </script>

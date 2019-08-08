@@ -32,10 +32,16 @@ export default class UrlParser {
         if (urlComponents.testExtension) {
             url.searchParams.set("feature.canmodifyextensions", "true");
         }
-        return new Promise((resolve, reject) => chrome.tabs.update({ url: url.href }, () => {
-            resolve();
-            window.close();
-        }));
+
+        return new Promise((resolve, reject) => {
+            const listener = () => chrome.tabs.reload(() => {
+                chrome.tabs.onUpdated.removeListener(listener);
+                resolve();
+                window.close();
+            });
+            chrome.tabs.onUpdated.addListener(listener);
+            chrome.tabs.update({ url: url.href });
+        });
     }
 
     private _parseTestExtension(fragmentQuery: string): string | null {

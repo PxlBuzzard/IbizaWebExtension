@@ -22,8 +22,8 @@
             <div id="env-editor" v-if="currentContent === 'envEditor'">
                 <NotifyUnknownPortal v-bind:currentEnv="currentEnv"/>
                 <NotifyUpdate v-bind:isVisible="updateRequired"/>
-                <EnvSelector v-bind:environments="config.environments" v-bind:currentEnv.sync="currentEnv"/>
-                <LocalSelector v-bind:extensions="config.localExtensions" v-bind:localExtension.sync="localExtension"/>
+                <EnvSelector v-bind:environments="config.environments" v-model="currentEnv"/>
+                <LocalSelector v-bind:extensions="config.localExtensions" v-model="localExtension"/>
                 <FeatureGroup
                     v-for="group in config.featureGroups"
                     v-bind:key="group.label"
