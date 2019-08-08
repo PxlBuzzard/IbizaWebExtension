@@ -1,11 +1,12 @@
 <template>
 <section>
     <ul class="pure-menu-list">
-        <li class="pure-menu-item"><a href="#" class="pure-menu-link" @click="tabSelected = 'envEditor'" :class="tabSelected === 'envEditor' ? 'selected' : null">Env Editor</a></li>
-        <li class="pure-menu-item" v-for="group in featureGroups" :key="group"><a href="#" class="pure-menu-link" @click="tabSelected = group" :class="tabSelected === group ? 'selected' : null">{{ group }}</a></li>
+        <li class="pure-menu-item"><a href="#" class="pure-menu-link" @click="tabSelected = 'envEditor'" :class="tabSelected === 'envEditor' ? 'selected' : null">Environment Editor</a></li>
         <li class="pure-menu-item"><a href="#" class="pure-menu-link" @click="tabSelected = 'analyzeBlade'" :class="tabSelected === 'analyzeBlade' ? 'selected' : null">Analyze Blade</a></li>
         <li class="pure-menu-item"><a href="#" class="pure-menu-link" @click="tabSelected = 'version'" :class="tabSelected === 'version' ? 'selected' : null">Check Version</a></li>
         <li class="pure-menu-item"><a href="#" class="pure-menu-link" @click="tabSelected = 'settings'" :class="tabSelected === 'settings' ? 'selected' : null">Settings</a></li>
+        <li class="pure-menu-heading" v-if="featureGroups.length > 0">Extension Features</li>
+        <li class="pure-menu-item" v-for="group in featureGroups" :key="group"><a href="#" class="pure-menu-link" @click="tabSelected = group" :class="tabSelected === group ? 'selected' : null">{{ group }}</a></li>
     </ul>
 </section>
 </template>
@@ -38,6 +39,10 @@ export default Vue.extend({
 #sidebar {
   background-color: #323130;
   color: #fff;
+}
+
+.pure-menu-heading {
+  color: #999;
 }
 
 .pure-menu-link {

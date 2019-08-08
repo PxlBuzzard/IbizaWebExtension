@@ -1,10 +1,16 @@
 <template>
 <section>
-    <p>Click the refresh button to reload the current page and capture what version of any portal-hosted extensions are loaded.</p>
-    <b-field v-for="extension in Object.keys(extensions)" :key="extension" :label="extension">
+    <section>
+      <p>Click the refresh button to reload the current page and capture the version of the currently-loaded extension(s).</p>
+    </section>
+    <section>
+      <button class="button is-success" @click="reload">Refresh</button>
+    </section>
+    <section>
+      <b-field v-for="extension in Object.keys(extensions)" :key="extension" :label="extension">
         <b-input v-model="extensions[extension]" disabled></b-input>
-    </b-field>
-    <button class="button is-success" @click="reload">Refresh</button>
+      </b-field>
+    </section>
 </section>
 </template>
 

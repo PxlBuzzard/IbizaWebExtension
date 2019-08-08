@@ -1,7 +1,7 @@
 <template>
 <header>
     <Azure fillColor="#fff" class="icon-2x"/>
-    <h1>Azure Development</h1>
+    <h1>Azure Portal Developer Extension</h1>
     <div class="flex-right">
         <Help fillColor="#fff" class="header-button-link" @click="helpClicked"/>
     </div>

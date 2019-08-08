@@ -1,13 +1,15 @@
 <template>
 <section>
-    <b-message
-        :active="this.loaded && this.link === ''"
-        type="is-danger"
-        aria-close-label="Close message"
-        role="alert"
-        title="No blade detected.">
-        Please make sure you are in the Azure Portal.
-    </b-message>
+    <section>
+        <b-message
+            :active="this.loaded && this.link === ''"
+            type="is-danger"
+            aria-close-label="Close message"
+            role="alert"
+            title="No blade detected.">
+            Please make sure you are in the Azure Portal.
+        </b-message>
+    </section>
     <p>This is a shortcut to load Ibiza's Extension Analyzer website for the currently loaded blade. It will open a new tab.</p>
     <b-field label="Extension">
         <b-input v-model="this.extension" disabled></b-input>
