@@ -12,7 +12,7 @@
                 v-bind:currentEnv="currentEnv"
                 v-bind:currentUrl="currentUrl"
                 v-bind:localExtension="localExtension"
-                v-bind:featureGroups="config.featureGroups"/>
+                v-bind:featureGroups="allFeatureGroups"/>
             <Sidebar v-bind:currentContent.sync="currentContent" v-bind:featureGroups="dynamicFeatureGroups.map(f => f.label)"/>
         </div>
         <main id="content" class="column">
@@ -108,6 +108,9 @@ export default Vue.extend({
     computed: {
         selectedDynamicGroup(): IFeatureGroup {
             return this.dynamicFeatureGroups.filter(g => g.label === this.currentContent)[0];
+        },
+        allFeatureGroups(): IFeatureGroup[] {
+            return [...this.config.featureGroups, ...this.dynamicFeatureGroups];
         }
     },
     async created() {
