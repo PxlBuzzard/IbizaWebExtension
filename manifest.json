@@ -1,51 +1,23 @@
 {
-  "key": "bfabnilaocpdpencidgmplhhejooclbn",
-
   "manifest_version": 2,
   "name": "Azure Portal Developer Extension",
-  "version": "1.0",
-  "applications": {
-    "gecko": {
-      "id": "ibizadevex@microsoft.com",
-      "strict_min_version": "48.0"
-    }
-  },
-
+  "version": "2.2",
   "description": "",
-
   "icons": {
     "48": "assets/icon-48.png",
     "128": "assets/icon-128.png"
   },
 
   "permissions": [
-    "identity",
     "activeTab",
     "storage",
-    "tabs",
     "webRequest",
-    "webRequestBlocking",
     "<all_urls>"
   ],
 
   "browser_action": {
     "default_icon": "assets/icon-48.png",
     "default_title": "Azure Portal Developer Extension",
-    "default_popup": "src/popup/menu.html"
-  },
-
-  "content_scripts": [
-    {
-      "matches": [ "*://*.portal.azure.com/*", "*://df.onecloud.azure-test.net/*" ],
-      "js": [ "/src/third-party/jquery-3.2.1.min.js", "/src/content_scripts/create-bug.js", "src/main.js" ]
-    }
-  ],
-
-  "background": {
-    "scripts": ["/src/bg/redirect.js", "/src/bg/repro.js"]
-  },
-
-  "options_ui": {
-    "page": "/src/options/options.html"
+    "default_popup": "index.html"
   }
 }
