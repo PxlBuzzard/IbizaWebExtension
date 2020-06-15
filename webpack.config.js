@@ -74,10 +74,12 @@ module.exports = {
     // make sure to include the plugin for the magic
     new VueLoaderPlugin(),
     new CleanWebpackPlugin(),
-    new CopyWebpackPlugin([
-      { from: 'assets', to: 'assets' },
-      { from: 'manifest.json', to: 'manifest.json', flatten: true },
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'assets', to: 'assets' },
+        { from: 'manifest.json', to: 'manifest.json', flatten: true },
+      ]
+    }),
     new HtmlWebpackPlugin({
       title: 'Popup',
       template: './src/popup/index.html',

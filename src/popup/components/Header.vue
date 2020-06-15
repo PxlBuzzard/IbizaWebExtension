@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import Azure from "icons/Azure.vue"
+import Azure from "icons/MicrosoftAzure.vue"
 import Help from "icons/Help.vue"
 import Vue from "vue";
 
