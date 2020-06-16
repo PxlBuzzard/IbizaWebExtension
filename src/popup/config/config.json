@@ -1,59 +1,50 @@
 {
-    "version": "1.3",
-    "help": "https://intunewiki.com",
+    "version": "1.6",
+    "help": "https://intunewiki.com/wiki/Intune_Azure_Portal",
     "environments": [
         {
             "label": "OneDF",
-            "host": "df.onecloud.azure-test.net"
+            "host": "df-devicemanagement.onecloud.azure-test.net"
         },
         {
             "label": "Selfhost",
-            "host": "rc.portal.azure.com",
+            "host": "endpoint.microsoft.com",
             "params": {
                 "feature.canmodifystamps": "true",
                 "feature.canmodifyextensions": "true",
                 "Microsoft_Intune": "sh",
                 "Microsoft_Intune_Apps_urlredirect": "intuneappssh",
                 "Microsoft_Intune_Devices_urlredirect": "intunedevicessh",
-                "Microsoft_Intune_DeviceSettings_urlredirect": "intunedevicesettingsselfhost",
+                "Microsoft_Intune_DeviceSettings": "selfhost",
                 "Microsoft_Intune_Enrollment_urlredirect": "intuneenrollmentsh",
                 "Microsoft_Intune_Workflows_urlredirect": "Intuneworkflowsselfhost"
             }
         },
         {
             "label": "Canary",
-            "host": "ms.portal.azure.com",
+            "host": "endpoint.microsoft.com",
             "params": {
                 "feature.canmodifystamps": "true",
                 "feature.canmodifyextensions": "true",
                 "Microsoft_Intune": "ctip",
                 "Microsoft_Intune_Apps_urlredirect": "intuneappsctip",
                 "Microsoft_Intune_Devices_urlredirect": "intunedevicesctip",
-                "Microsoft_Intune_DeviceSettings_urlredirect": "intunedevicesettingstip",
+                "Microsoft_Intune_DeviceSettings": "canary",
                 "Microsoft_Intune_Enrollment_urlredirect": "intuneenrollmentctip",
                 "Microsoft_Intune_Workflows_urlredirect": "intuneworkflowsctip"
             }
         },
         {
             "label": "Prod",
-            "host": "portal.azure.com"
+            "host": "endpoint.microsoft.com"
         },
         {
-            "label": "FXB",
-            "host": "portal.azure.us",
-            "params": {
-                "feature.canmodifystamps": "true",
-                "Microsoft_Intune": "fxb",
-                "Microsoft_Intune_Apps": "fxb",
-                "Microsoft_Intune_Devices": "fxb",
-                "Microsoft_Intune_DeviceSettings": "fxb",
-                "Microsoft_Intune_Enrollment": "fxb",
-                "Microsoft_Intune_Workflows": "fxb"
-            }
+            "label": "Fairfax",
+            "host": "endpoint.microsoft.us"
         },
         {
-            "label": "FXP",
-            "host": "portal.azure.us"
+            "label": "Mooncake",
+            "host": "endpoint.microsoftonline.cn"
         }
     ],
     "localExtensions": [
@@ -69,35 +60,58 @@
             "label": "Global features",
             "features": [
                 {
+                    "label": "Client optimizations",
+                    "name": "clientOptimizations",
+                    "options": [
+                        "true",
+                        "false"
+                    ]
+                },
+                {
                     "label": "Intune service environment",
                     "name": "feature.intune_env",
-                    "options": ["df", "sh", "canary", "prod", "fxb", "fxp"]
+                    "options": [
+                        "df",
+                        "sh",
+                        "canary",
+                        "prod",
+                        "fairfax",
+                        "mooncake"
+                    ]
                 },
                 {
                     "label": "Mock graph",
                     "name": "feature.intune_mockgraph",
-                    "options": ["true", "false"]
-                },
-                {
-                    "label": "Client optimizations",
-                    "name": "clientOptimizations",
-                    "options": ["true", "false"]
+                    "options": [
+                        "true",
+                        "false"
+                    ]
                 }
             ]
         }
     ],
     "dynamicFeatureGroups": [
-      {
-          "label": "Enrollment",
-          "prefix": "microsoft_intune_enrollment_",
-          "source": {
-              "OneDF": "https://hosting.onecloud.azure-test.net/intuneenrollment/Content/Scripts/Shared/Features.js",
-              "Selfhost": "https://intuneenrollmentsh.hosting.portal.azure.net/intuneenrollmentsh/Content/Scripts/Shared/Features.js",
-              "Canary": "https://intuneenrollmentctip.hosting.portal.azure.net/intuneenrollmentctip/Content/Scripts/Shared/Features.js",
-              "Prod": "https://intuneenrollment.hosting.portal.azure.net/intuneenrollment/Content/Scripts/Shared/Features.js",
-              "FXB": "https://fxb.enrollment.mdm.ext.azure.us/Content/Scripts/Shared/Features.js",
-              "FXP": "https://fxp.enrollment.mdm.ext.azure.us/Content/Scripts/Shared/Features.js"
-          }
-      }
-  ]
+        {
+            "label": "Enrollment",
+            "prefix": "microsoft_intune_enrollment_",
+            "source": {
+                "OneDF": "https://hosting.onecloud.azure-test.net/intuneenrollment/Content/Scripts/Shared/Features.js",
+                "Selfhost": "https://intuneenrollmentsh.hosting.portal.azure.net/intuneenrollmentsh/Content/Scripts/Shared/Features.js",
+                "Canary": "https://intuneenrollmentctip.hosting.portal.azure.net/intuneenrollmentctip/Content/Scripts/Shared/Features.js",
+                "Prod": "https://intuneenrollment.hosting.portal.azure.net/intuneenrollment/Content/Scripts/Shared/Features.js",
+                "Fairfax": "https://fxp.enrollment.mdm.ext.azure.us/Content/Scripts/Shared/Features.js"
+            }
+        },
+        {
+            "label": "Devices",
+            "prefix": "microsoft_intune_devices_",
+            "source": {
+                "OneDF": "https://hosting.onecloud.azure-test.net/intunedevices/Content/Scripts/Shared/Features.js",
+                "Selfhost": "https://intunedevicessh.hosting.portal.azure.net/intunedevicessh/Content/Scripts/Shared/Features.js",
+                "Canary": "https://intunedevicesctip.hosting.portal.azure.net/intunedevicesctip/Content/Scripts/Shared/Features.js",
+                "Prod": "https://intunedevices.hosting.portal.azure.net/intunedevices/Content/Scripts/Shared/Features.js",
+                "Fairfax": "https://fxp.devices.mdm.ext.azure.us/Content/Scripts/Shared/Features.js"
+            }
+        }
+    ]
 }

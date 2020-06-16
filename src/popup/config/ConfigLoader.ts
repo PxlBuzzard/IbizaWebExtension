@@ -54,7 +54,7 @@ export default class ConfigLoader {
 
     public getConfigEndpoint(): Promise<string> {
         return new Promise((resolve, reject) => chrome.storage.sync.get("configEndpoint", result => {
-            resolve(result.configEndpoint || "https://uxextensionconfig.blob.core.windows.net/configs/config.json");
+            resolve(result.configEndpoint || "https://gist.github.com/PxlBuzzard/f055b8043c5972befc37b32f4d25feb2/raw/azureportaldevextensionconfig.json");
         }));
     }
 
