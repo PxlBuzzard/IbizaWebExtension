@@ -1,9 +1,9 @@
 {
-    "version": "1.6",
+    "version": "1.8",
     "help": "https://intunewiki.com/wiki/Intune_Azure_Portal",
     "environments": [
         {
-            "label": "OneDF",
+            "label": "DF",
             "host": "df-devicemanagement.onecloud.azure-test.net"
         },
         {
@@ -12,12 +12,13 @@
             "params": {
                 "feature.canmodifystamps": "true",
                 "feature.canmodifyextensions": "true",
+                "feature.Microsoft_Intune": "sh",
                 "Microsoft_Intune": "sh",
-                "Microsoft_Intune_Apps_urlredirect": "intuneappssh",
-                "Microsoft_Intune_Devices_urlredirect": "intunedevicessh",
+                "Microsoft_Intune_Apps": "selfhost",
+                "Microsoft_Intune_Devices": "selfhost",
                 "Microsoft_Intune_DeviceSettings": "selfhost",
-                "Microsoft_Intune_Enrollment_urlredirect": "intuneenrollmentsh",
-                "Microsoft_Intune_Workflows_urlredirect": "Intuneworkflowsselfhost"
+                "Microsoft_Intune_Enrollment": "selfhost",
+                "Microsoft_Intune_Workflows": "selfhost"
             }
         },
         {
@@ -26,14 +27,30 @@
             "params": {
                 "feature.canmodifystamps": "true",
                 "feature.canmodifyextensions": "true",
+                "feature.Microsoft_Intune": "ctip",
                 "Microsoft_Intune": "ctip",
-                "Microsoft_Intune_Apps_urlredirect": "intuneappsctip",
-                "Microsoft_Intune_Devices_urlredirect": "intunedevicesctip",
+                "Microsoft_Intune_Apps": "canary",
+                "Microsoft_Intune_Devices": "canary",
                 "Microsoft_Intune_DeviceSettings": "canary",
-                "Microsoft_Intune_Enrollment_urlredirect": "intuneenrollmentctip",
-                "Microsoft_Intune_Workflows_urlredirect": "intuneworkflowsctip"
+                "Microsoft_Intune_Enrollment": "canary",
+                "Microsoft_Intune_Workflows": "canary"
             }
         },
+        {
+          "label": "TestProd",
+          "host": "endpoint.microsoft.com",
+          "params": {
+              "feature.canmodifystamps": "true",
+              "feature.canmodifyextensions": "true",
+              "feature.Microsoft_Intune": "testprod",
+              "Microsoft_Intune": "testprod",
+              "Microsoft_Intune_Apps": "testprod",
+              "Microsoft_Intune_Devices": "testprod",
+              "Microsoft_Intune_DeviceSettings": "testprod",
+              "Microsoft_Intune_Enrollment": "testprod",
+              "Microsoft_Intune_Workflows": "testprod"
+          }
+      },
         {
             "label": "Prod",
             "host": "endpoint.microsoft.com"
@@ -43,7 +60,7 @@
             "host": "endpoint.microsoft.us"
         },
         {
-            "label": "Mooncake",
+            "label": "MC",
             "host": "endpoint.microsoftonline.cn"
         }
     ],
@@ -53,6 +70,7 @@
         "Microsoft_Intune_Devices",
         "Microsoft_Intune_DeviceSettings",
         "Microsoft_Intune_Enrollment",
+        "Microsoft_Intune_MTM",
         "Microsoft_Intune_Workflows"
     ],
     "featureGroups": [
