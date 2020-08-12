@@ -1,5 +1,5 @@
 {
-    "version": "1.8",
+    "version": "1.9",
     "help": "https://intunewiki.com/wiki/Intune_Azure_Portal",
     "environments": [
         {
@@ -37,23 +37,26 @@
             }
         },
         {
-          "label": "TestProd",
-          "host": "endpoint.microsoft.com",
-          "params": {
-              "feature.canmodifystamps": "true",
-              "feature.canmodifyextensions": "true",
-              "feature.Microsoft_Intune": "testprod",
-              "Microsoft_Intune": "testprod",
-              "Microsoft_Intune_Apps": "testprod",
-              "Microsoft_Intune_Devices": "testprod",
-              "Microsoft_Intune_DeviceSettings": "testprod",
-              "Microsoft_Intune_Enrollment": "testprod",
-              "Microsoft_Intune_Workflows": "testprod"
-          }
-      },
+            "label": "TestProd",
+            "host": "endpoint.microsoft.com",
+            "params": {
+                "feature.canmodifystamps": "true",
+                "feature.canmodifyextensions": "true",
+                "feature.Microsoft_Intune": "testprod",
+                "Microsoft_Intune": "testprod",
+                "Microsoft_Intune_Apps": "testprod",
+                "Microsoft_Intune_Devices": "testprod",
+                "Microsoft_Intune_DeviceSettings": "testprod",
+                "Microsoft_Intune_Enrollment": "testprod",
+                "Microsoft_Intune_Workflows": "testprod"
+            }
+        },
         {
             "label": "Prod",
-            "host": "endpoint.microsoft.com"
+            "host": "endpoint.microsoft.com",
+            "params": {
+                "Microsoft_Intune_DeviceSettings": "prod"
+            }
         },
         {
             "label": "Fairfax",
