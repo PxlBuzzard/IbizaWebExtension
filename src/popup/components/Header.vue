@@ -9,8 +9,8 @@
 </template>
 
 <script lang="ts">
-import Azure from "icons/MicrosoftAzure.vue"
-import Help from "icons/Help.vue"
+import Azure from "vue-material-design-icons/MicrosoftAzure.vue"
+import Help from "vue-material-design-icons/Help.vue"
 import Vue from "vue";
 
 export default Vue.extend({
@@ -23,7 +23,7 @@ export default Vue.extend({
   methods: {
     helpClicked() {
       return new Promise((resolve, reject) => chrome.tabs.create({ url: this.helpLink }, () => {
-        resolve();
+        resolve({});
         window.close();
       }));
     }
@@ -33,7 +33,7 @@ export default Vue.extend({
 
 <style scoped>
 header {
-  background-color: #1c1c1c;
+  background-color: orange;
   color: #fff;
   height: 40px;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,.16);

@@ -1,5 +1,5 @@
 {
-    "version": "1.9",
+    "version": "1.10",
     "help": "https://intunewiki.com/wiki/Intune_Azure_Portal",
     "environments": [
         {
@@ -55,7 +55,10 @@
             "label": "Prod",
             "host": "endpoint.microsoft.com",
             "params": {
-                "Microsoft_Intune_DeviceSettings": "prod"
+                "Microsoft_Intune_Apps": "prod",
+                "Microsoft_Intune_Devices": "prod",
+                "Microsoft_Intune_DeviceSettings": "prod",
+                "Microsoft_Intune_Workflows": "prod"
             }
         },
         {
