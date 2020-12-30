@@ -1,8 +1,21 @@
 <template>
 <header>
-    <Azure fillColor="#fff" class="icon-2x"/>
+    <Azure fillColor="#fff" class="icon-2x azure-icon"/>
     <h1>Azure Portal Developer Extension</h1>
+
     <div class="flex-right">
+        <b-dropdown aria-role="list">
+            <FormatListChecks fillColor="#fff" class="header-button-link" slot="trigger"/>
+            <b-dropdown-item
+                v-for="config in configFile.configs"
+                :key="config.name"
+                aria-role="listitem"
+                v-on:click="configSelected(config)">
+                <CheckBold fillColor="#000" v-if="config.name === currentConfig.name"/>
+                {{config.name}}
+            </b-dropdown-item>
+        </b-dropdown>
+
         <Help fillColor="#fff" class="header-button-link" @click="helpClicked"/>
     </div>
 </header>
@@ -10,19 +23,27 @@
 
 <script lang="ts">
 import Azure from "vue-material-design-icons/MicrosoftAzure.vue"
+import CheckBold from "vue-material-design-icons/CheckBold.vue"
+import FormatListChecks from "vue-material-design-icons/FormatListChecks.vue"
 import Help from "vue-material-design-icons/Help.vue"
 import Vue from "vue";
+import { IConfiguration } from "../config/Schema";
 
 export default Vue.extend({
   name: "Header",
-  props: ["helpLink"],
+  props: ["configFile", "currentConfig"],
   components: {
     Azure,
+    CheckBold,
+    FormatListChecks,
     Help
   },
   methods: {
+    configSelected(config: IConfiguration) {
+      this.$emit("update:currentConfig", config);
+    },
     helpClicked() {
-      return new Promise((resolve, reject) => chrome.tabs.create({ url: this.helpLink }, () => {
+      return new Promise((resolve, reject) => chrome.tabs.create({ url: this.configFile.help }, () => {
         resolve({});
         window.close();
       }));
@@ -33,7 +54,7 @@ export default Vue.extend({
 
 <style scoped>
 header {
-  background-color: orange;
+  background-color: #1c1c1c;
   color: #fff;
   height: 40px;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,.16);
@@ -69,5 +90,9 @@ h1 {
 .header-button-link:hover {
   background-color: #323130;
   cursor: pointer;
+}
+
+.azure-icon {
+  margin-left: 3px;
 }
 </style>

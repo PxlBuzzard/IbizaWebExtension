@@ -2,7 +2,9 @@
 <div id="app">
     <div class="columns no-margin">
         <div class="column">
-            <Header v-bind:helpLink="configFile.help"/>
+            <Header
+                v-bind:configFile="configFile"
+                v-bind:currentConfig.sync="currentConfig"/>
         </div>
     </div>
     <div class="columns">
