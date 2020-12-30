@@ -1,8 +1,13 @@
 {
-    "version": "2.1",
+    "version": "2.3",
     "name": "Intune",
     "help": "https://intunewiki.com/wiki/Intune_Azure_Portal",
     "changelog": [
+      {
+        "version": "2.3",
+        "date": "December 30, 2020",
+        "notes": "FIXED: Removed MTM from the local extensions list of the Endpoint config.\nFIXED: Mock data toggle in EDU."
+      },
       {
         "version": "2.1",
         "date": "December 30, 2020",
@@ -87,7 +92,6 @@
           "Microsoft_Intune_Devices",
           "Microsoft_Intune_DeviceSettings",
           "Microsoft_Intune_Enrollment",
-          "Microsoft_Intune_MTM",
           "Microsoft_Intune_Workflows"
       ],
       "featureGroups": [
@@ -103,7 +107,7 @@
                       ]
                   },
                   {
-                      "label": "Intune service environment",
+                      "label": "Intune service environment (defaults to current env)",
                       "name": "feature.intune_env",
                       "options": [
                           "df",
@@ -115,7 +119,7 @@
                       ]
                   },
                   {
-                      "label": "Mock graph",
+                      "label": "Mock data",
                       "name": "feature.intune_mockgraph",
                       "options": [
                           "true",
@@ -207,11 +211,10 @@
                     ]
                 },
                 {
-                    "label": "Mock graph",
-                    "name": "feature.intune_mockgraph",
+                    "label": "Mock data",
+                    "name": "feature.configuration",
                     "options": [
-                        "true",
-                        "false"
+                        "UseMockData"
                     ]
                 }
             ]
