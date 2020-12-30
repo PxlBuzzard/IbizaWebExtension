@@ -17,6 +17,13 @@
       <h2>Credits</h2>
       <p>Created by Daniel Jost and David Wilson during OneWeek 2019. Built using Vue.js, Typescript, and Fluent Design principles.</p>
     </section>
+    <section>
+      <h2>Changelog</h2>
+      <section v-for="change in changelog" :key="change.version">
+        <h3>{{change.version}}, {{change.date}}</h3>
+        <p>{{change.notes}}</p>
+      </section>
+    </section>
 </section>
 </template>
 
@@ -27,7 +34,7 @@ import Vue from "vue";
 export default Vue.extend({
   name: "Settings",
   components: {NotifyUpdate},
-  props: ["configLoader", "helpLink"],
+  props: ["changelog", "configLoader", "helpLink"],
   data() {
     return {
       configSource: "",

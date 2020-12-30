@@ -44,7 +44,10 @@
                 <Versions />
             </div>
             <div id="settings-content" v-if="currentContent === 'settings'">
-                <Settings v-bind:configLoader="configFileLoader" v-bind:helpLink="configFile.help"/>
+                <Settings
+                    v-bind:changelog="configFile.changelog"
+                    v-bind:configLoader="configFileLoader"
+                    v-bind:helpLink="configFile.help"/>
             </div>
         </main>
     </div>
@@ -104,6 +107,7 @@ export default Vue.extend({
             configFile: <IConfigFile>{
                 version: "0",
                 help: "",
+                changelog: [],
                 configs: [{
                   name: "",
                   environments: [],

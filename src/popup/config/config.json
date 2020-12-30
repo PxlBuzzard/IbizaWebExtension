@@ -1,7 +1,14 @@
 {
-    "version": "2.0",
+    "version": "2.1",
     "name": "Intune",
     "help": "https://intunewiki.com/wiki/Intune_Azure_Portal",
+    "changelog": [
+      {
+        "version": "2.1",
+        "date": "December 30, 2020",
+        "notes": "FIXED: Default to showing the first config if none of the config URLs match.\nADDED: A changelog."
+      }
+    ],
     "configs": [
       {
         "name": "Intune - Endpoint",
