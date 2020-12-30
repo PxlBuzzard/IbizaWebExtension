@@ -123,9 +123,10 @@
               "label": "Enrollment",
               "prefix": "microsoft_intune_enrollment_",
               "source": {
-                  "OneDF": "https://hosting.onecloud.azure-test.net/intuneenrollment/Content/Scripts/Shared/Features.js",
+                  "DF": "https://hosting.onecloud.azure-test.net/intuneenrollment/Content/Scripts/Shared/Features.js",
                   "Selfhost": "https://intuneenrollmentsh.hosting.portal.azure.net/intuneenrollmentsh/Content/Scripts/Shared/Features.js",
                   "Canary": "https://intuneenrollmentctip.hosting.portal.azure.net/intuneenrollmentctip/Content/Scripts/Shared/Features.js",
+                  "TestProd": "https://intuneenrollment.hosting.portal.azure.net/intuneenrollment/Content/Scripts/Shared/Features.js",
                   "Prod": "https://intuneenrollment.hosting.portal.azure.net/intuneenrollment/Content/Scripts/Shared/Features.js",
                   "Fairfax": "https://fxp.enrollment.mdm.ext.azure.us/Content/Scripts/Shared/Features.js"
               }
@@ -134,9 +135,10 @@
               "label": "Devices",
               "prefix": "microsoft_intune_devices_",
               "source": {
-                  "OneDF": "https://hosting.onecloud.azure-test.net/intunedevices/Content/Scripts/Shared/Features.js",
+                  "DF": "https://hosting.onecloud.azure-test.net/intunedevices/Content/Scripts/Shared/Features.js",
                   "Selfhost": "https://intunedevicessh.hosting.portal.azure.net/intunedevicessh/Content/Scripts/Shared/Features.js",
                   "Canary": "https://intunedevicesctip.hosting.portal.azure.net/intunedevicesctip/Content/Scripts/Shared/Features.js",
+                  "TestProd": "https://intunedevices.hosting.portal.azure.net/intunedevices/Content/Scripts/Shared/Features.js",
                   "Prod": "https://intunedevices.hosting.portal.azure.net/intunedevices/Content/Scripts/Shared/Features.js",
                   "Fairfax": "https://fxp.devices.mdm.ext.azure.us/Content/Scripts/Shared/Features.js"
               }
