@@ -36,7 +36,8 @@ export default Vue.extend({
   },
   methods: {
     async save() {
-      await this.configLoader.setConfigEndpoint(this.configSource).then(() => this.updatedConfig = true);
+      await this.configLoader.setConfigEndpoint(this.configSource);
+      this.updatedConfig = true;
     },
     helpClicked() {
       return new Promise((resolve, reject) => chrome.tabs.create({ url: this.helpLink }, () => {

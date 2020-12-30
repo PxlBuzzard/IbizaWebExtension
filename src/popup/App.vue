@@ -2,13 +2,13 @@
 <div id="app">
     <div class="columns no-margin">
         <div class="column">
-            <Header v-bind:helpLink="config.help"/>
+            <Header v-bind:helpLink="configFile.help"/>
         </div>
     </div>
     <div class="columns">
         <div id="sidebar" class="column is-one-quarter">
             <Apply
-                v-bind:config="config"
+                v-bind:config="currentConfig"
                 v-bind:currentEnv="currentEnv"
                 v-bind:currentUrl="currentUrl"
                 v-bind:localExtension="localExtension"
@@ -22,10 +22,10 @@
             <div id="env-editor" v-if="currentContent === 'envEditor'">
                 <NotifyUnknownPortal v-bind:currentEnv="currentEnv"/>
                 <NotifyUpdate v-bind:isVisible="updateRequired"/>
-                <EnvSelector v-bind:environments="config.environments" v-model="currentEnv"/>
-                <LocalSelector v-bind:extensions="config.localExtensions" v-model="localExtension"/>
+                <EnvSelector v-bind:environments="currentConfig.environments" v-model="currentEnv"/>
+                <LocalSelector v-bind:extensions="currentConfig.localExtensions" v-model="localExtension"/>
                 <FeatureGroup
-                    v-for="group in config.featureGroups"
+                    v-for="group in currentConfig.featureGroups"
                     v-bind:key="group.label"
                     v-bind:featureGroup.sync="group"/>
             </div>
@@ -42,7 +42,7 @@
                 <Versions />
             </div>
             <div id="settings-content" v-if="currentContent === 'settings'">
-                <Settings v-bind:configLoader="configLoader" v-bind:helpLink="config.help"/>
+                <Settings v-bind:configLoader="configFileLoader" v-bind:helpLink="configFile.help"/>
             </div>
         </main>
     </div>
@@ -65,7 +65,7 @@ import Sidebar from "./components/Sidebar.vue";
 import UrlParser from "./url/UrlParser";
 import Versions from "./components/Versions.vue";
 import Vue from "vue";
-import { IConfiguration, IFeature, IFeatureGroup } from "./config/Schema";
+import { IConfigFile, IConfiguration, IFeature, IFeatureGroup } from "./config/Schema";
 import { IUrlComponents } from "./url/IUrlComponents";
 
 export default Vue.extend({
@@ -90,15 +90,25 @@ export default Vue.extend({
                 query: {}
             },
             currentEnv: "",
-            localExtension: "",
-            configLoader: new ConfigLoader(),
-            config: <IConfiguration>{
-                version: "0",
-                help: "",
+            currentConfig: <IConfiguration>{
+                name: "",
                 environments: [],
                 localExtensions: [],
                 featureGroups: [],
                 dynamicFeatureGroups: []
+            },
+            localExtension: "",
+            configFileLoader: new ConfigLoader(),
+            configFile: <IConfigFile>{
+                version: "0",
+                help: "",
+                configs: [{
+                  name: "",
+                  environments: [],
+                  localExtensions: [],
+                  featureGroups: [],
+                  dynamicFeatureGroups: []
+                }]
             },
             dynamicFeatureGroups: <IFeatureGroup[]>[],
             currentContent: "loadConfig",
@@ -110,7 +120,7 @@ export default Vue.extend({
             return this.dynamicFeatureGroups.filter(g => g.label === this.currentContent)[0];
         },
         allFeatureGroups(): IFeatureGroup[] {
-            return [...this.config.featureGroups, ...this.dynamicFeatureGroups];
+            return [...this.currentConfig.featureGroups, ...this.dynamicFeatureGroups];
         }
     },
     async created() {
@@ -119,15 +129,25 @@ export default Vue.extend({
         this.currentUrl = await urlParser.parseUrl();
 
         // get config
-        this.configLoader.loaded = config => {
-            this.config = config;
+        this.configFileLoader.loaded = cf => {
+            this.configFile = cf;
 
-            // check current env
-            for (let env of config.environments) {
-                if (this.currentUrl.origin === `https://${env.host}` && (!env.params || Object.keys(env.params).every(p => !env.params || this.currentUrl.query[p] === env.params[p]))) {
-                    this.currentEnv = env.label;
-                    break;
-                }
+            // change current config if we're in a portal that matches
+            for (let i = 0; i < this.configFile.configs.length; i++) {
+              // check current env
+              for (let env of this.configFile.configs[i].environments) {
+                if (this.currentUrl.origin === `https://${env.host}`) {
+                      this.currentConfig = this.configFile.configs[i];
+
+                      if (!env.params || Object.keys(env.params).every(p => !env.params || this.currentUrl.query[p] === env.params[p])) {
+                          this.currentEnv = env.label;
+                          break;
+                      }
+                  }
+              }
+              if (this.currentEnv !== "") {
+                  break;
+              }
             }
 
             // hack to set currentEnv to something
@@ -141,7 +161,7 @@ export default Vue.extend({
             }
 
             // check current features
-            this.config.featureGroups.forEach(group => {
+            this.currentConfig.featureGroups.forEach(group => {
                 group.features.forEach(feature => {
                     if (this.currentUrl.query.hasOwnProperty(feature.name)) {
                         this.$set(feature, "selected", this.currentUrl.query[feature.name]);
@@ -150,10 +170,10 @@ export default Vue.extend({
             });
 
             // get dynamic features
-            if (config.dynamicFeatureGroups) {
-                config.dynamicFeatureGroups.forEach(async group => {
+            if (this.currentConfig != undefined && this.currentConfig.dynamicFeatureGroups != undefined) {
+                this.currentConfig.dynamicFeatureGroups?.forEach(async group => {
                     if (group.source[this.currentEnv]) {
-                        let features = await this.configLoader.loadFeatures(group.source[this.currentEnv], group.prefix);
+                        let features = await this.configFileLoader.loadFeatures(group.source[this.currentEnv], group.prefix);
                         features.forEach(feature => {
                             if (this.currentUrl.query.hasOwnProperty(feature.name)) {
                                 this.$set(feature, "selected", this.currentUrl.query[feature.name]);
@@ -169,14 +189,14 @@ export default Vue.extend({
 
             this.currentContent = "envEditor";
         };
-        this.configLoader.failedFetch = reason => {
+        this.configFileLoader.failedFetch = reason => {
             console.error("config load failed", reason);
         }
-        this.configLoader.incompatible = (extVer, configVer) => {
+        this.configFileLoader.incompatible = (extVer, configVer) => {
             this.updateRequired = true;
         }
 
-        await this.configLoader.loadConfig();
+        await this.configFileLoader.loadConfig();
     }
 })
 </script>

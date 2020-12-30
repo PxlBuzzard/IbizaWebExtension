@@ -1,10 +1,15 @@
-export interface IConfiguration {
+export interface IConfigFile {
     version: string;
     help: string;
+    configs: IConfiguration[];
+}
+
+export interface IConfiguration {
+    name: string;
     environments: IEnvironment[];
     localExtensions: string[];
     featureGroups: IFeatureGroup[];
-    dynamicFeatureGroups: IDynamicFeatureGroup[];
+    dynamicFeatureGroups?: IDynamicFeatureGroup[];
 }
 
 export interface IEnvironment {

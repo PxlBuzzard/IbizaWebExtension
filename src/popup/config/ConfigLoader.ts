@@ -1,18 +1,20 @@
-import { IConfiguration, IFeature } from "./Schema";
+import { IConfigFile, IFeature } from "./Schema";
 
-const COMPATIBLE_VERSION = "1";
+const COMPATIBLE_VERSION = "2";
 
 export default class ConfigLoader {
-    public loaded?: (config: IConfiguration) => void;
+    public loaded?: (config: IConfigFile) => void;
     public failedFetch?: (reason: any) => void;
     public incompatible?: (extVer: string, configVer: string) => void;
 
     public async loadConfig(): Promise<void> {
         // first execute load callback from local storage config
-        let config: IConfiguration = await this._getConfigFromChromeStorage();
+        let config: IConfigFile = await this._getConfigFromChromeStorage();
         if (config && config.version.split(".")[0] !== COMPATIBLE_VERSION) {
             if (this.incompatible) {
                 this.incompatible(COMPATIBLE_VERSION, config.version);
+            } else {
+              throw new Error("Incompatible config version");
             }
         } else if (config && this.loaded) {
             this.loaded(config);
@@ -20,15 +22,19 @@ export default class ConfigLoader {
 
         // then check remote config
         try {
-            let remoteConfig: IConfiguration = await this._getConfigFromRemote();
+            let remoteConfig: IConfigFile = await this._getConfigFromRemote();
+            // same version, do nothing
             if (config && config.version === remoteConfig.version) {
-                // same version, do nothing
-            } else if (remoteConfig.version.split(".")[0] !== COMPATIBLE_VERSION) {
+            }
+            // remote config is a major breaking change
+            // do not download, a web extension update will contain a new working config
+            else if (remoteConfig.version.split(".")[0] !== COMPATIBLE_VERSION) {
                 if (this.incompatible) {
                     this.incompatible(COMPATIBLE_VERSION, remoteConfig.version);
                 }
-                // remote config is incompatible so keep local config
-            } else {
+            }
+            // remote config is a minor update, save it
+            else {
                 this._storeConfig(remoteConfig);
                 if (this.loaded) {
                     this.loaded(remoteConfig);
@@ -64,18 +70,18 @@ export default class ConfigLoader {
         }, resolve));
     }
 
-    private _getConfigFromChromeStorage(): Promise<IConfiguration> {
+    private _getConfigFromChromeStorage(): Promise<IConfigFile> {
         return new Promise((resolve, reject) => chrome.storage.sync.get("config", result => {
             resolve(result.config && JSON.parse(result.config) || null);
         }));
     }
 
-    private async _getConfigFromRemote(): Promise<IConfiguration> {
+    private async _getConfigFromRemote(): Promise<IConfigFile> {
         let endpoint = await this.getConfigEndpoint();
         return fetch(endpoint).then(response => response.json());
     }
 
-    private _storeConfig(config: IConfiguration): Promise<void> {
+    private _storeConfig(config: IConfigFile): Promise<void> {
         return new Promise((resolve, reject) => chrome.storage.sync.set({
             config: JSON.stringify(config)
         }, resolve));
