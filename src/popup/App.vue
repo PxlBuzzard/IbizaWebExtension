@@ -133,6 +133,7 @@ export default Vue.extend({
         // get config
         this.configFileLoader.loaded = cf => {
             this.configFile = cf;
+            this.currentConfig = this.configFile.configs[0];
 
             // change current config if we're in a portal that matches
             for (let i = 0; i < this.configFile.configs.length; i++) {

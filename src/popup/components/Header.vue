@@ -93,6 +93,7 @@ h1 {
 }
 
 .azure-icon {
+  margin-top: -5px;
   margin-left: 3px;
 }
 </style>
