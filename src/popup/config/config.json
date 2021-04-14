@@ -1,8 +1,13 @@
 {
-    "version": "2.3",
+    "version": "2.4",
     "name": "Intune",
     "help": "https://intunewiki.com/wiki/Intune_Azure_Portal",
     "changelog": [
+      {
+        "version": "2.4",
+        "date": "April 14, 2021",
+        "notes": "FIXED: Canary sideloading in EDU."
+      },
       {
         "version": "2.3",
         "date": "December 30, 2020",
