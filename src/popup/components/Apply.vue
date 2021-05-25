@@ -17,7 +17,7 @@ export default Vue.extend({
         let urlParser = new UrlParser();
         let env = this.config.environments.filter((e: IEnvironment) => e.label === this.currentEnv)[0];
         let localExtConfig = this.config.extensions.filter((e: IExtension) => e.name === this.localExtension)[0];
-        let sideloadUrl = localExtConfig.environments.filter((e: IEnvironment) => e.label === this.currentEnv)[0]?.sideloadUrl;
+        let sideloadUrl = localExtConfig?.environments.filter((e: IEnvironment) => e.label === this.currentEnv)[0]?.sideloadUrl;
 
         if (sideloadUrl == undefined) {
             sideloadUrl = "https://localhost:44300";
