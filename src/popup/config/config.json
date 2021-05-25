@@ -1,8 +1,13 @@
 {
-    "version": "3.0",
+    "version": "3.1",
     "name": "Intune",
     "help": "https://intunewiki.com/wiki/Intune_Azure_Portal",
     "changelog": [
+        {
+            "version": "3.1",
+            "date": "May 24, 2021",
+            "notes": "FIXED: Loading local config when it doesn't have chunked writes."
+        },
         {
             "version": "3.0",
             "date": "May 24, 2021",

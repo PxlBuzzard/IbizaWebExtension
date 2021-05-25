@@ -9,23 +9,34 @@ export default class ConfigLoader {
 
     public async loadConfig(): Promise<void> {
         // first execute load callback from local storage config
-        let config: IConfigFile = await this._getConfigFromChromeStorage();
-        if (config?.version?.split(".")[0] !== COMPATIBLE_VERSION) {
-            if (this.incompatible) {
-                this.incompatible(COMPATIBLE_VERSION, config.version);
-            } else {
-              throw new Error("Incompatible config version");
+        let config: IConfigFile = {
+          version: "0",
+          help: "",
+          changelog: [],
+          configs: []
+        };
+
+        try {
+            config = await this._getConfigFromChromeStorage();
+            if (config?.version?.split(".")[0] !== COMPATIBLE_VERSION) {
+                if (this.incompatible) {
+                    this.incompatible(COMPATIBLE_VERSION, config.version);
+                } else {
+                  throw new Error("Incompatible config version");
+                }
+            } else if (config && this.loaded) {
+                console.log("Successfully loaded config from Chrome storage");
+                this.loaded(config);
             }
-        } else if (config && this.loaded) {
-            console.log("Successfully loaded config from Chrome storage");
-            this.loaded(config);
+        } catch (ex) {
+            console.error(ex);
         }
 
         // then check remote config
         try {
             let remoteConfig: IConfigFile = await this._getConfigFromRemote();
             // same version, do nothing
-            if (config && config.version === remoteConfig.version) {
+            if (config?.version === remoteConfig.version) {
             }
             // remote config is a major breaking change
             // do not download, a web extension update will contain a new working config
@@ -123,6 +134,9 @@ export default class ConfigLoader {
             if (typeof key !== 'string') key = `${key}`;
             const keyNum = key + '#';
             chrome.storage.sync.get(keyNum, data => {
+                if (data == undefined) {
+                    throw new Error("Local config is not configured for chunked reads.");
+                }
                 const num = data[keyNum];
                 console.log(`Config file chunks: ${num}`);
                 const keys: any[] = [];
@@ -132,10 +146,9 @@ export default class ConfigLoader {
                 chrome.storage.sync.get(keys, data => {
                     const chunks: any[] = [];
                     for (let i = 0; i < num; i++) {
-                        chunks.push(data[key + i] || '');
+                        chunks.push(data[key + i] || "");
                     }
-                    const str = chunks.join('');
-                    console.log(JSON.parse(str));
+                    const str = chunks.join("");
                     resolve(str ? JSON.parse(str) : undefined);
                 });
             });
