@@ -1,269 +1,487 @@
 {
-    "version": "2.4",
+    "version": "3.0",
     "name": "Intune",
     "help": "https://intunewiki.com/wiki/Intune_Azure_Portal",
     "changelog": [
-      {
-        "version": "2.4",
-        "date": "April 14, 2021",
-        "notes": "FIXED: Canary sideloading in EDU."
-      },
-      {
-        "version": "2.3",
-        "date": "December 30, 2020",
-        "notes": "FIXED: Removed MTM from the local extensions list of the Endpoint config.\nFIXED: Mock data toggle in EDU."
-      },
-      {
-        "version": "2.1",
-        "date": "December 30, 2020",
-        "notes": "FIXED: Default to showing the first config if none of the config URLs match.\nADDED: A changelog."
-      }
-    ],
-    "configs": [
-      {
-        "name": "Intune - Endpoint",
-        "environments": [
-          {
-              "label": "DF",
-              "host": "df-devicemanagement.onecloud.azure-test.net"
-          },
-          {
-              "label": "Selfhost",
-              "host": "endpoint.microsoft.com",
-              "params": {
-                  "feature.canmodifystamps": "true",
-                  "feature.canmodifyextensions": "true",
-                  "feature.Microsoft_Intune": "sh",
-                  "Microsoft_Intune": "sh",
-                  "Microsoft_Intune_Apps": "selfhost",
-                  "Microsoft_Intune_Devices": "selfhost",
-                  "Microsoft_Intune_DeviceSettings": "selfhost",
-                  "Microsoft_Intune_Enrollment": "selfhost",
-                  "Microsoft_Intune_Workflows": "selfhost"
-              }
-          },
-          {
-              "label": "Canary",
-              "host": "endpoint.microsoft.com",
-              "params": {
-                  "feature.canmodifystamps": "true",
-                  "feature.canmodifyextensions": "true",
-                  "feature.Microsoft_Intune": "ctip",
-                  "Microsoft_Intune": "ctip",
-                  "Microsoft_Intune_Apps": "canary",
-                  "Microsoft_Intune_Devices": "canary",
-                  "Microsoft_Intune_DeviceSettings": "canary",
-                  "Microsoft_Intune_Enrollment": "canary",
-                  "Microsoft_Intune_Workflows": "canary"
-              }
-          },
-          {
-              "label": "TestProd",
-              "host": "endpoint.microsoft.com",
-              "params": {
-                  "feature.canmodifystamps": "true",
-                  "feature.canmodifyextensions": "true",
-                  "feature.Microsoft_Intune": "testprod",
-                  "Microsoft_Intune": "testprod",
-                  "Microsoft_Intune_Apps": "testprod",
-                  "Microsoft_Intune_Devices": "testprod",
-                  "Microsoft_Intune_DeviceSettings": "testprod",
-                  "Microsoft_Intune_Enrollment": "testprod",
-                  "Microsoft_Intune_Workflows": "testprod"
-              }
-          },
-          {
-              "label": "Prod",
-              "host": "endpoint.microsoft.com",
-              "params": {
-                  "Microsoft_Intune_Apps": "prod",
-                  "Microsoft_Intune_Devices": "prod",
-                  "Microsoft_Intune_DeviceSettings": "prod",
-                  "Microsoft_Intune_Workflows": "prod"
-              }
-          },
-          {
-              "label": "Fairfax",
-              "host": "endpoint.microsoft.us"
-          },
-          {
-              "label": "MC",
-              "host": "endpoint.microsoftonline.cn"
-          }
-      ],
-      "localExtensions": [
-          "Microsoft_Intune",
-          "Microsoft_Intune_Apps",
-          "Microsoft_Intune_Devices",
-          "Microsoft_Intune_DeviceSettings",
-          "Microsoft_Intune_Enrollment",
-          "Microsoft_Intune_Workflows"
-      ],
-      "featureGroups": [
-          {
-              "label": "Global features",
-              "features": [
-                  {
-                      "label": "Client optimizations",
-                      "name": "clientOptimizations",
-                      "options": [
-                          "true",
-                          "false"
-                      ]
-                  },
-                  {
-                      "label": "Intune service environment (defaults to current env)",
-                      "name": "feature.intune_env",
-                      "options": [
-                          "df",
-                          "sh",
-                          "canary",
-                          "prod",
-                          "fairfax",
-                          "mooncake"
-                      ]
-                  },
-                  {
-                      "label": "Mock data",
-                      "name": "feature.intune_mockgraph",
-                      "options": [
-                          "true",
-                          "false"
-                      ]
-                  }
-              ]
-          }
-      ],
-      "dynamicFeatureGroups": [
-          {
-              "label": "Enrollment",
-              "prefix": "microsoft_intune_enrollment_",
-              "source": {
-                  "DF": "https://hosting.onecloud.azure-test.net/intuneenrollment/Content/Scripts/Shared/Features.js",
-                  "Selfhost": "https://intuneenrollmentsh.hosting.portal.azure.net/intuneenrollmentsh/Content/Scripts/Shared/Features.js",
-                  "Canary": "https://intuneenrollmentctip.hosting.portal.azure.net/intuneenrollmentctip/Content/Scripts/Shared/Features.js",
-                  "TestProd": "https://intuneenrollment.hosting.portal.azure.net/intuneenrollment/Content/Scripts/Shared/Features.js",
-                  "Prod": "https://intuneenrollment.hosting.portal.azure.net/intuneenrollment/Content/Scripts/Shared/Features.js",
-                  "Fairfax": "https://fxp.enrollment.mdm.ext.azure.us/Content/Scripts/Shared/Features.js"
-              }
-          },
-          {
-              "label": "Devices",
-              "prefix": "microsoft_intune_devices_",
-              "source": {
-                  "DF": "https://hosting.onecloud.azure-test.net/intunedevices/Content/Scripts/Shared/Features.js",
-                  "Selfhost": "https://intunedevicessh.hosting.portal.azure.net/intunedevicessh/Content/Scripts/Shared/Features.js",
-                  "Canary": "https://intunedevicesctip.hosting.portal.azure.net/intunedevicesctip/Content/Scripts/Shared/Features.js",
-                  "TestProd": "https://intunedevices.hosting.portal.azure.net/intunedevices/Content/Scripts/Shared/Features.js",
-                  "Prod": "https://intunedevices.hosting.portal.azure.net/intunedevices/Content/Scripts/Shared/Features.js",
-                  "Fairfax": "https://fxp.devices.mdm.ext.azure.us/Content/Scripts/Shared/Features.js"
-              }
-          }
-      ]
-    },
-    {
-      "name":"Intune - EDU",
-      "environments": [
         {
-            "label": "DF",
-            "host": "df-intune-edu.onecloud.azure-test.net"
+            "version": "3.0",
+            "date": "May 24, 2021",
+            "notes": "ADDED: Per extension and per environment sideloading URL."
         },
         {
-            "label": "Selfhost",
-            "host": "intuneeducation.portal.azure.com",
-            "params": {
-                "feature.canmodifystamps": "true",
-                "feature.canmodifyextensions": "true",
-                "Microsoft_Intune_Edu": "selfhost"
-            }
+            "version": "2.4",
+            "date": "April 14, 2021",
+            "notes": "FIXED: Canary sideloading in EDU."
         },
         {
-            "label": "Canary",
-            "host": "intuneeducation.portal.azure.com",
-            "params": {
-                "feature.canmodifystamps": "true",
-                "feature.canmodifyextensions": "true",
-                "Microsoft_Intune_Edu": "canary"
-            }
+            "version": "2.3",
+            "date": "December 30, 2020",
+            "notes": "FIXED: Removed MTM from the local extensions list of the Endpoint config.\nFIXED: Mock data toggle in EDU."
         },
         {
-            "label": "TestProd",
-            "host": "intuneeducation.portal.azure.com",
-            "params": {
-                "feature.canmodifystamps": "true",
-                "feature.canmodifyextensions": "true",
-                "Microsoft_Intune_Edu": "testprod"
-            }
-        },
-        {
-            "label": "Prod",
-            "host": "intuneeducation.portal.azure.com"
+            "version": "2.1",
+            "date": "December 30, 2020",
+            "notes": "FIXED: Default to showing the first config if none of the config URLs match.\nADDED: A changelog."
         }
     ],
-    "localExtensions": [
-        "Microsoft_Intune_Edu"
-    ],
-    "featureGroups": [
+    "configs": [
         {
-            "label": "Global features",
-            "features": [
+            "name": "Intune - Endpoint",
+            "environments": [
                 {
-                    "label": "Client optimizations",
-                    "name": "clientOptimizations",
-                    "options": [
-                        "true",
-                        "false"
+                    "label": "DF",
+                    "host": "df-devicemanagement.onecloud.azure-test.net"
+                },
+                {
+                    "label": "Selfhost",
+                    "host": "endpoint.microsoft.com",
+                    "params": {
+                        "feature.canmodifystamps": "true",
+                        "feature.canmodifyextensions": "true",
+                        "feature.Microsoft_Intune": "sh"
+                    }
+                },
+                {
+                    "label": "Canary",
+                    "host": "endpoint.microsoft.com",
+                    "params": {
+                        "feature.canmodifystamps": "true",
+                        "feature.canmodifyextensions": "true",
+                        "feature.Microsoft_Intune": "ctip"
+                    }
+                },
+                {
+                    "label": "TestProd",
+                    "host": "endpoint.microsoft.com",
+                    "params": {
+                        "feature.canmodifystamps": "true",
+                        "feature.canmodifyextensions": "true",
+                        "feature.Microsoft_Intune": "testprod"
+                    }
+                },
+                {
+                    "label": "Prod",
+                    "host": "endpoint.microsoft.com"
+                },
+                {
+                    "label": "Fairfax",
+                    "host": "endpoint.microsoft.us"
+                },
+                {
+                    "label": "MC",
+                    "host": "endpoint.microsoftonline.cn"
+                }
+            ],
+            "extensions": [
+                {
+                    "name": "Microsoft_Intune",
+                    "environments": [
+                        {
+                            "label": "DF",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "Selfhost",
+                            "stamp": "sh",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "Canary",
+                            "stamp": "ctip",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "TestProd",
+                            "stamp": "testprod",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "Prod",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "Fairfax",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "MC",
+                            "sideloadUrl": "https://localhost:44300"
+                        }
                     ]
                 },
                 {
-                    "label": "Mock data",
-                    "name": "feature.configuration",
-                    "options": [
-                        "UseMockData"
+                    "name": "Microsoft_Intune_Apps",
+                    "environments": [
+                        {
+                            "label": "DF",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "Selfhost",
+                            "stamp": "selfhost",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "Canary",
+                            "stamp": "canary",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "TestProd",
+                            "stamp": "testprod",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "Prod",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "Fairfax",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "MC",
+                            "sideloadUrl": "https://localhost:44300"
+                        }
+                    ]
+                },
+                {
+                    "name": "Microsoft_Intune_Devices",
+                    "environments": [
+                        {
+                            "label": "DF",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "Selfhost",
+                            "stamp": "selfhost",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "Canary",
+                            "stamp": "canary",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "TestProd",
+                            "stamp": "testprod",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "Prod",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "Fairfax",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "MC",
+                            "sideloadUrl": "https://localhost:44300"
+                        }
+                    ]
+                },
+                {
+                    "name": "Microsoft_Intune_DeviceSettings",
+                    "environments": [
+                        {
+                            "label": "DF",
+                            "sideloadUrl": "https://localhost:17159/intunedevicesettings"
+                        },
+                        {
+                            "label": "Selfhost",
+                            "stamp": "selfhost",
+                            "sideloadUrl": "https://localhost:17159/intunedevicesettings"
+                        },
+                        {
+                            "label": "Canary",
+                            "stamp": "canary",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "TestProd",
+                            "stamp": "testprod",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "Prod",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "Fairfax",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "MC",
+                            "sideloadUrl": "https://localhost:44300"
+                        }
+                    ]
+                },
+                {
+                    "name": "Microsoft_Intune_Enrollment",
+                    "environments": [
+                        {
+                            "label": "DF",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "Selfhost",
+                            "stamp": "selfhost",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "Canary",
+                            "stamp": "canary",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "TestProd",
+                            "stamp": "testprod",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "Prod",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "Fairfax",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "MC",
+                            "sideloadUrl": "https://localhost:44300"
+                        }
+                    ]
+                },
+                {
+                    "name": "Microsoft_Intune_Workflows",
+                    "environments": [
+                        {
+                            "label": "DF",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "Selfhost",
+                            "stamp": "selfhost",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "Canary",
+                            "stamp": "canary",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "TestProd",
+                            "stamp": "testprod",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "Prod",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "Fairfax",
+                            "sideloadUrl": "https://localhost:44300"
+                        },
+                        {
+                            "label": "MC",
+                            "sideloadUrl": "https://localhost:44300"
+                        }
+                    ]
+                }
+            ],
+            "featureGroups": [
+                {
+                    "label": "Global features",
+                    "features": [
+                        {
+                            "label": "Client optimizations (false loads all files)",
+                            "name": "clientOptimizations",
+                            "options": [
+                                "true",
+                                "false"
+                            ]
+                        },
+                        {
+                            "label": "Mock data",
+                            "name": "feature.intune_mockgraph",
+                            "options": [
+                                "true",
+                                "false"
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "dynamicFeatureGroups": [
+                {
+                    "label": "Devices",
+                    "prefix": "microsoft_intune_devices_",
+                    "source": {
+                        "DF": "https://hosting.onecloud.azure-test.net/intunedevices/Content/Scripts/Shared/Features.js",
+                        "Selfhost": "https://intunedevicessh.hosting.portal.azure.net/intunedevicessh/Content/Scripts/Shared/Features.js",
+                        "Canary": "https://intunedevicesctip.hosting.portal.azure.net/intunedevicesctip/Content/Scripts/Shared/Features.js",
+                        "TestProd": "https://intunedevices.hosting.portal.azure.net/intunedevices/Content/Scripts/Shared/Features.js",
+                        "Prod": "https://intunedevices.hosting.portal.azure.net/intunedevices/Content/Scripts/Shared/Features.js",
+                        "Fairfax": "https://fxp.devices.mdm.ext.azure.us/Content/Scripts/Shared/Features.js"
+                    }
+                },
+                {
+                    "label": "Enrollment",
+                    "prefix": "microsoft_intune_enrollment_",
+                    "source": {
+                        "DF": "https://hosting.onecloud.azure-test.net/intuneenrollment/Content/Scripts/Shared/Features.js",
+                        "Selfhost": "https://intuneenrollmentsh.hosting.portal.azure.net/intuneenrollmentsh/Content/Scripts/Shared/Features.js",
+                        "Canary": "https://intuneenrollmentctip.hosting.portal.azure.net/intuneenrollmentctip/Content/Scripts/Shared/Features.js",
+                        "TestProd": "https://intuneenrollment.hosting.portal.azure.net/intuneenrollment/Content/Scripts/Shared/Features.js",
+                        "Prod": "https://intuneenrollment.hosting.portal.azure.net/intuneenrollment/Content/Scripts/Shared/Features.js",
+                        "Fairfax": "https://fxp.enrollment.mdm.ext.azure.us/Content/Scripts/Shared/Features.js"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Intune - EDU",
+            "environments": [
+                {
+                    "label": "DF",
+                    "host": "df-intune-edu.onecloud.azure-test.net"
+                },
+                {
+                    "label": "Selfhost",
+                    "host": "intuneeducation.portal.azure.com",
+                    "params": {
+                        "feature.canmodifystamps": "true",
+                        "feature.canmodifyextensions": "true",
+                        "Microsoft_Intune_Edu": "selfhost"
+                    }
+                },
+                {
+                    "label": "Canary",
+                    "host": "intuneeducation.portal.azure.com",
+                    "params": {
+                        "feature.canmodifystamps": "true",
+                        "feature.canmodifyextensions": "true",
+                        "Microsoft_Intune_Edu": "canary"
+                    }
+                },
+                {
+                    "label": "TestProd",
+                    "host": "intuneeducation.portal.azure.com",
+                    "params": {
+                        "feature.canmodifystamps": "true",
+                        "feature.canmodifyextensions": "true",
+                        "Microsoft_Intune_Edu": "testprod"
+                    }
+                },
+                {
+                    "label": "Prod",
+                    "host": "intuneeducation.portal.azure.com"
+                }
+            ],
+            "extensions": [
+                {
+                    "name": "Microsoft_Intune_Edu",
+                    "environments": [
+                        {
+                            "label": "DF",
+                            "sideloadUrl": "https://localhost:17159/edu"
+                        },
+                        {
+                            "label": "Selfhost",
+                            "stamp": "selfhost",
+                            "sideloadUrl": "https://localhost:17159/edu"
+                        },
+                        {
+                            "label": "Canary",
+                            "stamp": "canary",
+                            "sideloadUrl": "https://localhost:17159/edu"
+                        },
+                        {
+                            "label": "TestProd",
+                            "stamp": "testprod",
+                            "sideloadUrl": "https://localhost:17159/edu"
+                        },
+                        {
+                            "label": "Prod",
+                            "sideloadUrl": "https://localhost:17159/edu"
+                        }
+                    ]
+                }
+            ],
+            "featureGroups": [
+                {
+                    "label": "Global features",
+                    "features": [
+                        {
+                            "label": "Client optimizations",
+                            "name": "clientOptimizations",
+                            "options": [
+                                "true",
+                                "false"
+                            ]
+                        },
+                        {
+                            "label": "Mock data",
+                            "name": "feature.configuration",
+                            "options": [
+                                "UseMockData"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Intune - MTM",
+            "environments": [
+                {
+                    "label": "Selfhost",
+                    "host": "rc-m365multitenantmanagement.portal.azure.com"
+                },
+                {
+                    "label": "Prod",
+                    "host": "lighthouse.microsoft.com"
+                }
+            ],
+            "extensions": [
+                {
+                    "name": "Microsoft_Intune_MTM",
+                    "environments": [
+                        {
+                            "label": "Selfhost",
+                            "sideloadUrl": "https://localhost:17159/mtm"
+                        },
+                        {
+                            "label": "Prod",
+                            "sideloadUrl": "https://localhost:17159/mtm"
+                        }
+                    ]
+                }
+            ],
+            "featureGroups": [
+                {
+                    "label": "Global features",
+                    "features": [
+                        {
+                            "label": "Client optimizations",
+                            "name": "clientOptimizations",
+                            "options": [
+                                "true",
+                                "false"
+                            ]
+                        },
+                        {
+                            "label": "React reload",
+                            "name": "feature.reactreload",
+                            "options": [
+                                "true",
+                                "false"
+                            ]
+                        }
                     ]
                 }
             ]
         }
-      ]
-    },
-    {
-      "name":"Intune - MTM",
-      "environments": [
-        {
-            "label": "Selfhost",
-            "host": "rc-m365multitenantmanagement.portal.azure.com"
-        },
-        {
-            "label": "Prod",
-            "host": "lighthouse.microsoft.com"
-        }
-    ],
-    "localExtensions": [
-        "Microsoft_Intune_MTM"
-    ],
-    "featureGroups": [
-        {
-            "label": "Global features",
-            "features": [
-                {
-                    "label": "Client optimizations",
-                    "name": "clientOptimizations",
-                    "options": [
-                        "true",
-                        "false"
-                    ]
-                },
-                {
-                  "label": "React reload",
-                  "name": "feature.reactreload",
-                  "options": [
-                      "true",
-                      "false"
-                  ]
-              }
-            ]
-        }
-      ]
-    }
-  ]
+    ]
 }

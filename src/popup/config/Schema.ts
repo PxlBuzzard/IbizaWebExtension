@@ -8,7 +8,7 @@ export interface IConfigFile {
 export interface IConfiguration {
     name: string;
     environments: IEnvironment[];
-    localExtensions: string[];
+    extensions: IExtension[];
     featureGroups: IFeatureGroup[];
     dynamicFeatureGroups?: IDynamicFeatureGroup[];
 }
@@ -16,7 +16,14 @@ export interface IConfiguration {
 export interface IEnvironment {
     label: string;
     host: string;
+    sideloadUrl?: string;
+    stamp?: string;
     params?: StringMap<string>;
+}
+
+export interface IExtension {
+  name: string;
+  environments: IEnvironment[];
 }
 
 export interface IFeatureGroup {

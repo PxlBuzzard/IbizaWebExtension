@@ -1,6 +1,6 @@
 import { IConfigFile, IFeature } from "./Schema";
 
-const COMPATIBLE_VERSION = "2";
+const COMPATIBLE_VERSION = "3";
 
 export default class ConfigLoader {
     public loaded?: (config: IConfigFile) => void;
@@ -10,13 +10,14 @@ export default class ConfigLoader {
     public async loadConfig(): Promise<void> {
         // first execute load callback from local storage config
         let config: IConfigFile = await this._getConfigFromChromeStorage();
-        if (config && config.version.split(".")[0] !== COMPATIBLE_VERSION) {
+        if (config?.version?.split(".")[0] !== COMPATIBLE_VERSION) {
             if (this.incompatible) {
                 this.incompatible(COMPATIBLE_VERSION, config.version);
             } else {
               throw new Error("Incompatible config version");
             }
         } else if (config && this.loaded) {
+            console.log("Successfully loaded config from Chrome storage");
             this.loaded(config);
         }
 
@@ -35,7 +36,7 @@ export default class ConfigLoader {
             }
             // remote config is a minor update, save it
             else {
-                this._storeConfig(remoteConfig);
+                await this._storeConfig(remoteConfig);
                 if (this.loaded) {
                     this.loaded(remoteConfig);
                 }
@@ -59,7 +60,9 @@ export default class ConfigLoader {
 
     public getConfigEndpoint(): Promise<string> {
         return new Promise((resolve, reject) => chrome.storage.sync.get("configEndpoint", result => {
-            resolve(result.configEndpoint || "https://gist.github.com/PxlBuzzard/f055b8043c5972befc37b32f4d25feb2/raw/azureportaldevextensionconfig.json");
+            const configUrl = result.configEndpoint || "https://gist.github.com/PxlBuzzard/f055b8043c5972befc37b32f4d25feb2/raw/azureportaldevextensionconfig.json";
+            console.log(`Getting config from ${configUrl}`);
+            resolve(configUrl);
         }));
     }
 
@@ -70,9 +73,10 @@ export default class ConfigLoader {
     }
 
     private _getConfigFromChromeStorage(): Promise<IConfigFile> {
-        return new Promise((resolve, reject) => chrome.storage.sync.get("config", result => {
-            resolve(result.config && JSON.parse(result.config) || null);
-        }));
+        // return new Promise((resolve, reject) => chrome.storage.sync.get("config", result => {
+        //     resolve(result.config && JSON.parse(result.config) || null);
+        // }));
+        return this._chunkedRead("config");
     }
 
     private async _getConfigFromRemote(): Promise<IConfigFile> {
@@ -81,8 +85,60 @@ export default class ConfigLoader {
     }
 
     private _storeConfig(config: IConfigFile): Promise<void> {
-        return new Promise((resolve, reject) => chrome.storage.sync.set({
-            config: JSON.stringify(config)
-        }, resolve));
+        // return new Promise((resolve, reject) => chrome.storage.sync.set({
+        //     config: JSON.stringify(config)
+        // }, resolve));
+        return this._chunkedWrite("config", config);
+    }
+
+    // taken from https://stackoverflow.com/questions/67353979/algorithm-to-break-down-item-for-chrome-storage-sync/67429150#67429150
+    private _chunkedWrite(key: string, value: IConfigFile): Promise<void> {
+        return new Promise(resolve => {
+            if (typeof key !== 'string') key = `${key}`;
+            const str = JSON.stringify(value);
+            const len = chrome.storage.sync.QUOTA_BYTES_PER_ITEM - key.length - 1000;
+            const num = Math.ceil(str.length / len);
+            const obj: any = {};
+            obj[key + '#'] = num;
+            for (let i = 0; i < num; i++) {
+                obj[key + i] = str.substr(i * len, len);
+            }
+            console.log(`Splitting config file into ${num} parts`);
+            console.log(obj);
+            return chrome.storage.sync.set(obj, () => {
+                if (chrome.runtime.lastError) {
+                    console.error(`Failed to save config`);
+                    throw new Error(chrome.runtime.lastError.message);
+                } else {
+                    console.log("Config saved");
+                }
+
+                return resolve();
+            });
+        });
+    }
+
+    private _chunkedRead(key: string): Promise<IConfigFile> {
+        return new Promise(resolve => {
+            if (typeof key !== 'string') key = `${key}`;
+            const keyNum = key + '#';
+            chrome.storage.sync.get(keyNum, data => {
+                const num = data[keyNum];
+                console.log(`Config file chunks: ${num}`);
+                const keys: any[] = [];
+                for (let i = 0; i < num; i++) {
+                    keys[i] = key + i;
+                }
+                chrome.storage.sync.get(keys, data => {
+                    const chunks: any[] = [];
+                    for (let i = 0; i < num; i++) {
+                        chunks.push(data[key + i] || '');
+                    }
+                    const str = chunks.join('');
+                    console.log(JSON.parse(str));
+                    resolve(str ? JSON.parse(str) : undefined);
+                });
+            });
+        });
     }
 }

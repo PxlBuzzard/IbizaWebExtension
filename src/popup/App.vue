@@ -25,7 +25,7 @@
                 <NotifyUnknownPortal v-bind:currentEnv="currentEnv"/>
                 <NotifyUpdate v-bind:isVisible="updateRequired"/>
                 <EnvSelector v-bind:environments="currentConfig.environments" v-model="currentEnv"/>
-                <LocalSelector v-bind:extensions="currentConfig.localExtensions" v-model="localExtension"/>
+                <LocalSelector v-bind:extensions="currentConfig.extensions" v-model="localExtension"/>
                 <FeatureGroup
                     v-for="group in currentConfig.featureGroups"
                     v-bind:key="group.label"
@@ -70,7 +70,7 @@ import Sidebar from "./components/Sidebar.vue";
 import UrlParser from "./url/UrlParser";
 import Versions from "./components/Versions.vue";
 import Vue from "vue";
-import { IConfigFile, IConfiguration, IFeature, IFeatureGroup } from "./config/Schema";
+import { IConfigFile, IConfiguration, IFeatureGroup } from "./config/Schema";
 import { IUrlComponents } from "./url/IUrlComponents";
 
 export default Vue.extend({
@@ -98,7 +98,7 @@ export default Vue.extend({
             currentConfig: <IConfiguration>{
                 name: "",
                 environments: [],
-                localExtensions: [],
+                extensions: [],
                 featureGroups: [],
                 dynamicFeatureGroups: []
             },
@@ -111,7 +111,7 @@ export default Vue.extend({
                 configs: [{
                   name: "",
                   environments: [],
-                  localExtensions: [],
+                  extensions: [],
                   featureGroups: [],
                   dynamicFeatureGroups: []
                 }]
@@ -197,7 +197,7 @@ export default Vue.extend({
             this.currentContent = "envEditor";
         };
         this.configFileLoader.failedFetch = reason => {
-            console.error("config load failed", reason);
+            console.error("Config load failed", reason);
         }
         this.configFileLoader.incompatible = (extVer, configVer) => {
             this.updateRequired = true;

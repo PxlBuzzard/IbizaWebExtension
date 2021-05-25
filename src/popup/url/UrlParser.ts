@@ -28,7 +28,7 @@ export default class UrlParser {
     public setUrl(urlComponents: IUrlComponents): Promise<void> {
         let url = new URL(urlComponents.origin);
         Object.keys(urlComponents.query).forEach(key => url.searchParams.set(key, urlComponents.query[key]));
-        url.hash = `${urlComponents.fragment}${urlComponents.testExtension ? `?${this._stringifyTestExtension(urlComponents.testExtension)}` : ""}`;
+        url.hash = `${urlComponents.fragment}${urlComponents.testExtension ? `?${this._stringifyTestExtension(urlComponents.testExtension, urlComponents.sideloadUrl)}` : ""}`;
         if (urlComponents.testExtension) {
             url.searchParams.set("feature.canmodifyextensions", "true");
         }
@@ -37,7 +37,7 @@ export default class UrlParser {
             const listener = () => chrome.tabs.reload(() => {
                 chrome.tabs.onUpdated.removeListener(listener);
                 resolve();
-                window.close();
+                // window.close();
             });
             chrome.tabs.onUpdated.addListener(listener);
             chrome.tabs.update({ url: url.href });
@@ -50,7 +50,7 @@ export default class UrlParser {
         return match && match[1];
     }
 
-    private _stringifyTestExtension(testExtension: string) {
-        return `testExtensions={"${testExtension}":"https://localhost:44300/"}`;
+    private _stringifyTestExtension(testExtension: string, sideloadUrl?: string) {
+        return `testExtensions={"${testExtension}":"${sideloadUrl != null ? sideloadUrl : "https://localhost:44300/"}"}`;
     }
 }

@@ -12,12 +12,12 @@
     <div
         class="field"
         v-for="ext in extensions"
-        v-bind:key="ext">
+        v-bind:key="ext.name">
         <b-radio
             v-model="extensionSelected"
-            :native-value="ext"
+            :native-value="ext.name"
             @input="$emit('input', extensionSelected)">
-            {{ ext }}
+            {{ ext.name }}
         </b-radio>
     </div>
 </section>
