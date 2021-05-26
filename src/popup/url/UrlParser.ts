@@ -37,7 +37,7 @@ export default class UrlParser {
             const listener = () => chrome.tabs.reload(() => {
                 chrome.tabs.onUpdated.removeListener(listener);
                 resolve();
-                // window.close();
+                window.close();
             });
             chrome.tabs.onUpdated.addListener(listener);
             chrome.tabs.update({ url: url.href });

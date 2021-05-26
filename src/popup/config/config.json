@@ -1,12 +1,12 @@
 {
-    "version": "3.2",
+    "version": "3.3",
     "name": "Intune",
     "help": "https://intunewiki.com/wiki/Intune_Azure_Portal",
     "changelog": [
         {
-            "version": "3.2",
+            "version": "3.3",
             "date": "May 25, 2021",
-            "notes": "FIXED: Loading local config when it doesn't have chunked writes.\nFIXED: Env selection without a sideloaded extension."
+            "notes": "FIXED: Loading local config when it doesn't have chunked writes.\nFIXED: Env selection without a sideloaded extension.\nFIXED: Empty stamps being added to the URL."
         },
         {
             "version": "3.0",

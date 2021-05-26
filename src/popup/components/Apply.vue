@@ -19,18 +19,15 @@ export default Vue.extend({
         let localExtConfig = this.config.extensions.filter((e: IExtension) => e.name === this.localExtension)[0];
         let sideloadUrl = localExtConfig?.environments.filter((e: IEnvironment) => e.label === this.currentEnv)[0]?.sideloadUrl;
 
-        if (sideloadUrl == undefined) {
-            sideloadUrl = "https://localhost:44300";
-            console.error(`Sideload URL is undefined, falling back to ${sideloadUrl}`);
-        }
-
         // add env stamps to URL
         let exts = this.config.extensions.map((ext: IExtension) => ext.environments);
         let extNames = this.config.extensions.map((ext: IExtension) => ext.name);
         let stampQueries: StringMap<string> = {};
         for (let i = 0; i < exts.length; i++) {
-          let stamp = exts[i].filter((e: IEnvironment) => e.label === this.currentEnv)[0].stamp || "";
-          stampQueries[extNames[i]] = stamp;
+            let stamp = exts[i].filter((e: IEnvironment) => e.label === this.currentEnv)[0]?.stamp;
+            if (stamp != undefined) {
+              stampQueries[extNames[i]] = stamp;
+            }
         }
 
         let finalQueries: StringMap<string> = {};
