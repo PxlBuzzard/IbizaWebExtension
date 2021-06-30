@@ -1,5 +1,5 @@
 {
-    "version": "3.4",
+    "version": "3.6",
     "name": "Intune",
     "help": "https://intunewiki.com/wiki/Intune_Azure_Portal",
     "changelog": [
@@ -209,25 +209,25 @@
                         {
                             "label": "Canary",
                             "stamp": "canary",
-                            "sideloadUrl": "https://localhost:44300"
+                            "sideloadUrl": "https://localhost:17159/intunedevicesettings"
                         },
                         {
                             "label": "TestProd",
                             "stamp": "testprod",
-                            "sideloadUrl": "https://localhost:44300"
+                            "sideloadUrl": "https://localhost:17159/intunedevicesettings"
                         },
                         {
                             "label": "Prod",
                             "stamp": "prod",
-                            "sideloadUrl": "https://localhost:44300"
+                            "sideloadUrl": "https://localhost:17159/intunedevicesettings"
                         },
                         {
                             "label": "Fairfax",
-                            "sideloadUrl": "https://localhost:44300"
+                            "sideloadUrl": "https://localhost:17159/intunedevicesettings"
                         },
                         {
                             "label": "MC",
-                            "sideloadUrl": "https://localhost:44300"
+                            "sideloadUrl": "https://localhost:17159/intunedevicesettings"
                         }
                     ]
                 },
@@ -401,27 +401,27 @@
                     "environments": [
                         {
                             "label": "DF",
-                            "sideloadUrl": "https://localhost:17159/edu"
+                            "sideloadUrl": "https://localhost:17159/intuneedu"
                         },
                         {
                             "label": "Selfhost",
                             "stamp": "selfhost",
-                            "sideloadUrl": "https://localhost:17159/edu"
+                            "sideloadUrl": "https://localhost:17159/intuneedu"
                         },
                         {
                             "label": "Canary",
                             "stamp": "canary",
-                            "sideloadUrl": "https://localhost:17159/edu"
+                            "sideloadUrl": "https://localhost:17159/intuneedu"
                         },
                         {
                             "label": "TestProd",
                             "stamp": "testprod",
-                            "sideloadUrl": "https://localhost:17159/edu"
+                            "sideloadUrl": "https://localhost:17159/intuneedu"
                         },
                         {
                             "label": "Prod",
                             "stamp": "prod",
-                            "sideloadUrl": "https://localhost:17159/edu"
+                            "sideloadUrl": "https://localhost:17159/intuneedu"
                         }
                     ]
                 }
