@@ -29,9 +29,8 @@
 
 <script>
 import NotifyUpdate from "./NotifyUpdate.vue";
-import Vue from "vue";
 
-export default Vue.extend({
+export default {
   name: "Settings",
   components: {NotifyUpdate},
   props: ["changelog", "configLoader", "helpLink"],
@@ -56,7 +55,7 @@ export default Vue.extend({
   async mounted() {
     this.configSource = await this.configLoader.getConfigEndpoint();
   }
-});
+}
 </script>
 
 <style>

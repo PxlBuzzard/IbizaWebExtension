@@ -4,7 +4,7 @@
     <b-field>
         <b-radio-button
             v-for="env in environments"
-            v-bind:key="env.label"
+            :key="env.label"
             v-model="envSelected"
             :native-value="env.label"
             @input="$emit('input', envSelected)">
@@ -15,20 +15,27 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-
-export default Vue.extend({
+export default {
     name: "EnvSelector",
-    props: ["environments", "value"],
+    props: {
+        value: {
+            type: String,
+            default: ""
+        },
+        environments: {
+            type: Array,
+            default: () => []
+        }
+    },
     data() {
         return {
             envSelected: ""
         }
     },
     mounted() {
-        this.envSelected = this.value;
+        this.envSelected = this.value || "";
     }
-});
+}
 </script>
 
 <style>

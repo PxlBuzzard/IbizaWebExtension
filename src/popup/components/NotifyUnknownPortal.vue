@@ -12,17 +12,18 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
 
-export default Vue.extend({
+export default {
     name: "NotifyUnknownPortal",
-    props: ["currentEnv"],
+    props: {
+        currentEnv: String
+    },
     computed: {
-        isVisible: function() {
+        isVisible: () => {
             return this.currentEnv == "unknown";
         }
     }
-});
+}
 </script>
 
 <style>

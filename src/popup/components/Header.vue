@@ -26,30 +26,32 @@ import Azure from "vue-material-design-icons/MicrosoftAzure.vue"
 import CheckBold from "vue-material-design-icons/CheckBold.vue"
 import FormatListChecks from "vue-material-design-icons/FormatListChecks.vue"
 import Help from "vue-material-design-icons/Help.vue"
-import Vue from "vue";
 import { IConfiguration } from "../config/Schema";
 
-export default Vue.extend({
+export default {
   name: "Header",
-  props: ["configFile", "currentConfig"],
+  props: {
+    configFile: Object,
+    currentConfig: Object
+  },
   components: {
-    Azure,
-    CheckBold,
-    FormatListChecks,
-    Help
+    // Azure,
+    // CheckBold,
+    // FormatListChecks,
+    // Help
   },
   methods: {
     configSelected(config: IConfiguration) {
       this.$emit("update:currentConfig", config);
     },
     helpClicked() {
-      return new Promise((resolve, reject) => chrome.tabs.create({ url: this.configFile.help }, () => {
+      return new Promise((resolve, reject) => chrome.tabs.create({ url: this.configFile?.help }, () => {
         resolve({});
         window.close();
       }));
     }
   }
-});
+}
 </script>
 
 <style scoped>

@@ -4,7 +4,7 @@
         <div class="column">
             <Header
                 v-bind:configFile="configFile"
-                v-bind:currentConfig.sync="currentConfig"/>
+                v-model:currentConfig="currentConfig"/>
         </div>
     </div>
     <div class="columns">
@@ -15,7 +15,7 @@
                 v-bind:currentUrl="currentUrl"
                 v-bind:localExtension="localExtension"
                 v-bind:featureGroups="allFeatureGroups"/>
-            <Sidebar v-bind:currentContent.sync="currentContent" v-bind:featureGroups="dynamicFeatureGroups.map(f => f.label)"/>
+            <Sidebar v-model:currentContent="currentContent" v-bind:featureGroups="dynamicFeatureGroups.map(f => f.label)"/>
         </div>
         <main id="content" class="column">
             <div id="load-config" v-if="currentContent === 'loadConfig'">
@@ -29,12 +29,12 @@
                 <FeatureGroup
                     v-for="group in currentConfig.featureGroups"
                     v-bind:key="group.label"
-                    v-bind:featureGroup.sync="group"/>
+                    v-model:featureGroup="group"/>
             </div>
             <div v-if="selectedDynamicGroup">
                 <NotifyUnknownPortal v-bind:currentEnv="currentEnv"/>
                 <NotifyUpdate v-bind:isVisible="updateRequired"/>
-                <FeatureGroup v-bind:featureGroup.sync="selectedDynamicGroup"/>
+                <FeatureGroup v-model:featureGroup="selectedDynamicGroup"/>
             </div>
             <div id="analyze-blade" v-if="currentContent === 'analyzeBlade'">
                 <Analyze />
@@ -69,11 +69,10 @@ import Settings from "./components/Settings.vue";
 import Sidebar from "./components/Sidebar.vue";
 import UrlParser from "./url/UrlParser";
 import Versions from "./components/Versions.vue";
-import Vue from "vue";
 import { IConfigFile, IConfiguration, IFeatureGroup } from "./config/Schema";
 import { IUrlComponents } from "./url/IUrlComponents";
 
-export default Vue.extend({
+export default {
     components: {
         Analyze,
         Apply,
@@ -205,7 +204,7 @@ export default Vue.extend({
 
         await this.configFileLoader.loadConfig();
     }
-})
+}
 </script>
 
 <style>

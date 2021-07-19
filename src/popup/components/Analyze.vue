@@ -23,9 +23,8 @@
 
 <script lang="ts">
 import UrlParser from "../url/UrlParser";
-import Vue from "vue";
 
-export default Vue.extend({
+export default {
   name: "Analyze",
   data() {
     return {
@@ -57,7 +56,7 @@ export default Vue.extend({
     }
     this.loaded = true;
   }
-});
+}
 </script>
 
 <style>

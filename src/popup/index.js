@@ -1,14 +1,7 @@
 import App from "./App.vue";
-import Vue from "vue";
-import VueFluent from "vue-fluent";
+import ElementPlus  from "element-plus";
+import { createApp } from "vue";
 
-import "vue-material-design-icons/styles.css";
-import "vue-fluent/dist/vue-fluent.min.css";
-
-Vue.config.devtools = false;
-
-Vue.use(VueFluent);
-
-new Vue({
-    render: h => h(App)
-}).$mount("#app");
+const app = createApp(App);
+app.use(ElementPlus);
+app.mount("#app");

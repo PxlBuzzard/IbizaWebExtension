@@ -24,20 +24,27 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-
-export default Vue.extend({
+export default {
     name: "LocalSelector",
-    props: ["extensions", "value"],
+    props: {
+        value: {
+            type: String,
+            default: "",
+        },
+        extensions: {
+            type: Array,
+            default: [],
+        }
+    },
     data() {
         return {
             extensionSelected: ""
         };
     },
     mounted() {
-        this.extensionSelected = this.value;
+        this.extensionSelected = this.value || "";
     }
-});
+}
 </script>
 
 <style>

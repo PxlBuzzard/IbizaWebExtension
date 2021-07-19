@@ -15,9 +15,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-
-export default Vue.extend({
+export default {
   name: "Versions",
   data() {
       return {
@@ -47,7 +45,7 @@ export default Vue.extend({
             },
             { urls: ["https://hosting.onecloud.azure-test.net/*", "https://*.hosting.portal.azure.net/*"] });
   }
-});
+}
 </script>
 
 <style>

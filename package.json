@@ -1,16 +1,16 @@
 {
   "name": "ibizawebextension",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Azure Portal Developer Web Extension",
-  "main": "index.js",
   "private": true,
   "scripts": {
     "build": "webpack --mode production",
-    "watch": "webpack --mode development --watch"
+    "watch": "webpack --mode development --watch",
+    "lint": "eslint src/**"
   },
   "repository": {
     "type": "git",
-    "url": "https://garage-04@dev.azure.com/garage-04/hack2017ibizaDevWebExtension/_git/hack2017ibizaDevWebExtension"
+    "url": "https://git.pxlbuzzard.com/pxlbuzzard/IbizaWebExtension"
   },
   "keywords": [
     "web",
@@ -19,23 +19,25 @@
   "author": "Daniel Jost and David Wilson",
   "license": "MIT",
   "dependencies": {
-    "vue": "^2.6.12",
+    "@vue/compat": "^3.1.5",
+    "element-plus": "^1.0.2-beta.55",
+    "vue": "^3.1.5",
     "vue-class-component": "^7.2.6",
-    "vue-fluent": "^0.1.4",
-    "vue-material-design-icons": "^4.11.0",
+    "vue-material-design-icons": "^4.12.1",
     "vue-property-decorator": "^9.1.2"
   },
   "devDependencies": {
-    "@types/chrome": "0.0.127",
+    "@types/chrome": "0.0.147",
+    "@vue/compiler-sfc": "^3.1.5",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.4.1",
     "css-loader": "^3.6.0",
-    "eslint": "^7.16.0",
+    "eslint": "^7.30.0",
+    "eslint-plugin-vue": "^7.13.0",
     "html-webpack-plugin": "^4.5.0",
     "ts-loader": "^8.0.12",
-    "typescript": "^3.9.7",
-    "vue-loader": "^15.9.6",
-    "vue-template-compiler": "^2.6.12",
+    "typescript": "^4.3.5",
+    "vue-loader": "^16.3.1",
     "webpack": "^4.44.2",
     "webpack-cli": "^4.2.0",
     "zip-webpack-plugin": "^3.0.0"

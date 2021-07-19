@@ -6,12 +6,34 @@
 
 <script lang="ts">
 import UrlParser from "../url/UrlParser";
-import Vue from "vue";
 import { IEnvironment, IExtension, IFeature, IFeatureGroup } from "../config/Schema";
 
-export default Vue.extend({
+export default {
   name: "Apply",
-  props: ["config", "currentEnv", "currentUrl", "localExtension", "featureGroups"],
+  props: {
+    config: {
+      type: Object,
+      required: true,
+      default: {}
+    },
+    currentEnv: {
+      type: String,
+      default: ""
+    },
+    currentUrl: {
+      type: Object,
+      default: {}
+    },
+    localExtension: {
+      type: String,
+      default: ""
+    },
+    featureGroups: {
+      type: Array,
+      required: true,
+      default: []
+    }
+  },
   methods: {
     apply() {
         let urlParser = new UrlParser();
@@ -50,7 +72,7 @@ export default Vue.extend({
         });
     }
   }
-});
+}
 </script>
 
 <style>

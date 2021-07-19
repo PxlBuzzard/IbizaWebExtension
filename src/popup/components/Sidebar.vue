@@ -12,11 +12,12 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-
-export default Vue.extend({
+export default {
     name: "Sidebar",
-    props: ["currentContent", "featureGroups"],
+    props: {
+      currentContent: Function,
+      featureGroups: Array
+    },
     data() {
         return {
             tabSelected: ""
@@ -30,7 +31,7 @@ export default Vue.extend({
             this.$emit("update:currentContent", val);
         }
     }
-});
+}
 </script>
 
 <style>
