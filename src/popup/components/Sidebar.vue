@@ -1,12 +1,56 @@
 <template>
 <section>
     <ul class="pure-menu-list">
-        <li class="pure-menu-item"><a href="#" class="pure-menu-link" @click="tabSelected = 'envEditor'" :class="tabSelected === 'envEditor' ? 'selected' : null">Environment Editor</a></li>
-        <li class="pure-menu-item"><a href="#" class="pure-menu-link" @click="tabSelected = 'analyzeBlade'" :class="tabSelected === 'analyzeBlade' ? 'selected' : null">Analyze Blade</a></li>
-        <li class="pure-menu-item"><a href="#" class="pure-menu-link" @click="tabSelected = 'version'" :class="tabSelected === 'version' ? 'selected' : null">Check Version</a></li>
-        <li class="pure-menu-item"><a href="#" class="pure-menu-link" @click="tabSelected = 'settings'" :class="tabSelected === 'settings' ? 'selected' : null">Settings</a></li>
-        <li class="pure-menu-heading" v-if="featureGroups.length > 0">Extension Features</li>
-        <li class="pure-menu-item" v-for="group in featureGroups" :key="group"><a href="#" class="pure-menu-link" @click="tabSelected = group" :class="tabSelected === group ? 'selected' : null">{{ group }}</a></li>
+        <li class="pure-menu-item">
+<a
+href="#"
+class="pure-menu-link"
+:class="tabSelected === 'envEditor' ? 'selected' : null"
+@click="tabSelected = 'envEditor'"
+>Environment Editor</a>
+</li>
+        <li class="pure-menu-item">
+<a
+href="#"
+class="pure-menu-link"
+:class="tabSelected === 'analyzeBlade' ? 'selected' : null"
+@click="tabSelected = 'analyzeBlade'"
+>Analyze Blade</a>
+</li>
+        <li class="pure-menu-item">
+<a
+href="#"
+class="pure-menu-link"
+:class="tabSelected === 'version' ? 'selected' : null"
+@click="tabSelected = 'version'"
+>Check Version</a>
+</li>
+        <li class="pure-menu-item">
+<a
+href="#"
+class="pure-menu-link"
+:class="tabSelected === 'settings' ? 'selected' : null"
+@click="tabSelected = 'settings'"
+>Settings</a>
+</li>
+        <li
+v-if="featureGroups.length > 0"
+class="pure-menu-heading"
+>
+Extension Features
+</li>
+        <li
+v-for="group in featureGroups"
+:key="group"
+class="pure-menu-item"
+>
+<a
+href="#"
+class="pure-menu-link"
+:class="tabSelected === group ? 'selected' : null"
+@click="tabSelected = group"
+>{{ group }}</a>
+</li>
     </ul>
 </section>
 </template>
@@ -15,19 +59,26 @@
 export default {
     name: "Sidebar",
     props: {
-      currentContent: Function,
-      featureGroups: Array
+      currentContent: {
+        type: Function,
+        default: () => {}
+      },
+      featureGroups: {
+        type: Array,
+        default: () => []
+      }
     },
+    emits: ["update:currentContent"],
     data() {
         return {
             tabSelected: ""
         }
     },
     watch: {
-        currentContent(val: string) {
+        currentContent(val: string): void {
             this.tabSelected = val;
         },
-        tabSelected(val: string) {
+        tabSelected(val: string): void {
             this.$emit("update:currentContent", val);
         }
     }

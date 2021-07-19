@@ -1,18 +1,24 @@
 {
   "root": true,
+  "parser": "vue-eslint-parser",
   "parserOptions": {
-    "ecmaVersion": 6
+    "parser": "@typescript-eslint/parser",
+    "ecmaVersion": 12
   },
+  "plugins": ["@typescript-eslint"],
   "env": {
     "browser": true,
     "es6": true,
     "webextensions": true
   },
   "extends": [
-    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
     "plugin:vue/vue3-recommended"
   ],
   "rules": {
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-explicit-any": "off",
     "no-console": 0,
     "no-unused-vars": ["warn", { "vars": "all", "args": "all" } ],
     "no-undef": ["warn"],

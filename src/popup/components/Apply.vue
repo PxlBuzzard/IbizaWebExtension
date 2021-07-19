@@ -1,6 +1,12 @@
 <template>
 <section>
-    <button id="apply-button" class="button is-success" @click="apply">Apply</button>
+    <button
+id="apply-button"
+class="button is-success"
+@click="apply"
+>
+Apply
+</button>
 </section>
 </template>
 
@@ -8,13 +14,14 @@
 import UrlParser from "../url/UrlParser";
 import { IEnvironment, IExtension, IFeature, IFeatureGroup } from "../config/Schema";
 
+/* eslint-disable @typescript-eslint/no-empty-function */
 export default {
   name: "Apply",
   props: {
     config: {
       type: Object,
       required: true,
-      default: {}
+      default: () => {}
     },
     currentEnv: {
       type: String,
@@ -22,7 +29,7 @@ export default {
     },
     currentUrl: {
       type: Object,
-      default: {}
+      default: () => {}
     },
     localExtension: {
       type: String,
@@ -31,22 +38,22 @@ export default {
     featureGroups: {
       type: Array,
       required: true,
-      default: []
+      default: () => []
     }
   },
   methods: {
-    apply() {
+    apply(): void {
         let urlParser = new UrlParser();
         let env = this.config.environments.filter((e: IEnvironment) => e.label === this.currentEnv)[0];
         let localExtConfig = this.config.extensions.filter((e: IExtension) => e.name === this.localExtension)[0];
-        let sideloadUrl = localExtConfig?.environments.filter((e: IEnvironment) => e.label === this.currentEnv)[0]?.sideloadUrl;
+        let sideloadUrl = localExtConfig.environments.filter((e: IEnvironment) => e.label === this.currentEnv)[0].sideloadUrl;
 
         // add env stamps to URL
         let exts = this.config.extensions.map((ext: IExtension) => ext.environments);
         let extNames = this.config.extensions.map((ext: IExtension) => ext.name);
         let stampQueries: StringMap<string> = {};
         for (let i = 0; i < exts.length; i++) {
-            let stamp = exts[i].filter((e: IEnvironment) => e.label === this.currentEnv)[0]?.stamp;
+            let stamp = exts[i].filter((e: IEnvironment) => e.label === this.currentEnv)[0].stamp;
             if (stamp != undefined) {
               stampQueries[extNames[i]] = stamp;
             }

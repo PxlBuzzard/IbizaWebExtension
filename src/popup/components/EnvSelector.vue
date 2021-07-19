@@ -7,7 +7,8 @@
             :key="env.label"
             v-model="envSelected"
             :native-value="env.label"
-            @input="$emit('input', envSelected)">
+            @input="$emit('input', envSelected)"
+>
             {{ env.label }}
         </b-radio-button>
     </b-field>
@@ -27,12 +28,13 @@ export default {
             default: () => []
         }
     },
+    emits: ["input"],
     data() {
         return {
             envSelected: ""
         }
     },
-    mounted() {
+    mounted(): void {
         this.envSelected = this.value || "";
     }
 }

@@ -1,22 +1,36 @@
 <template>
 <header>
-    <Azure fillColor="#fff" class="icon-2x azure-icon"/>
+    <Azure
+fill-color="#fff"
+class="icon-2x azure-icon"
+/>
     <h1>Azure Portal Developer Extension</h1>
 
     <div class="flex-right">
         <b-dropdown aria-role="list">
-            <FormatListChecks fillColor="#fff" class="header-button-link" slot="trigger"/>
+            <FormatListChecks
+fill-color="#fff"
+class="header-button-link"
+/>
             <b-dropdown-item
                 v-for="config in configFile.configs"
                 :key="config.name"
                 aria-role="listitem"
-                v-on:click="configSelected(config)">
-                <CheckBold fillColor="#000" v-if="config.name === currentConfig.name"/>
-                {{config.name}}
+                @click="configSelected(config)"
+>
+                <CheckBold
+v-if="config.name === currentConfig.name"
+fill-color="#000"
+/>
+                {{ config.name }}
             </b-dropdown-item>
         </b-dropdown>
 
-        <Help fillColor="#fff" class="header-button-link" @click="helpClicked"/>
+        <Help
+fill-color="#fff"
+class="header-button-link"
+@click="helpClicked"
+/>
     </div>
 </header>
 </template>
@@ -30,22 +44,23 @@ import { IConfiguration } from "../config/Schema";
 
 export default {
   name: "Header",
-  props: {
-    configFile: Object,
-    currentConfig: Object
-  },
   components: {
     // Azure,
     // CheckBold,
     // FormatListChecks,
     // Help
   },
+  props: {
+    configFile: Object,
+    currentConfig: Object
+  },
+  emits: ["update:currentConfig"],
   methods: {
     configSelected(config: IConfiguration) {
       this.$emit("update:currentConfig", config);
     },
     helpClicked() {
-      return new Promise((resolve, reject) => chrome.tabs.create({ url: this.configFile?.help }, () => {
+      return new Promise((resolve) => chrome.tabs.create({ url: this.configFile.help }, () => {
         resolve({});
         window.close();
       }));

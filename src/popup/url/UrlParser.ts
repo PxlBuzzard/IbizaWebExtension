@@ -8,12 +8,12 @@ export default class UrlParser {
                     throw "couldn't read active tab url";
                 }
 
-                let url = new URL(tabs[0].url);
+                const url = new URL(tabs[0].url);
 
-                let query: StringMap<string> = {};
+                const query: StringMap<string> = {};
                 url.searchParams.forEach((value, key) => query[key] = value); // this loses duplicate keys but we don't expect those
 
-                let fragmentParts = url.hash.split("?");
+                const fragmentParts = url.hash.split("?");
 
                 resolve({
                     origin: url.origin,
@@ -26,7 +26,7 @@ export default class UrlParser {
     }
 
     public setUrl(urlComponents: IUrlComponents): Promise<void> {
-        let url = new URL(urlComponents.origin);
+        const url = new URL(urlComponents.origin);
         Object.keys(urlComponents.query).forEach(key => url.searchParams.set(key, urlComponents.query[key]));
         url.hash = `${urlComponents.fragment}${urlComponents.testExtension ? `?${this._stringifyTestExtension(urlComponents.testExtension, urlComponents.sideloadUrl)}` : ""}`;
         if (urlComponents.testExtension) {
@@ -46,7 +46,7 @@ export default class UrlParser {
 
     private _parseTestExtension(fragmentQuery: string): string | null {
         // testExtensions={"Microsoft_Intune_Enrollment":"https://localhost:44300/"}
-        let match = fragmentQuery.match(/^testextensions={(?:"|%22)(.*?)(?:"|%22):(?:"|%22)(.*?)(?:"|%22)}$/i);
+        const match = fragmentQuery.match(/^testextensions={(?:"|%22)(.*?)(?:"|%22):(?:"|%22)(.*?)(?:"|%22)}$/i);
         return match && match[1];
     }
 

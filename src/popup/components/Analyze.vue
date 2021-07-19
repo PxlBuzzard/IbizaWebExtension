@@ -2,22 +2,34 @@
 <section>
     <section>
         <b-message
-            :active="this.loaded && this.link === ''"
+            :active="loaded && link === ''"
             type="is-danger"
             aria-close-label="Close message"
             role="alert"
-            title="No blade detected.">
+            title="No blade detected."
+>
             Please make sure you are in the Azure Portal.
         </b-message>
     </section>
     <p>This is a shortcut to load Ibiza's Extension Analyzer website for the currently loaded blade. It will open a new tab.</p>
     <b-field label="Extension">
-        <b-input v-model="this.extension" disabled></b-input>
+        <b-input
+v-model="extension"
+disabled
+/>
     </b-field>
     <b-field label="Blade">
-        <b-input v-model="this.blade" disabled></b-input>
+        <b-input
+v-model="blade"
+disabled
+/>
     </b-field>
-    <button class="button is-success" @click="analyze">Analyze blade</button>
+    <button
+class="button is-success"
+@click="analyze"
+>
+Analyze blade
+</button>
 </section>
 </template>
 
@@ -34,13 +46,6 @@ export default {
       loaded: false
     };
   },
-  methods: {
-    analyze() {
-      if (this.link != "") {
-        chrome.tabs.create({url: this.link});
-      }
-    }
-  },
   async mounted() {
     // get current url
     const urlParser = new UrlParser();
@@ -55,6 +60,13 @@ export default {
       }
     }
     this.loaded = true;
+  },
+  methods: {
+    analyze() {
+      if (this.link != "") {
+        chrome.tabs.create({url: this.link});
+      }
+    }
   }
 }
 </script>

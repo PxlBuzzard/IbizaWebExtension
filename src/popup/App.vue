@@ -3,51 +3,85 @@
     <div class="columns no-margin">
         <div class="column">
             <Header
-                v-bind:configFile="configFile"
-                v-model:currentConfig="currentConfig"/>
+                v-model:currentConfig="currentConfig"
+                :config-file="configFile"
+/>
         </div>
     </div>
     <div class="columns">
-        <div id="sidebar" class="column is-one-quarter">
+        <div
+id="sidebar"
+class="column is-one-quarter"
+>
             <Apply
-                v-bind:config="currentConfig"
-                v-bind:currentEnv="currentEnv"
-                v-bind:currentUrl="currentUrl"
-                v-bind:localExtension="localExtension"
-                v-bind:featureGroups="allFeatureGroups"/>
-            <Sidebar v-model:currentContent="currentContent" v-bind:featureGroups="dynamicFeatureGroups.map(f => f.label)"/>
+                :config="currentConfig"
+                :current-env="currentEnv"
+                :current-url="currentUrl"
+                :local-extension="localExtension"
+                :feature-groups="allFeatureGroups"
+/>
+            <Sidebar
+v-model:currentContent="currentContent"
+:feature-groups="dynamicFeatureGroups.map(f => f.label)"
+/>
         </div>
-        <main id="content" class="column">
-            <div id="load-config" v-if="currentContent === 'loadConfig'">
-                <LoadConfig/>
+        <main
+id="content"
+class="column"
+>
+            <div
+v-if="currentContent === 'loadConfig'"
+id="load-config"
+>
+                <LoadConfig />
             </div>
-            <div id="env-editor" v-if="currentContent === 'envEditor'">
-                <NotifyUnknownPortal v-bind:currentEnv="currentEnv"/>
-                <NotifyUpdate v-bind:isVisible="updateRequired"/>
-                <EnvSelector v-bind:environments="currentConfig.environments" v-model="currentEnv"/>
-                <LocalSelector v-bind:extensions="currentConfig.extensions" v-model="localExtension"/>
+            <div
+v-if="currentContent === 'envEditor'"
+id="env-editor"
+>
+                <NotifyUnknownPortal :current-env="currentEnv" />
+                <NotifyUpdate :is-visible="updateRequired" />
+                <EnvSelector
+v-model="currentEnv"
+:environments="currentConfig.environments"
+/>
+                <LocalSelector
+v-model="localExtension"
+:extensions="currentConfig.extensions"
+/>
                 <FeatureGroup
                     v-for="group in currentConfig.featureGroups"
-                    v-bind:key="group.label"
-                    v-model:featureGroup="group"/>
+                    :key="group.label"
+                    v-model:featureGroup="group.features"
+/>
             </div>
             <div v-if="selectedDynamicGroup">
-                <NotifyUnknownPortal v-bind:currentEnv="currentEnv"/>
-                <NotifyUpdate v-bind:isVisible="updateRequired"/>
-                <FeatureGroup v-model:featureGroup="selectedDynamicGroup"/>
+                <NotifyUnknownPortal :current-env="currentEnv" />
+                <NotifyUpdate :is-visible="updateRequired" />
+                <FeatureGroup v-model:featureGroup="selectedDynamicGroup" />
             </div>
-            <div id="analyze-blade" v-if="currentContent === 'analyzeBlade'">
+            <div
+v-if="currentContent === 'analyzeBlade'"
+id="analyze-blade"
+>
                 <Analyze />
             </div>
-            <div id="check-version" v-if="currentContent === 'version'">
-                <NotifyUnknownPortal v-bind:currentEnv="currentEnv"/>
+            <div
+v-if="currentContent === 'version'"
+id="check-version"
+>
+                <NotifyUnknownPortal :current-env="currentEnv" />
                 <Versions />
             </div>
-            <div id="settings-content" v-if="currentContent === 'settings'">
+            <div
+v-if="currentContent === 'settings'"
+id="settings-content"
+>
                 <Settings
-                    v-bind:changelog="configFile.changelog"
-                    v-bind:configLoader="configFileLoader"
-                    v-bind:helpLink="configFile.help"/>
+                    :changelog="configFile.changelog"
+                    :config-loader="configFileLoader"
+                    :help-link="configFile.help"
+/>
             </div>
         </main>
     </div>
@@ -128,7 +162,7 @@ export default {
             return [...this.currentConfig.featureGroups, ...this.dynamicFeatureGroups];
         }
     },
-    async created() {
+    async created(): Promise<void> {
         // get current url
         let urlParser = new UrlParser();
         this.currentUrl = await urlParser.parseUrl();
@@ -170,19 +204,19 @@ export default {
             this.currentConfig.featureGroups.forEach(group => {
                 group.features.forEach(feature => {
                     if (this.currentUrl.query.hasOwnProperty(feature.name)) {
-                        this.$set(feature, "selected", this.currentUrl.query[feature.name]);
+                        // this.$set(feature, "selected", this.currentUrl.query[feature.name]);
                     }
                 });
             });
 
             // get dynamic features
             if (this.currentConfig != undefined && this.currentConfig.dynamicFeatureGroups != undefined) {
-                this.currentConfig.dynamicFeatureGroups?.forEach(async group => {
+                this.currentConfig.dynamicFeatureGroups.forEach(async group => {
                     if (group.source[this.currentEnv]) {
                         let features = await this.configFileLoader.loadFeatures(group.source[this.currentEnv], group.prefix);
                         features.forEach(feature => {
                             if (this.currentUrl.query.hasOwnProperty(feature.name)) {
-                                this.$set(feature, "selected", this.currentUrl.query[feature.name]);
+                                // this.$set(feature, "selected", this.currentUrl.query[feature.name]);
                             }
                         });
                         this.dynamicFeatureGroups.push({

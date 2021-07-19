@@ -3,24 +3,28 @@
     <h2>{{ featureGroup.label }}</h2>
     <section
         v-for="feature in featureGroup.features"
-        v-bind:key="feature.label">
+        :key="feature.label"
+>
         <b-tooltip
         :label="feature.name"
         position="is-top"
-        animated>
+        animated
+>
             <h3>{{ feature.label }}</h3>
         </b-tooltip>
         <b-field>
             <b-radio-button
                 v-model="feature.selected"
-                :native-value="undefined">
+                :native-value="undefined"
+>
                 unset
             </b-radio-button>
             <b-radio-button
                 v-for="option in feature.options"
-                v-bind:key="option"
+                :key="option"
                 v-model="feature.selected"
-                :native-value="option">
+                :native-value="option"
+>
                 {{ option }}
             </b-radio-button>
         </b-field>

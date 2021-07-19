@@ -18,7 +18,7 @@ export default class ConfigLoader {
 
         try {
             config = await this._getConfigFromChromeStorage();
-            if (config?.version?.split(".")[0] !== COMPATIBLE_VERSION) {
+            if (config.version.split(".")[0] !== COMPATIBLE_VERSION) {
                 if (this.incompatible) {
                     this.incompatible(COMPATIBLE_VERSION, config.version);
                 } else {
@@ -34,9 +34,9 @@ export default class ConfigLoader {
 
         // then check remote config
         try {
-            let remoteConfig: IConfigFile = await this._getConfigFromRemote();
+            const remoteConfig: IConfigFile = await this._getConfigFromRemote();
             // same version, do nothing
-            if (config?.version === remoteConfig.version) {
+            if (config.version === remoteConfig.version) {
             }
             // remote config is a major breaking change
             // do not download, a web extension update will contain a new working config
@@ -70,7 +70,7 @@ export default class ConfigLoader {
     }
 
     public getConfigEndpoint(): Promise<string> {
-        return new Promise((resolve, reject) => chrome.storage.sync.get("configEndpoint", result => {
+        return new Promise((resolve) => chrome.storage.sync.get("configEndpoint", result => {
             const configUrl = result.configEndpoint || "https://gist.github.com/PxlBuzzard/f055b8043c5972befc37b32f4d25feb2/raw/azureportaldevextensionconfig.json";
             console.log(`Getting config from ${configUrl}`);
             resolve(configUrl);
@@ -78,7 +78,7 @@ export default class ConfigLoader {
     }
 
     public setConfigEndpoint(endpoint: string): Promise<void> {
-        return new Promise((resolve, reject) => chrome.storage.sync.set({
+        return new Promise((resolve) => chrome.storage.sync.set({
             configEndpoint: endpoint
         }, resolve));
     }
@@ -91,7 +91,7 @@ export default class ConfigLoader {
     }
 
     private async _getConfigFromRemote(): Promise<IConfigFile> {
-        let endpoint = await this.getConfigEndpoint();
+        const endpoint = await this.getConfigEndpoint();
         return fetch(endpoint).then(response => response.json());
     }
 

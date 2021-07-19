@@ -5,18 +5,21 @@
         <b-radio
             v-model="extensionSelected"
             :native-value="''"
-            @input="$emit('input', extensionSelected)">
+            @input="$emit('input', extensionSelected)"
+>
             None
         </b-radio>
     </div>
     <div
-        class="field"
         v-for="ext in extensions"
-        v-bind:key="ext.name">
+        :key="ext.name"
+        class="field"
+>
         <b-radio
             v-model="extensionSelected"
             :native-value="ext.name"
-            @input="$emit('input', extensionSelected)">
+            @input="$emit('input', extensionSelected)"
+>
             {{ ext.name }}
         </b-radio>
     </div>
@@ -33,9 +36,10 @@ export default {
         },
         extensions: {
             type: Array,
-            default: [],
+            default: () => [],
         }
     },
+    emits: ["input"],
     data() {
         return {
             extensionSelected: ""
