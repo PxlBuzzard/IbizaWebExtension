@@ -1,6 +1,4 @@
-var path = require('path')
 var webpack = require('webpack')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { VueLoaderPlugin}  = require('vue-loader')
@@ -9,11 +7,6 @@ const ZipPlugin = require('zip-webpack-plugin')
 module.exports = {
   entry: {
     popup: './src/popup/index.js'
-  },
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '',
-    filename: '[name].js'
   },
   resolve: {
     extensions: ['.ts', '.js', '.vue', '.json'],
@@ -77,11 +70,10 @@ module.exports = {
   plugins: [
     // make sure to include the plugin for the magic
     new VueLoaderPlugin(),
-    new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
       patterns: [
         { from: 'assets', to: 'assets' },
-        { from: 'manifest.json', to: 'manifest.json', flatten: true },
+        { from: 'manifest.json', to: 'manifest.json' },
       ]
     }),
     new HtmlWebpackPlugin({
