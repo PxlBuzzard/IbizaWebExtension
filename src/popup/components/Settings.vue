@@ -39,6 +39,7 @@ v-for="change in changelog"
 </template>
 
 <script lang="ts">
+import { onMounted, ref } from "vue";
 import NotifyUpdate from "./NotifyUpdate.vue";
 
 export default {
@@ -58,26 +59,30 @@ export default {
       default: ""
     }
   },
-  data() {
-    return {
-      configSource: "",
-      updatedConfig: false
+  setup(props) {
+    const configSource = ref("");
+    const updatedConfig = ref(false);
+
+    onMounted(async () => {
+      configSource.value = await props.configLoader.getConfigEndpoint();
+    });
+
+    async function save(): Promise<void> {
+      await props.configLoader.setConfigEndpoint(configSource.value);
+      updatedConfig.value = true;
     }
-  },
-  async mounted(): Promise<void> {
-    this.configSource = await this.configLoader.getConfigEndpoint();
-  },
-  methods: {
-    async save(): Promise<void> {
-      await this.configLoader.setConfigEndpoint(this.configSource);
-      this.updatedConfig = true;
-    },
-    helpClicked(): Promise<void> {
-      return new Promise((resolve) => chrome.tabs.create({ url: this.helpLink }, () => {
+
+    function helpClicked(): Promise<void> {
+      return new Promise((resolve) => chrome.tabs.create({ url: props.helpLink }, () => {
         resolve();
         window.close();
       }));
     }
+
+    return { configSource, updatedConfig }
+  },
+  methods: {
+
   }
 }
 </script>

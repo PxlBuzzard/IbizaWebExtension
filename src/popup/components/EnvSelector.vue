@@ -16,6 +16,8 @@
 </template>
 
 <script lang="ts">
+import { onMounted, ref } from "vue";
+
 export default {
     name: "EnvSelector",
     props: {
@@ -29,13 +31,13 @@ export default {
         }
     },
     emits: ["input"],
-    data() {
-        return {
-            envSelected: ""
-        }
-    },
-    mounted(): void {
-        this.envSelected = this.value || "";
+    setup(props) {
+      const envSelected = ref("");
+
+      onMounted(() => {
+        envSelected.value = props.value || "";
+      });
+      return {envSelected}
     }
 }
 </script>

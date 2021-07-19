@@ -2,7 +2,7 @@ import { IUrlComponents } from "./IUrlComponents";
 
 export default class UrlParser {
     public parseUrl(): Promise<IUrlComponents> {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             chrome.tabs.query({active: true, currentWindow: true}, tabs => {
                 if (!tabs[0].url) {
                     throw "couldn't read active tab url";
@@ -33,7 +33,7 @@ export default class UrlParser {
             url.searchParams.set("feature.canmodifyextensions", "true");
         }
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             const listener = () => chrome.tabs.reload(() => {
                 chrome.tabs.onUpdated.removeListener(listener);
                 resolve();

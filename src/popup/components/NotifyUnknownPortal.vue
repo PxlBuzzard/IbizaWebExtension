@@ -17,11 +17,14 @@
 export default {
     name: "NotifyUnknownPortal",
     props: {
-        currentEnv: String
+        currentEnv: {
+            type: String,
+            default: ""
+        }
     },
     computed: {
-        isVisible: () => {
-            return this.currentEnv == "unknown";
+        isVisible(props): boolean {
+            return props.currentEnv == "unknown";
         }
     }
 }

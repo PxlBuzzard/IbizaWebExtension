@@ -15,7 +15,12 @@
 <script lang="ts">
 export default {
     name: "NotifyUpdate",
-    props: ["isVisible"]
+    props: {
+        isVisible: {
+            type: Boolean,
+            default: false
+        }
+    }
 }
 </script>
 

@@ -75,11 +75,11 @@ export default {
         }
     },
     watch: {
-        currentContent(val: string): void {
-            this.tabSelected = val;
+        currentContent(props, val: string): void {
+            props.tabSelected = val;
         },
-        tabSelected(val: string): void {
-            this.$emit("update:currentContent", val);
+        tabSelected(props, val: string): void {
+            props.$emit("update:currentContent", val);
         }
     }
 }

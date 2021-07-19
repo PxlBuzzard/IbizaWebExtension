@@ -13,6 +13,8 @@
       "esModuleInterop": true,
       "experimentalDecorators": true,
       "noImplicitAny": false,
+      "noImplicitThis": true,
+      "noImplicitReturns": true,
       "forceConsistentCasingInFileNames": true,
       "importHelpers": true,
       "removeComments": true

@@ -27,6 +27,7 @@
 </template>
 
 <script lang="ts">
+import { ref } from "vue";
 export default {
     name: "LocalSelector",
     props: {
@@ -40,13 +41,10 @@ export default {
         }
     },
     emits: ["input"],
-    data() {
-        return {
-            extensionSelected: ""
-        };
-    },
-    mounted() {
-        this.extensionSelected = this.value || "";
+    setup(props) {
+        const extensionSelected = ref(props.value);
+
+        return { extensionSelected };
     }
 }
 </script>

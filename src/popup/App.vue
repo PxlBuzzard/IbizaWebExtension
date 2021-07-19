@@ -105,6 +105,7 @@ import UrlParser from "./url/UrlParser";
 import Versions from "./components/Versions.vue";
 import { IConfigFile, IConfiguration, IFeatureGroup } from "./config/Schema";
 import { IUrlComponents } from "./url/IUrlComponents";
+import { computed, onMounted, ref } from "vue";
 
 export default {
     components: {
@@ -121,105 +122,103 @@ export default {
         Sidebar,
         Versions
     },
-    data() {
-        return {
-            currentUrl: <IUrlComponents>{
-                origin: "host",
-                query: {}
-            },
-            currentEnv: "",
-            currentConfig: <IConfiguration>{
-                name: "",
-                environments: [],
-                extensions: [],
-                featureGroups: [],
-                dynamicFeatureGroups: []
-            },
-            localExtension: "",
-            configFileLoader: new ConfigLoader(),
-            configFile: <IConfigFile>{
-                version: "0",
-                help: "",
-                changelog: [],
-                configs: [{
-                  name: "",
-                  environments: [],
-                  extensions: [],
-                  featureGroups: [],
-                  dynamicFeatureGroups: []
-                }]
-            },
-            dynamicFeatureGroups: <IFeatureGroup[]>[],
-            currentContent: "loadConfig",
-            updateRequired: false
-        };
-    },
-    computed: {
-        selectedDynamicGroup(): IFeatureGroup {
-            return this.dynamicFeatureGroups.filter(g => g.label === this.currentContent)[0];
-        },
-        allFeatureGroups(): IFeatureGroup[] {
-            return [...this.currentConfig.featureGroups, ...this.dynamicFeatureGroups];
-        }
-    },
-    async created(): Promise<void> {
+    setup(props) {
+      const currentUrl = ref<IUrlComponents>({
+          origin: "host",
+          query: {}
+      });
+      const currentEnv = ref("");
+      const currentConfig = ref<IConfiguration>({
+          name: "",
+          environments: [],
+          extensions: [],
+          featureGroups: [],
+          dynamicFeatureGroups: []
+      });
+      const localExtension = ref("");
+      const configFileLoader = new ConfigLoader();
+      const configFile = ref<IConfigFile>({
+          version: "0",
+          help: "",
+          changelog: [],
+          configs: [{
+            name: "",
+            environments: [],
+            extensions: [],
+            featureGroups: [],
+            dynamicFeatureGroups: []
+          }]
+      });
+      const dynamicFeatureGroups = ref<IFeatureGroup[]>([]);
+      const currentContent = ref("loadConfig");
+      const updateRequired = ref(false);
+
+      // computeds
+      const selectedDynamicGroup = computed((): IFeatureGroup => {
+          return dynamicFeatureGroups.value.filter(g => g.label === currentContent.value)[0];
+      });
+      const allFeatureGroups = computed((): IFeatureGroup[] => {
+          return [...currentConfig.value.featureGroups, ...dynamicFeatureGroups.value];
+      });
+
+      onMounted(async () => {
         // get current url
         let urlParser = new UrlParser();
-        this.currentUrl = await urlParser.parseUrl();
+        currentUrl.value = await urlParser.parseUrl();
 
         // get config
-        this.configFileLoader.loaded = cf => {
-            this.configFile = cf;
-            this.currentConfig = this.configFile.configs[0];
+        configFileLoader.loaded = cf => {
+            configFile.value = cf;
+            currentConfig.value = configFile.value.configs[0];
 
             // change current config if we're in a portal that matches
-            for (let i = 0; i < this.configFile.configs.length; i++) {
+            for (let i = 0; i < configFile.value.configs.length; i++) {
               // check current env
-              for (let env of this.configFile.configs[i].environments) {
-                if (this.currentUrl.origin === `https://${env.host}`) {
-                      this.currentConfig = this.configFile.configs[i];
+              for (let env of configFile.value.configs[i].environments) {
+                if (currentUrl.value.origin === `https://${env.host}`) {
+                      currentConfig.value = configFile.value.configs[i];
 
-                      if (!env.params || Object.keys(env.params).every(p => !env.params || this.currentUrl.query[p] === env.params[p])) {
-                          this.currentEnv = env.label;
+                      if (!env.params || Object.keys(env.params).every(p => !env.params || currentUrl.value.query[p] === env.params[p])) {
+                          currentEnv.value = env.label;
                           break;
                       }
                   }
               }
-              if (this.currentEnv !== "") {
+              if (currentEnv.value !== "") {
                   break;
               }
             }
 
             // hack to set currentEnv to something
-            if (this.currentEnv == "") {
-                this.currentEnv = "unknown";
+            if (currentEnv.value == "") {
+                currentEnv.value = "unknown";
             }
 
             // check current local extension
-            if (this.currentUrl.query["feature.canmodifyextensions"] === "true" && this.currentUrl.testExtension) {
-                this.localExtension = this.currentUrl.testExtension;
+            if (currentUrl.value.query["feature.canmodifyextensions"] === "true" && currentUrl.value.testExtension) {
+                localExtension.value = currentUrl.value.testExtension;
             }
 
             // check current features
-            this.currentConfig.featureGroups.forEach(group => {
+            currentConfig.value.featureGroups.forEach(group => {
                 group.features.forEach(feature => {
-                    if (this.currentUrl.query.hasOwnProperty(feature.name)) {
-                        // this.$set(feature, "selected", this.currentUrl.query[feature.name]);
+                    if (currentUrl.value.query.hasOwnProperty(feature.name)) {
+                        // $set.value(feature, "selected", currentUrl.value.query[feature.name]);
                     }
                 });
             });
 
             // get dynamic features
-            if (this.currentConfig != undefined && this.currentConfig.dynamicFeatureGroups != undefined) {
-                this.currentConfig.dynamicFeatureGroups.forEach(async group => {
-                    if (group.source[this.currentEnv]) {
-                        let features = await this.configFileLoader.loadFeatures(group.source[this.currentEnv], group.prefix);
+            if (currentConfig.value != undefined && currentConfig.value.dynamicFeatureGroups != undefined) {
+                currentConfig.value.dynamicFeatureGroups.forEach(async group => {
+                    if (group.source[currentEnv.value]) {
+                        let features = await configFileLoader.loadFeatures(group.source[currentEnv.value], group.prefix);
                         features.forEach(feature => {
-                            if (this.currentUrl.query.hasOwnProperty(feature.name)) {
-                                // this.$set(feature, "selected", this.currentUrl.query[feature.name]);
+                            if (currentUrl.value.query.hasOwnProperty(feature.name)) {
+                                // $set.value(feature, "selected", currentUrl.value.query[feature.name]);
                             }
                         });
-                        this.dynamicFeatureGroups.push({
+                        dynamicFeatureGroups.value.push({
                             label: group.label,
                             features: features
                         });
@@ -227,16 +226,19 @@ export default {
                 });
             }
 
-            this.currentContent = "envEditor";
+            currentContent.value = "envEditor";
         };
-        this.configFileLoader.failedFetch = reason => {
+        configFileLoader.failedFetch = reason => {
             console.error("Config load failed", reason);
         }
-        this.configFileLoader.incompatible = (extVer, configVer) => {
-            this.updateRequired = true;
+        configFileLoader.incompatible = (extVer, configVer) => {
+            updateRequired.value = true;
         }
 
-        await this.configFileLoader.loadConfig();
+        await configFileLoader.loadConfig();
+      });
+
+      return { currentUrl, currentEnv, currentConfig, localExtension, configFileLoader, configFile, dynamicFeatureGroups, currentContent, updateRequired, selectedDynamicGroup, allFeatureGroups }
     }
 }
 </script>

@@ -35,12 +35,7 @@
 <script lang="ts">
 export default {
     name: "FeatureGroup",
-    props: ['featureGroup'],
-    data() {
-        return {
-
-        }
-    }
+    props: ['featureGroup']
 }
 </script>
 

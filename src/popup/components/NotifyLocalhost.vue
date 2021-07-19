@@ -21,10 +21,10 @@ export default {
     }
   },
   computed: {
-      isVisible: function(): boolean {
-          if (this.extensionSelected != undefined || this.extensionSelected !== "") {
-              console.log(this.extensionSelected);
-              console.log("fetching local");
+      isVisible(props): boolean {
+          if (props.extensionSelected != undefined || props.extensionSelected !== "") {
+              console.log(props.extensionSelected);
+              // console.log("fetching local");
               // fetch("https://localhost:44300")
               //     .then(() => false)
               //     .catch(() => true);

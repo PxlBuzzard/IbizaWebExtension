@@ -36,10 +36,10 @@ class="header-button-link"
 </template>
 
 <script lang="ts">
-import Azure from "vue-material-design-icons/MicrosoftAzure.vue"
-import CheckBold from "vue-material-design-icons/CheckBold.vue"
-import FormatListChecks from "vue-material-design-icons/FormatListChecks.vue"
-import Help from "vue-material-design-icons/Help.vue"
+// import Azure from "vue-material-design-icons/MicrosoftAzure.vue"
+// import CheckBold from "vue-material-design-icons/CheckBold.vue"
+// import FormatListChecks from "vue-material-design-icons/FormatListChecks.vue"
+// import Help from "vue-material-design-icons/Help.vue"
 import { IConfiguration } from "../config/Schema";
 
 export default {
@@ -56,11 +56,11 @@ export default {
   },
   emits: ["update:currentConfig"],
   methods: {
-    configSelected(config: IConfiguration) {
-      this.$emit("update:currentConfig", config);
+    configSelected(props, config: IConfiguration): void {
+      props.$emit("update:currentConfig", config);
     },
-    helpClicked() {
-      return new Promise((resolve) => chrome.tabs.create({ url: this.configFile.help }, () => {
+    helpClicked(props): Promise<any> {
+      return new Promise((resolve) => chrome.tabs.create({ url: props.configFile.help }, () => {
         resolve({});
         window.close();
       }));
