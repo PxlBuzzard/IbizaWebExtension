@@ -19,7 +19,6 @@
   "author": "Daniel Jost and David Wilson",
   "license": "MIT",
   "dependencies": {
-    "@vue/compat": "^3.1.5",
     "element-plus": "^1.0.2-beta.55",
     "vue": "^3.1.5",
     "vue-class-component": "^7.2.6",

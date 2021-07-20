@@ -10,9 +10,6 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.js', '.vue', '.json'],
-    alias: {
-      "vue": '@vue/compat'
-    }
   },
   module: {
     rules: [
@@ -28,11 +25,6 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
-          compilerOptions: {
-            compatConfig: {
-              MODE: 2
-            }
-          },
           loaders: {
             // Since sass-loader (weirdly) has SCSS as its default parse mode, we map
             // the "scss" and "sass" values for the lang attribute to the right configs here.
