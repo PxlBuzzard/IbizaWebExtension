@@ -20,13 +20,10 @@
   "license": "MIT",
   "dependencies": {
     "element-plus": "^1.0.2-beta.55",
-    "vue": "^3.1.5",
-    "vue-class-component": "^7.2.6",
-    "vue-material-design-icons": "^4.12.1",
-    "vue-property-decorator": "^9.1.2"
+    "vue": "^3.1.5"
   },
   "devDependencies": {
-    "@types/chrome": "0.0.147",
+    "@types/chrome": "0.0.148",
     "@typescript-eslint/eslint-plugin": "^4.28.4",
     "@typescript-eslint/parser": "^4.28.4",
     "@vue/compiler-sfc": "^3.1.5",

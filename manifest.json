@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Azure Portal Developer Extension",
-  "version": "3.3",
+  "version": "3.4",
   "description": "",
   "icons": {
     "48": "assets/icon-48.png",

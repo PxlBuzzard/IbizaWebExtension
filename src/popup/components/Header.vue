@@ -1,34 +1,30 @@
 <template>
 <header>
-    <Azure
-fill-color="#fff"
-class="icon-2x azure-icon"
+    <i
+class="el-icon-eleme"
 />
     <h1>Azure Portal Developer Extension</h1>
 
     <div class="flex-right">
-        <b-dropdown aria-role="list">
-            <FormatListChecks
-fill-color="#fff"
-class="header-button-link"
+        <el-select v-model="value">
+            <i
+class="el-icon-folder-opened"
 />
-            <b-dropdown-item
+            <el-option
                 v-for="config in configFile.configs"
                 :key="config.name"
-                aria-role="listitem"
+                :label="config.name"
                 @click="configSelected(config)"
 >
-                <CheckBold
-v-if="config.name === currentConfig.name"
-fill-color="#000"
-/>
-                {{ config.name }}
-            </b-dropdown-item>
-        </b-dropdown>
+                <i
+                v-if="config.name === currentConfig.name"
+                class="el-icon-check"
+                />
+            </el-option>
+        </el-select>
 
-        <Help
-fill-color="#fff"
-class="header-button-link"
+        <i
+class="el-icon-help"
 @click="helpClicked"
 />
     </div>
@@ -36,20 +32,10 @@ class="header-button-link"
 </template>
 
 <script lang="ts">
-// import Azure from "vue-material-design-icons/MicrosoftAzure.vue"
-// import CheckBold from "vue-material-design-icons/CheckBold.vue"
-// import FormatListChecks from "vue-material-design-icons/FormatListChecks.vue"
-// import Help from "vue-material-design-icons/Help.vue"
 import { IConfiguration } from "../config/Schema";
 
 export default {
   name: "Header",
-  components: {
-    // Azure,
-    // CheckBold,
-    // FormatListChecks,
-    // Help
-  },
   props: {
     configFile: Object,
     currentConfig: Object
@@ -109,7 +95,7 @@ h1 {
   cursor: pointer;
 }
 
-.azure-icon {
+.el-icon-eleme {
   margin-top: -5px;
   margin-left: 3px;
 }
