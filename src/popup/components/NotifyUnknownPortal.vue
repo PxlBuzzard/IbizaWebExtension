@@ -1,34 +1,33 @@
 <template>
-<section>
+  <section>
     <b-message
-        :active="isVisible"
-        type="is-warning"
-        aria-close-label="Close message"
-        role="alert"
-        title="Portal URL not found."
->
-        Using this extension outside of the Azure Portal will force the page to be redirected to the Azure Portal if you apply the selected options.
+      :active="isVisible"
+      type="is-warning"
+      aria-close-label="Close message"
+      role="alert"
+      title="Portal URL not found."
+    >
+      Using this extension outside of the Azure Portal will force the page to be redirected to the
+      Azure Portal if you apply the selected options.
     </b-message>
-</section>
+  </section>
 </template>
 
 <script lang="ts">
-
 export default {
-    name: "NotifyUnknownPortal",
-    props: {
-        currentEnv: {
-            type: String,
-            default: ""
-        }
+  name: "NotifyUnknownPortal",
+  props: {
+    currentEnv: {
+      type: String,
+      default: "",
     },
-    computed: {
-        isVisible(props): boolean {
-            return props.currentEnv == "unknown";
-        }
-    }
-}
+  },
+  computed: {
+    isVisible(props): boolean {
+      return props.currentEnv == "unknown";
+    },
+  },
+};
 </script>
 
-<style>
-</style>
+<style></style>

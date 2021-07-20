@@ -1,88 +1,84 @@
 <template>
-<section>
+  <section>
     <ul class="pure-menu-list">
-        <li class="pure-menu-item">
-<a
-href="#"
-class="pure-menu-link"
-:class="tabSelected === 'envEditor' ? 'selected' : null"
-@click="tabSelected = 'envEditor'"
->Environment Editor</a>
-</li>
-        <li class="pure-menu-item">
-<a
-href="#"
-class="pure-menu-link"
-:class="tabSelected === 'analyzeBlade' ? 'selected' : null"
-@click="tabSelected = 'analyzeBlade'"
->Analyze Blade</a>
-</li>
-        <li class="pure-menu-item">
-<a
-href="#"
-class="pure-menu-link"
-:class="tabSelected === 'version' ? 'selected' : null"
-@click="tabSelected = 'version'"
->Check Version</a>
-</li>
-        <li class="pure-menu-item">
-<a
-href="#"
-class="pure-menu-link"
-:class="tabSelected === 'settings' ? 'selected' : null"
-@click="tabSelected = 'settings'"
->Settings</a>
-</li>
-        <li
-v-if="featureGroups.length > 0"
-class="pure-menu-heading"
->
-Extension Features
-</li>
-        <li
-v-for="group in featureGroups"
-:key="group"
-class="pure-menu-item"
->
-<a
-href="#"
-class="pure-menu-link"
-:class="tabSelected === group ? 'selected' : null"
-@click="tabSelected = group"
->{{ group }}</a>
-</li>
+      <li class="pure-menu-item">
+        <a
+          href="#"
+          class="pure-menu-link"
+          :class="tabSelected === 'envEditor' ? 'selected' : null"
+          @click="tabSelected = 'envEditor'"
+          >Environment Editor</a
+        >
+      </li>
+      <li class="pure-menu-item">
+        <a
+          href="#"
+          class="pure-menu-link"
+          :class="tabSelected === 'analyzeBlade' ? 'selected' : null"
+          @click="tabSelected = 'analyzeBlade'"
+          >Analyze Blade</a
+        >
+      </li>
+      <li class="pure-menu-item">
+        <a
+          href="#"
+          class="pure-menu-link"
+          :class="tabSelected === 'version' ? 'selected' : null"
+          @click="tabSelected = 'version'"
+          >Check Version</a
+        >
+      </li>
+      <li class="pure-menu-item">
+        <a
+          href="#"
+          class="pure-menu-link"
+          :class="tabSelected === 'settings' ? 'selected' : null"
+          @click="tabSelected = 'settings'"
+          >Settings</a
+        >
+      </li>
+      <li v-if="featureGroups.length > 0" class="pure-menu-heading">Extension Features</li>
+      <li v-for="group in featureGroups" :key="group" class="pure-menu-item">
+        <a
+          href="#"
+          class="pure-menu-link"
+          :class="tabSelected === group ? 'selected' : null"
+          @click="tabSelected = group"
+          >{{ group }}</a
+        >
+      </li>
     </ul>
-</section>
+  </section>
 </template>
 
 <script lang="ts">
 export default {
-    name: "Sidebar",
-    props: {
-      currentContent: {
-        type: Function,
-        default: () => {}
-      },
-      featureGroups: {
-        type: Array,
-        default: () => []
-      }
+  name: "Sidebar",
+  props: {
+    currentContent: {
+      type: Function,
+      default: () => {},
     },
-    emits: ["update:currentContent"],
-    data() {
-        return {
-            tabSelected: ""
-        }
+    featureGroups: {
+      type: Array,
+      default: () => [],
     },
-    watch: {
-        currentContent(props, val: string): void {
-            props.tabSelected = val;
-        },
-        tabSelected(props, val: string): void {
-            props.$emit("update:currentContent", val);
-        }
-    }
-}
+  },
+  emits: ["update:currentContent"],
+  data() {
+    return {
+      tabSelected: "",
+    };
+  },
+  watch: {
+    currentContent(props, val: string): void {
+      props.tabSelected = val;
+    },
+    tabSelected(props, val: string): void {
+      props.$emit("update:currentContent", val);
+    },
+  },
+};
 </script>
 
 <style>
@@ -105,12 +101,12 @@ export default {
 }
 
 .pure-menu-link:hover {
-  background-color: rgba(128,128,128,.15);
+  background-color: rgba(128, 128, 128, 0.15);
   color: #fff;
 }
 
 .pure-menu-link.selected {
-  background-color: rgba(128,128,128,.40);
+  background-color: rgba(128, 128, 128, 0.4);
   color: #fff;
 }
 </style>

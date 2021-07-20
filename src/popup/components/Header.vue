@@ -1,12 +1,10 @@
 <template>
-<header>
-    <i
-class="el-icon-eleme"
-/>
+  <header>
+    <i class="el-icon-eleme" />
     <h1>Azure Portal Developer Extension</h1>
 
     <div class="flex-right">
-        <!-- <el-select>
+      <!-- <el-select>
             <i
 class="el-icon-folder-opened"
 />
@@ -23,12 +21,9 @@ class="el-icon-folder-opened"
             </el-option>
         </el-select> -->
 
-        <i
-class="el-icon-help"
-@click="helpClicked"
-/>
+      <i class="el-icon-help" @click="helpClicked" />
     </div>
-</header>
+  </header>
 </template>
 
 <script lang="ts">
@@ -38,7 +33,7 @@ export default {
   name: "Header",
   props: {
     configFile: Object,
-    currentConfig: Object
+    currentConfig: Object,
   },
   emits: ["update:currentConfig"],
   methods: {
@@ -46,13 +41,15 @@ export default {
       props.$emit("update:currentConfig", config);
     },
     helpClicked(props): Promise<any> {
-      return new Promise((resolve) => chrome.tabs.create({ url: props.configFile.help }, () => {
-        resolve({});
-        window.close();
-      }));
-    }
-  }
-}
+      return new Promise((resolve) =>
+        chrome.tabs.create({ url: props.configFile.help }, () => {
+          resolve({});
+          window.close();
+        }),
+      );
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -60,7 +57,7 @@ header {
   background-color: #1c1c1c;
   color: #fff;
   height: 40px;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,.16);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.16);
   display: flex;
   align-items: center;
 }
@@ -76,7 +73,7 @@ h1 {
 .flex-right {
   justify-content: flex-end;
   flex: 1;
-  display:inline-flex;
+  display: inline-flex;
 }
 
 .header-button-link {

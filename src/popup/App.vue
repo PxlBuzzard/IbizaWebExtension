@@ -1,91 +1,57 @@
 <template>
-<div id="app">
-    <div class="columns no-margin">
-        <div class="column">
-            <Header
-                v-model:currentConfig="currentConfig"
-                :config-file="configFile"
-/>
-        </div>
-    </div>
-    <div class="columns">
-        <div
-id="sidebar"
-class="column is-one-quarter"
->
-            <Apply
-                :config="currentConfig.value"
-                :current-env="currentEnv.value"
-                :current-url="currentUrl.value"
-                :local-extension="localExtension.value"
-                :feature-groups="allFeatureGroups.value"
-/>
-            <Sidebar
-v-model:currentContent="currentContent.value"
-:feature-groups="dynamicFeatureGroups.map(f => f.label)"
-/>
-        </div>
-        <main
-id="content"
-class="column"
->
-            <div
-v-if="currentContent === 'loadConfig'"
-id="load-config"
->
-                <LoadConfig />
-            </div>
-            <div
-v-if="currentContent === 'envEditor'"
-id="env-editor"
->
-                <NotifyUnknownPortal :current-env="currentEnv.value" />
-                <NotifyUpdate :is-visible="updateRequired.value" />
-                <EnvSelector
-v-model="currentEnv.value"
-:environments="currentConfig.environments"
-/>
-                <LocalSelector
-v-model="localExtension.value"
-:extensions="currentConfig.extensions"
-/>
-                <FeatureGroup
-                    v-for="group in currentConfig.featureGroups"
-                    :key="group.label"
-                    v-model:featureGroup="group.features"
-/>
-            </div>
-            <div v-if="selectedDynamicGroup">
-                <NotifyUnknownPortal :current-env="currentEnv.value" />
-                <NotifyUpdate :is-visible="updateRequired.value" />
-                <FeatureGroup v-model:featureGroup="selectedDynamicGroup" />
-            </div>
-            <div
-v-if="currentContent === 'analyzeBlade'"
-id="analyze-blade"
->
-                <Analyze />
-            </div>
-            <div
-v-if="currentContent === 'version'"
-id="check-version"
->
-                <NotifyUnknownPortal :current-env="currentEnv.value" />
-                <Versions />
-            </div>
-            <div
-v-if="currentContent === 'settings'"
-id="settings-content"
->
-                <Settings
-                    :changelog="configFile.value.changelog"
-                    :config-loader="configFileLoader"
-                    :help-link="configFile.value.help"
-/>
-            </div>
-        </main>
-    </div>
-</div>
+  <el-container id="app">
+    <el-header>
+      <Header v-model:currentConfig="currentConfig" :config-file="configFile" />
+    </el-header>
+    <el-aside id="sidebar" class="column is-one-quarter">
+      <Apply
+        :config="currentConfig.value"
+        :current-env="currentEnv.value"
+        :current-url="currentUrl.value"
+        :local-extension="localExtension.value"
+        :feature-groups="allFeatureGroups.value"
+      />
+      <Sidebar
+        v-model:currentContent="currentContent.value"
+        :feature-groups="dynamicFeatureGroups.map((f) => f.label)"
+      />
+    </el-aside>
+    <el-main id="content" class="column">
+      <div v-if="currentContent === 'loadConfig'" id="load-config">
+        <LoadConfig />
+      </div>
+      <div v-if="currentContent === 'envEditor'" id="env-editor">
+        <NotifyUnknownPortal :current-env="currentEnv.value" />
+        <NotifyUpdate :is-visible="updateRequired.value" />
+        <EnvSelector v-model="currentEnv.value" :environments="currentConfig.environments" />
+        <LocalSelector v-model="localExtension.value" :extensions="currentConfig.extensions" />
+        <FeatureGroup
+          v-for="group in currentConfig.featureGroups"
+          :key="group.label"
+          v-model:featureGroup="group.features"
+        />
+      </div>
+      <div v-if="selectedDynamicGroup">
+        <NotifyUnknownPortal :current-env="currentEnv.value" />
+        <NotifyUpdate :is-visible="updateRequired.value" />
+        <FeatureGroup v-model:featureGroup="selectedDynamicGroup" />
+      </div>
+      <div v-if="currentContent === 'analyzeBlade'" id="analyze-blade">
+        <Analyze />
+      </div>
+      <div v-if="currentContent === 'version'" id="check-version">
+        <NotifyUnknownPortal :current-env="currentEnv.value" />
+        <Versions />
+      </div>
+      <div v-if="currentContent === 'settings'" id="settings-content">
+        <Settings
+          :changelog="configFile.value.changelog"
+          :config-loader="configFileLoader"
+          :help-link="configFile.value.help"
+        />
+      </div>
+    </el-main>
+  </el-container>
 </template>
 
 <script lang="ts">
@@ -108,144 +74,172 @@ import { IUrlComponents } from "./url/IUrlComponents";
 import { computed, onMounted, ref } from "vue";
 
 export default {
-    components: {
-        Analyze,
-        Apply,
-        Settings,
-        EnvSelector,
-        FeatureGroup,
-        Header,
-        LoadConfig,
-        LocalSelector,
-        NotifyUnknownPortal,
-        NotifyUpdate,
-        Sidebar,
-        Versions
-    },
-    setup(props) {
-      const currentUrl = ref<IUrlComponents>({
-          origin: "host",
-          query: {}
-      });
-      const currentEnv = ref("");
-      const currentConfig = ref<IConfiguration>({
+  components: {
+    Analyze,
+    Apply,
+    Settings,
+    EnvSelector,
+    FeatureGroup,
+    Header,
+    LoadConfig,
+    LocalSelector,
+    NotifyUnknownPortal,
+    NotifyUpdate,
+    Sidebar,
+    Versions,
+  },
+  setup(props) {
+    const currentUrl = ref<IUrlComponents>({
+      origin: "host",
+      query: {},
+    });
+    const currentEnv = ref("");
+    const currentConfig = ref<IConfiguration>({
+      name: "",
+      environments: [],
+      extensions: [],
+      featureGroups: [],
+      dynamicFeatureGroups: [],
+    });
+    const localExtension = ref("");
+    const configFileLoader = new ConfigLoader();
+    const configFile = ref<IConfigFile>({
+      version: "0",
+      help: "",
+      changelog: [],
+      configs: [
+        {
           name: "",
           environments: [],
           extensions: [],
           featureGroups: [],
-          dynamicFeatureGroups: []
-      });
-      const localExtension = ref("");
-      const configFileLoader = new ConfigLoader();
-      const configFile = ref<IConfigFile>({
-          version: "0",
-          help: "",
-          changelog: [],
-          configs: [{
-            name: "",
-            environments: [],
-            extensions: [],
-            featureGroups: [],
-            dynamicFeatureGroups: []
-          }]
-      });
-      const dynamicFeatureGroups = ref<IFeatureGroup[]>([]);
-      const currentContent = ref("loadConfig");
-      const updateRequired = ref(false);
+          dynamicFeatureGroups: [],
+        },
+      ],
+    });
+    const dynamicFeatureGroups = ref<IFeatureGroup[]>([]);
+    const currentContent = ref("loadConfig");
+    const updateRequired = ref(false);
 
-      // computeds
-      const selectedDynamicGroup = computed((): IFeatureGroup => {
-          return dynamicFeatureGroups.value.filter(g => g.label === currentContent.value)[0];
-      });
-      const allFeatureGroups = computed((): IFeatureGroup[] => {
-          return [...currentConfig.value.featureGroups, ...dynamicFeatureGroups.value];
-      });
+    // computeds
+    const selectedDynamicGroup = computed((): IFeatureGroup => {
+      return dynamicFeatureGroups.value.filter((g) => g.label === currentContent.value)[0];
+    });
+    const allFeatureGroups = computed((): IFeatureGroup[] => {
+      return [...currentConfig.value.featureGroups, ...dynamicFeatureGroups.value];
+    });
 
-      onMounted(async () => {
-        // get current url
-        let urlParser = new UrlParser();
-        currentUrl.value = await urlParser.parseUrl();
+    onMounted(async () => {
+      // get current url
+      let urlParser = new UrlParser();
+      currentUrl.value = await urlParser.parseUrl();
 
-        // get config
-        configFileLoader.loaded = cf => {
-            configFile.value = cf;
-            currentConfig.value = configFile.value.configs[0];
+      // get config
+      configFileLoader.loaded = (cf) => {
+        configFile.value = cf;
+        currentConfig.value = configFile.value.configs[0];
 
-            // change current config if we're in a portal that matches
-            for (let i = 0; i < configFile.value.configs.length; i++) {
-              // check current env
-              for (let env of configFile.value.configs[i].environments) {
-                if (currentUrl.value.origin === `https://${env.host}`) {
-                      currentConfig.value = configFile.value.configs[i];
+        // change current config if we're in a portal that matches
+        for (let i = 0; i < configFile.value.configs.length; i++) {
+          // check current env
+          for (let env of configFile.value.configs[i].environments) {
+            if (currentUrl.value.origin === `https://${env.host}`) {
+              currentConfig.value = configFile.value.configs[i];
 
-                      if (!env.params || Object.keys(env.params).every(p => !env.params || currentUrl.value.query[p] === env.params[p])) {
-                          currentEnv.value = env.label;
-                          break;
-                      }
-                  }
-              }
-              if (currentEnv.value !== "") {
-                  break;
+              if (
+                !env.params ||
+                Object.keys(env.params).every(
+                  (p) => !env.params || currentUrl.value.query[p] === env.params[p],
+                )
+              ) {
+                currentEnv.value = env.label;
+                break;
               }
             }
-
-            // hack to set currentEnv to something
-            if (currentEnv.value == "") {
-                currentEnv.value = "unknown";
-            }
-
-            // check current local extension
-            if (currentUrl.value.query["feature.canmodifyextensions"] === "true" && currentUrl.value.testExtension) {
-                localExtension.value = currentUrl.value.testExtension;
-            }
-
-            // check current features
-            currentConfig.value.featureGroups.forEach(group => {
-                group.features.forEach(feature => {
-                    if (currentUrl.value.query.hasOwnProperty(feature.name)) {
-                        // $set.value(feature, "selected", currentUrl.value.query[feature.name]);
-                    }
-                });
-            });
-
-            // get dynamic features
-            if (currentConfig.value != undefined && currentConfig.value.dynamicFeatureGroups != undefined) {
-                currentConfig.value.dynamicFeatureGroups.forEach(async group => {
-                    if (group.source[currentEnv.value]) {
-                        let features = await configFileLoader.loadFeatures(group.source[currentEnv.value], group.prefix);
-                        features.forEach(feature => {
-                            if (currentUrl.value.query.hasOwnProperty(feature.name)) {
-                                // $set.value(feature, "selected", currentUrl.value.query[feature.name]);
-                            }
-                        });
-                        dynamicFeatureGroups.value.push({
-                            label: group.label,
-                            features: features
-                        });
-                    }
-                });
-            }
-
-            currentContent.value = "envEditor";
-        };
-        configFileLoader.failedFetch = reason => {
-            console.error("Config load failed", reason);
-        }
-        configFileLoader.incompatible = (extVer, configVer) => {
-            updateRequired.value = true;
+          }
+          if (currentEnv.value !== "") {
+            break;
+          }
         }
 
-        await configFileLoader.loadConfig();
-      });
+        // hack to set currentEnv to something
+        if (currentEnv.value == "") {
+          currentEnv.value = "unknown";
+        }
 
-      return { currentUrl, currentEnv, currentConfig, localExtension, configFileLoader, configFile, dynamicFeatureGroups, currentContent, updateRequired, selectedDynamicGroup, allFeatureGroups }
-    }
-}
+        // check current local extension
+        if (
+          currentUrl.value.query["feature.canmodifyextensions"] === "true" &&
+          currentUrl.value.testExtension
+        ) {
+          localExtension.value = currentUrl.value.testExtension;
+        }
+
+        // check current features
+        currentConfig.value.featureGroups.forEach((group) => {
+          group.features.forEach((feature) => {
+            if (currentUrl.value.query.hasOwnProperty(feature.name)) {
+              // $set.value(feature, "selected", currentUrl.value.query[feature.name]);
+            }
+          });
+        });
+
+        // get dynamic features
+        if (
+          currentConfig.value != undefined &&
+          currentConfig.value.dynamicFeatureGroups != undefined
+        ) {
+          currentConfig.value.dynamicFeatureGroups.forEach(async (group) => {
+            if (group.source[currentEnv.value]) {
+              let features = await configFileLoader.loadFeatures(
+                group.source[currentEnv.value],
+                group.prefix,
+              );
+              features.forEach((feature) => {
+                if (currentUrl.value.query.hasOwnProperty(feature.name)) {
+                  // $set.value(feature, "selected", currentUrl.value.query[feature.name]);
+                }
+              });
+              dynamicFeatureGroups.value.push({
+                label: group.label,
+                features: features,
+              });
+            }
+          });
+        }
+
+        currentContent.value = "envEditor";
+      };
+      configFileLoader.failedFetch = (reason) => {
+        console.error("Config load failed", reason);
+      };
+      configFileLoader.incompatible = (extVer, configVer) => {
+        updateRequired.value = true;
+      };
+
+      await configFileLoader.loadConfig();
+    });
+
+    return {
+      currentUrl,
+      currentEnv,
+      currentConfig,
+      localExtension,
+      configFileLoader,
+      configFile,
+      dynamicFeatureGroups,
+      currentContent,
+      updateRequired,
+      selectedDynamicGroup,
+      allFeatureGroups,
+    };
+  },
+};
 </script>
 
 <style>
 html {
-  font-family: az_ea_font, 'Segoe UI', az_font, system-ui, sans-serif;
+  font-family: az_ea_font, "Segoe UI", az_font, system-ui, sans-serif;
 }
 
 #app {
@@ -255,7 +249,7 @@ html {
 #content {
   overflow: auto;
   height: 500px;
-  margin-right: .75rem;
+  margin-right: 0.75rem;
 }
 
 #content h2 {

@@ -1,14 +1,13 @@
 <template>
-<section>
+  <section>
     <span>Loading...</span>
-</section>
+  </section>
 </template>
 
 <script lang="ts">
 export default {
-  name: "LoadConfig"
-}
+  name: "LoadConfig",
+};
 </script>
 
-<style>
-</style>
+<style></style>
