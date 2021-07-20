@@ -14,14 +14,14 @@ id="sidebar"
 class="column is-one-quarter"
 >
             <Apply
-                :config="currentConfig"
-                :current-env="currentEnv"
-                :current-url="currentUrl"
-                :local-extension="localExtension"
-                :feature-groups="allFeatureGroups"
+                :config="currentConfig.value"
+                :current-env="currentEnv.value"
+                :current-url="currentUrl.value"
+                :local-extension="localExtension.value"
+                :feature-groups="allFeatureGroups.value"
 />
             <Sidebar
-v-model:currentContent="currentContent"
+v-model:currentContent="currentContent.value"
 :feature-groups="dynamicFeatureGroups.map(f => f.label)"
 />
         </div>
@@ -39,14 +39,14 @@ id="load-config"
 v-if="currentContent === 'envEditor'"
 id="env-editor"
 >
-                <NotifyUnknownPortal :current-env="currentEnv" />
-                <NotifyUpdate :is-visible="updateRequired" />
+                <NotifyUnknownPortal :current-env="currentEnv.value" />
+                <NotifyUpdate :is-visible="updateRequired.value" />
                 <EnvSelector
-v-model="currentEnv"
+v-model="currentEnv.value"
 :environments="currentConfig.environments"
 />
                 <LocalSelector
-v-model="localExtension"
+v-model="localExtension.value"
 :extensions="currentConfig.extensions"
 />
                 <FeatureGroup
@@ -56,8 +56,8 @@ v-model="localExtension"
 />
             </div>
             <div v-if="selectedDynamicGroup">
-                <NotifyUnknownPortal :current-env="currentEnv" />
-                <NotifyUpdate :is-visible="updateRequired" />
+                <NotifyUnknownPortal :current-env="currentEnv.value" />
+                <NotifyUpdate :is-visible="updateRequired.value" />
                 <FeatureGroup v-model:featureGroup="selectedDynamicGroup" />
             </div>
             <div
@@ -70,7 +70,7 @@ id="analyze-blade"
 v-if="currentContent === 'version'"
 id="check-version"
 >
-                <NotifyUnknownPortal :current-env="currentEnv" />
+                <NotifyUnknownPortal :current-env="currentEnv.value" />
                 <Versions />
             </div>
             <div
@@ -78,9 +78,9 @@ v-if="currentContent === 'settings'"
 id="settings-content"
 >
                 <Settings
-                    :changelog="configFile.changelog"
+                    :changelog="configFile.value.changelog"
                     :config-loader="configFileLoader"
-                    :help-link="configFile.help"
+                    :help-link="configFile.value.help"
 />
             </div>
         </main>

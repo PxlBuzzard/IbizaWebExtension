@@ -6,7 +6,7 @@ class="el-icon-eleme"
     <h1>Azure Portal Developer Extension</h1>
 
     <div class="flex-right">
-        <el-select v-model="value">
+        <!-- <el-select>
             <i
 class="el-icon-folder-opened"
 />
@@ -21,7 +21,7 @@ class="el-icon-folder-opened"
                 class="el-icon-check"
                 />
             </el-option>
-        </el-select>
+        </el-select> -->
 
         <i
 class="el-icon-help"
