@@ -1,6 +1,6 @@
 <template>
   <section>
-    <span>Loading...</span>
+    <el-skeleton :rows="10" animated />
   </section>
 </template>
 

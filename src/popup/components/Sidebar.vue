@@ -1,32 +1,33 @@
 <template>
-  <el-menu :default-openeds="['1', '2']" default-active="1">
-    <el-submenu index="1">
-      <template #title><i class="el-icon-message"></i>Stuff</template>
-      <el-menu-item-group>
-        <el-menu-item index="1-1" @click="$emit('update-content', 'envEditor')"
-          >Environment Editor</el-menu-item
-        >
-        <el-menu-item index="1-2" @click="$emit('update-content', 'analyzeBlade')"
-          >Analyze Blade</el-menu-item
-        >
-        <el-menu-item index="1-3" @click="$emit('update-content', 'version')"
-          >Check Ext Version</el-menu-item
-        >
-        <el-menu-item index="1-4" @click="$emit('update-content', 'settings')"
-          >Settings</el-menu-item
-        >
-      </el-menu-item-group>
-    </el-submenu>
-    <el-submenu v-if="featureGroups.length > 0" index="2">
+  <el-menu
+    :default-openeds="['1', '5']"
+    default-active="1"
+    background-color="#e9e9e9"
+    text-color="#000000"
+    active-text-color="#0078d4"
+  >
+    <el-menu-item index="1" @click="$emit('update-content', 'envEditor')"
+      >Environment Editor</el-menu-item
+    >
+    <el-menu-item index="2" @click="$emit('update-content', 'analyzeBlade')"
+      >Analyze Blade</el-menu-item
+    >
+    <el-menu-item index="3" @click="$emit('update-content', 'version')"
+      >Check Ext Version</el-menu-item
+    >
+    <el-menu-item index="4" @click="$emit('update-content', 'settings')">Settings</el-menu-item>
+    <el-submenu v-if="featureGroups.length > 0" index="5">
       <template #title><i class="el-icon-message"></i>Extension Features</template>
-      <el-menu-item v-for="group in featureGroups" :key="group">
-        <a
-          href="#"
-          :class="tabSelected === group ? 'selected' : null"
-          @click="tabSelected = group"
-          >{{ group }}</a
+      <el-menu-item-group>
+        <el-menu-item
+          v-for="group in featureGroups"
+          :key="group"
+          :index="`5-${group}`"
+          @click="$emit('update-content', group)"
         >
-      </el-menu-item>
+          {{ group }}
+        </el-menu-item>
+      </el-menu-item-group>
     </el-submenu>
   </el-menu>
 </template>

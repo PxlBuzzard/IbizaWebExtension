@@ -1,7 +1,7 @@
 <template>
   <section>
     <el-alert
-      :active="isVisible"
+      v-model="isVisible"
       type="warning"
       title="Portal URL not found."
       description="Using this extension outside of the Azure Portal will force the page to be redirected to the Azure Portal if you apply the selected options."
@@ -18,10 +18,12 @@ export default {
       default: "",
     },
   },
-  computed: {
-    isVisible(props): boolean {
+  setup(props) {
+    function isVisible(): boolean {
       return props.currentEnv == "unknown";
-    },
+    }
+
+    return { isVisible };
   },
 };
 </script>

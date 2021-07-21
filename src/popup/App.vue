@@ -275,6 +275,8 @@ export default {
 <style>
 body {
   margin: 0;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Microsoft YaHei, SimSun, sans-serif;
+  font-weight: 400;
 }
 
 #app {
