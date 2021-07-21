@@ -1,5 +1,5 @@
 <template>
-  <el-menu :default-openeds="['1', '2']">
+  <el-menu :default-openeds="['1', '2']" default-active="1">
     <el-submenu index="1">
       <template #title><i class="el-icon-message"></i>Stuff</template>
       <el-menu-item-group>

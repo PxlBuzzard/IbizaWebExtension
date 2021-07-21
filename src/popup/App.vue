@@ -10,14 +10,14 @@
     <el-container>
       <el-aside id="sidebar" width="195px">
         <Apply
-          :config="currentConfig.value"
-          :current-env="currentEnv.value"
-          :current-url="currentUrl.value"
-          :local-extension="localExtension.value"
-          :feature-groups="allFeatureGroups.value"
+          :config="currentConfig"
+          :current-env="currentEnv"
+          :current-url="currentUrl"
+          :local-extension="localExtension"
+          :feature-groups="allFeatureGroups"
         />
         <Sidebar
-          v-model:currentContent="currentContent.value"
+          v-model:currentContent="currentContent"
           :feature-groups="dynamicFeatureGroups.map((f) => f.label)"
           @update-content="updateContent"
         />
@@ -27,10 +27,18 @@
           <LoadConfig />
         </div>
         <div v-if="currentContent === 'envEditor'" id="env-editor">
-          <NotifyUnknownPortal :current-env="currentEnv.value" />
-          <NotifyUpdate :is-visible="updateRequired.value" />
-          <EnvSelector v-model="currentEnv.value" :environments="currentConfig.environments" />
-          <LocalSelector v-model="localExtension.value" :extensions="currentConfig.extensions" />
+          <NotifyUnknownPortal :current-env="currentEnv" />
+          <NotifyUpdate :is-visible="updateRequired" />
+          <EnvSelector
+            :value="currentEnv"
+            :environments="currentConfig.environments"
+            @update-current-env="updateCurrentEnv"
+          />
+          <LocalSelector
+            v-model="localExtension"
+            :extensions="currentConfig.extensions"
+            @update-selected-extension="updateSelectedExtension"
+          />
           <FeatureGroup
             v-for="group in currentConfig.featureGroups"
             :key="group.label"
@@ -38,15 +46,15 @@
           />
         </div>
         <div v-if="selectedDynamicGroup">
-          <NotifyUnknownPortal :current-env="currentEnv.value" />
-          <NotifyUpdate :is-visible="updateRequired.value" />
+          <NotifyUnknownPortal :current-env="currentEnv" />
+          <NotifyUpdate :is-visible="updateRequired" />
           <FeatureGroup v-model:featureGroup="selectedDynamicGroup" />
         </div>
         <div v-if="currentContent === 'analyzeBlade'" id="analyze-blade">
           <Analyze />
         </div>
         <div v-if="currentContent === 'version'" id="check-version">
-          <NotifyUnknownPortal :current-env="currentEnv.value" />
+          <NotifyUnknownPortal :current-env="currentEnv" />
           <Versions />
         </div>
         <div v-if="currentContent === 'settings'" id="settings-content">
@@ -95,7 +103,7 @@ export default {
     Sidebar,
     Versions,
   },
-  setup(props) {
+  setup() {
     const currentUrl = ref<IUrlComponents>({
       origin: "host",
       query: {},
@@ -142,6 +150,14 @@ export default {
 
     function selectConfig(config: IConfiguration): void {
       currentConfig.value = config;
+    }
+
+    function updateSelectedExtension(extension: string): void {
+      localExtension.value = extension;
+    }
+
+    function updateCurrentEnv(env: string): void {
+      currentEnv.value = env;
     }
 
     onMounted(async () => {
@@ -249,14 +265,16 @@ export default {
       allFeatureGroups,
       updateContent,
       selectConfig,
+      updateSelectedExtension,
+      updateCurrentEnv,
     };
   },
 };
 </script>
 
 <style>
-html {
-  font-family: az_ea_font, "Segoe UI", az_font, system-ui, sans-serif;
+body {
+  margin: 0;
 }
 
 #app {
@@ -268,26 +286,7 @@ html {
   height: 500px;
 }
 
-#content h2 {
-  font-size: 20px;
-  font-weight: 500;
-}
-
 #content section {
   margin-bottom: 20px;
-}
-
-.material-design-icon.icon-2x {
-  width: 40px;
-  height: 40px;
-}
-
-.material-design-icon.icon-2x > .material-design-icon__svg {
-  width: 40px;
-  height: 40px;
-}
-
-.header-button-link.material-design-icon > .material-design-icon__svg {
-  position: relative;
 }
 </style>

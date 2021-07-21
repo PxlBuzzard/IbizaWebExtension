@@ -18,10 +18,11 @@
     "prettier"
   ],
   "rules": {
+    "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "no-console": 0,
-    "no-unused-vars": ["warn", { "vars": "all", "args": "all" } ],
+    "no-unused-vars": ["warn", { "vars": "all", "args": "all" }],
     "no-undef": ["warn"],
     "no-proto": ["error"],
     "prefer-arrow-callback": ["warn"],

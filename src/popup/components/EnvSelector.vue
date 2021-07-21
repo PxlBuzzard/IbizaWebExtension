@@ -1,39 +1,42 @@
 <template>
   <section>
-    <h2>Environment</h2>
-    <el-radio-group v-model="envSelected">
-      <el-radio
+    <h2 style="display: inline-block">Environment</h2>
+    <el-select
+      v-model="envSelected"
+      placeholder="Select an environment"
+      filterable
+      default-first-option
+      :change="$emit('update-current-env', envSelected)"
+    >
+      <el-option
         v-for="env in environments"
         :key="env.label"
         :label="env.label"
-        @input="$emit('input', envSelected)"
+        :value="env.label"
       />
-    </el-radio-group>
+    </el-select>
   </section>
 </template>
 
 <script lang="ts">
-import { onMounted, ref } from "vue";
+import { PropType, ref } from "vue";
+import { IEnvironment } from "../config/Schema";
 
 export default {
   name: "EnvSelector",
   props: {
     value: {
       type: String,
-      default: "",
+      required: true,
     },
     environments: {
-      type: Array,
-      default: () => [],
+      type: Array as PropType<IEnvironment[]>,
+      required: true,
     },
   },
-  emits: ["input"],
+  emits: ["update-current-env"],
   setup(props) {
-    const envSelected = ref("");
-
-    onMounted(() => {
-      envSelected.value = props.value || "";
-    });
+    const envSelected = ref(props.value != "unknown" ? props.value : "");
     return { envSelected };
   },
 };

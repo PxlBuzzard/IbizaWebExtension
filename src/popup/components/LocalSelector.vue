@@ -1,15 +1,15 @@
 <template>
   <section>
-    <h2>Sideloaded Extension</h2>
-    <el-select v-model="extensionSelected" placeholder="Select an extension">
-      <el-option label="None" value="" @input="$emit('input', extensionSelected)" />
-      <el-option
-        v-for="ext in extensions"
-        :key="ext.name"
-        :label="ext.name"
-        :value="ext.name"
-        @input="$emit('input', extensionSelected)"
-      />
+    <h2 style="display: inline-block">Sideloaded Extension</h2>
+    <el-select
+      v-model="extensionSelected"
+      placeholder="Select an extension"
+      filterable
+      default-first-option
+      :change="$emit('update-selected-extension', extensionSelected)"
+    >
+      <el-option label="None" value="" />
+      <el-option v-for="ext in extensions" :key="ext.name" :label="ext.name" :value="ext.name" />
     </el-select>
   </section>
 </template>
@@ -28,7 +28,7 @@ export default {
       default: () => [],
     },
   },
-  emits: ["input"],
+  emits: ["update-selected-extension"],
   setup(props) {
     const extensionSelected = ref(props.value);
 
