@@ -1,7 +1,11 @@
 <template>
   <el-container id="app">
     <el-header>
-      <Header v-model:currentConfig="currentConfig" :config-file="configFile" />
+      <Header
+        v-model:currentConfig="currentConfig"
+        :config-file="configFile"
+        @select-config="selectConfig"
+      />
     </el-header>
     <el-container>
       <el-aside id="sidebar" width="195px">
@@ -136,6 +140,10 @@ export default {
       currentContent.value = page;
     }
 
+    function selectConfig(config: IConfiguration): void {
+      currentConfig.value = config;
+    }
+
     onMounted(async () => {
       // get current url
       let urlParser = new UrlParser();
@@ -240,6 +248,7 @@ export default {
       selectedDynamicGroup,
       allFeatureGroups,
       updateContent,
+      selectConfig,
     };
   },
 };

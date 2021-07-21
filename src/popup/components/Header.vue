@@ -4,22 +4,21 @@
     <h1>Azure Portal Developer Extension</h1>
 
     <div class="flex-right">
-      <!-- <el-select>
-            <i
-class="el-icon-folder-opened"
-/>
-            <el-option
-                v-for="config in configFile.configs"
-                :key="config.name"
-                :label="config.name"
-                @click="configSelected(config)"
->
-                <i
-                v-if="config.name === currentConfig.name"
-                class="el-icon-check"
-                />
-            </el-option>
-        </el-select> -->
+      <el-dropdown>
+        <i class="el-icon-folder-opened" />
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item
+              v-for="config in configFile.configs"
+              :key="config.name"
+              @click="$emit('select-config', config)"
+            >
+              {{ config.name }}
+              <i v-if="config.name === currentConfig.name" class="el-icon-check" />
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
 
       <i class="el-icon-help" @click="helpClicked" />
     </div>
@@ -27,27 +26,30 @@ class="el-icon-folder-opened"
 </template>
 
 <script lang="ts">
-import { IConfiguration } from "../config/Schema";
-
 export default {
   name: "Header",
   props: {
-    configFile: Object,
-    currentConfig: Object,
-  },
-  emits: ["update:currentConfig"],
-  methods: {
-    configSelected(props, config: IConfiguration): void {
-      props.$emit("update:currentConfig", config);
+    configFile: {
+      type: Object,
+      required: true,
     },
-    helpClicked(props): Promise<any> {
+    currentConfig: {
+      type: Object,
+      required: true,
+    },
+  },
+  emits: ["select-config"],
+  setup(props) {
+    function helpClicked(): Promise<any> {
       return new Promise((resolve) =>
         chrome.tabs.create({ url: props.configFile.help }, () => {
           resolve({});
           window.close();
         }),
       );
-    },
+    }
+
+    return { helpClicked };
   },
 };
 </script>
