@@ -3,72 +3,75 @@
     <el-header>
       <Header v-model:currentConfig="currentConfig" :config-file="configFile" />
     </el-header>
-    <el-aside id="sidebar" class="column is-one-quarter">
-      <Apply
-        :config="currentConfig.value"
-        :current-env="currentEnv.value"
-        :current-url="currentUrl.value"
-        :local-extension="localExtension.value"
-        :feature-groups="allFeatureGroups.value"
-      />
-      <Sidebar
-        v-model:currentContent="currentContent.value"
-        :feature-groups="dynamicFeatureGroups.map((f) => f.label)"
-      />
-    </el-aside>
-    <el-main id="content" class="column">
-      <div v-if="currentContent === 'loadConfig'" id="load-config">
-        <LoadConfig />
-      </div>
-      <div v-if="currentContent === 'envEditor'" id="env-editor">
-        <NotifyUnknownPortal :current-env="currentEnv.value" />
-        <NotifyUpdate :is-visible="updateRequired.value" />
-        <EnvSelector v-model="currentEnv.value" :environments="currentConfig.environments" />
-        <LocalSelector v-model="localExtension.value" :extensions="currentConfig.extensions" />
-        <FeatureGroup
-          v-for="group in currentConfig.featureGroups"
-          :key="group.label"
-          v-model:featureGroup="group.features"
+    <el-container>
+      <el-aside id="sidebar" width="195px">
+        <Apply
+          :config="currentConfig.value"
+          :current-env="currentEnv.value"
+          :current-url="currentUrl.value"
+          :local-extension="localExtension.value"
+          :feature-groups="allFeatureGroups.value"
         />
-      </div>
-      <div v-if="selectedDynamicGroup">
-        <NotifyUnknownPortal :current-env="currentEnv.value" />
-        <NotifyUpdate :is-visible="updateRequired.value" />
-        <FeatureGroup v-model:featureGroup="selectedDynamicGroup" />
-      </div>
-      <div v-if="currentContent === 'analyzeBlade'" id="analyze-blade">
-        <Analyze />
-      </div>
-      <div v-if="currentContent === 'version'" id="check-version">
-        <NotifyUnknownPortal :current-env="currentEnv.value" />
-        <Versions />
-      </div>
-      <div v-if="currentContent === 'settings'" id="settings-content">
-        <Settings
-          :changelog="configFile.value.changelog"
-          :config-loader="configFileLoader"
-          :help-link="configFile.value.help"
+        <Sidebar
+          v-model:currentContent="currentContent.value"
+          :feature-groups="dynamicFeatureGroups.map((f) => f.label)"
+          @update-content="updateContent"
         />
-      </div>
-    </el-main>
+      </el-aside>
+      <el-main id="content">
+        <div v-if="currentContent === 'loadConfig'" id="load-config">
+          <LoadConfig />
+        </div>
+        <div v-if="currentContent === 'envEditor'" id="env-editor">
+          <NotifyUnknownPortal :current-env="currentEnv.value" />
+          <NotifyUpdate :is-visible="updateRequired.value" />
+          <EnvSelector v-model="currentEnv.value" :environments="currentConfig.environments" />
+          <LocalSelector v-model="localExtension.value" :extensions="currentConfig.extensions" />
+          <FeatureGroup
+            v-for="group in currentConfig.featureGroups"
+            :key="group.label"
+            v-model:featureGroup="group.features"
+          />
+        </div>
+        <div v-if="selectedDynamicGroup">
+          <NotifyUnknownPortal :current-env="currentEnv.value" />
+          <NotifyUpdate :is-visible="updateRequired.value" />
+          <FeatureGroup v-model:featureGroup="selectedDynamicGroup" />
+        </div>
+        <div v-if="currentContent === 'analyzeBlade'" id="analyze-blade">
+          <Analyze />
+        </div>
+        <div v-if="currentContent === 'version'" id="check-version">
+          <NotifyUnknownPortal :current-env="currentEnv.value" />
+          <Versions />
+        </div>
+        <div v-if="currentContent === 'settings'" id="settings-content">
+          <Settings
+            :changelog="configFile.changelog"
+            :config-loader="configFileLoader"
+            :help-link="configFile.help"
+          />
+        </div>
+      </el-main>
+    </el-container>
   </el-container>
 </template>
 
 <script lang="ts">
-import Analyze from "./components/Analyze.vue";
+import Analyze from "./pages/Analyze.vue";
 import Apply from "./components/Apply.vue";
 import ConfigLoader from "./config/ConfigLoader";
 import EnvSelector from "./components/EnvSelector.vue";
-import FeatureGroup from "./components/FeatureGroup.vue";
+import FeatureGroup from "./pages/FeatureGroup.vue";
 import Header from "./components/Header.vue";
 import LocalSelector from "./components/LocalSelector.vue";
 import LoadConfig from "./pages/LoadConfig.vue";
 import NotifyUnknownPortal from "./components/NotifyUnknownPortal.vue";
 import NotifyUpdate from "./components/NotifyUpdate.vue";
-import Settings from "./components/Settings.vue";
+import Settings from "./pages/Settings.vue";
 import Sidebar from "./components/Sidebar.vue";
 import UrlParser from "./url/UrlParser";
-import Versions from "./components/Versions.vue";
+import Versions from "./pages/Versions.vue";
 import { IConfigFile, IConfiguration, IFeatureGroup } from "./config/Schema";
 import { IUrlComponents } from "./url/IUrlComponents";
 import { computed, onMounted, ref } from "vue";
@@ -128,6 +131,10 @@ export default {
     const allFeatureGroups = computed((): IFeatureGroup[] => {
       return [...currentConfig.value.featureGroups, ...dynamicFeatureGroups.value];
     });
+
+    function updateContent(page: string): void {
+      currentContent.value = page;
+    }
 
     onMounted(async () => {
       // get current url
@@ -232,6 +239,7 @@ export default {
       updateRequired,
       selectedDynamicGroup,
       allFeatureGroups,
+      updateContent,
     };
   },
 };
@@ -249,7 +257,6 @@ html {
 #content {
   overflow: auto;
   height: 500px;
-  margin-right: 0.75rem;
 }
 
 #content h2 {
@@ -273,9 +280,5 @@ html {
 
 .header-button-link.material-design-icon > .material-design-icon__svg {
   position: relative;
-}
-
-.columns.no-margin {
-  margin-bottom: 0 !important;
 }
 </style>

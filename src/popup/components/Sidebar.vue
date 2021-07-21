@@ -1,112 +1,47 @@
 <template>
-  <section>
-    <ul class="pure-menu-list">
-      <li class="pure-menu-item">
-        <a
-          href="#"
-          class="pure-menu-link"
-          :class="tabSelected === 'envEditor' ? 'selected' : null"
-          @click="tabSelected = 'envEditor'"
-          >Environment Editor</a
+  <el-menu :default-openeds="['1', '2']">
+    <el-submenu index="1">
+      <template #title><i class="el-icon-message"></i>Stuff</template>
+      <el-menu-item-group>
+        <el-menu-item index="1-1" @click="$emit('update-content', 'envEditor')"
+          >Environment Editor</el-menu-item
         >
-      </li>
-      <li class="pure-menu-item">
-        <a
-          href="#"
-          class="pure-menu-link"
-          :class="tabSelected === 'analyzeBlade' ? 'selected' : null"
-          @click="tabSelected = 'analyzeBlade'"
-          >Analyze Blade</a
+        <el-menu-item index="1-2" @click="$emit('update-content', 'analyzeBlade')"
+          >Analyze Blade</el-menu-item
         >
-      </li>
-      <li class="pure-menu-item">
-        <a
-          href="#"
-          class="pure-menu-link"
-          :class="tabSelected === 'version' ? 'selected' : null"
-          @click="tabSelected = 'version'"
-          >Check Version</a
+        <el-menu-item index="1-3" @click="$emit('update-content', 'version')"
+          >Check Ext Version</el-menu-item
         >
-      </li>
-      <li class="pure-menu-item">
-        <a
-          href="#"
-          class="pure-menu-link"
-          :class="tabSelected === 'settings' ? 'selected' : null"
-          @click="tabSelected = 'settings'"
-          >Settings</a
+        <el-menu-item index="1-4" @click="$emit('update-content', 'settings')"
+          >Settings</el-menu-item
         >
-      </li>
-      <li v-if="featureGroups.length > 0" class="pure-menu-heading">Extension Features</li>
-      <li v-for="group in featureGroups" :key="group" class="pure-menu-item">
+      </el-menu-item-group>
+    </el-submenu>
+    <el-submenu v-if="featureGroups.length > 0" index="2">
+      <template #title><i class="el-icon-message"></i>Extension Features</template>
+      <el-menu-item v-for="group in featureGroups" :key="group">
         <a
           href="#"
-          class="pure-menu-link"
           :class="tabSelected === group ? 'selected' : null"
           @click="tabSelected = group"
           >{{ group }}</a
         >
-      </li>
-    </ul>
-  </section>
+      </el-menu-item>
+    </el-submenu>
+  </el-menu>
 </template>
 
 <script lang="ts">
 export default {
   name: "Sidebar",
   props: {
-    currentContent: {
-      type: Function,
-      default: () => {},
-    },
     featureGroups: {
       type: Array,
       default: () => [],
     },
   },
-  emits: ["update:currentContent"],
-  data() {
-    return {
-      tabSelected: "",
-    };
-  },
-  watch: {
-    currentContent(props, val: string): void {
-      props.tabSelected = val;
-    },
-    tabSelected(props, val: string): void {
-      props.$emit("update:currentContent", val);
-    },
-  },
+  emits: ["update-content"],
 };
 </script>
 
-<style>
-@import "../pure.css";
-
-#sidebar {
-  background-color: #323130;
-  color: #fff;
-}
-
-.pure-menu-heading {
-  color: #999;
-}
-
-.pure-menu-link {
-  color: #fff;
-  transition-property: all;
-  transition-duration: 600ms;
-  transition-timing-function: cubic-bezier(0.16, 1, 0.29, 0.99);
-}
-
-.pure-menu-link:hover {
-  background-color: rgba(128, 128, 128, 0.15);
-  color: #fff;
-}
-
-.pure-menu-link.selected {
-  background-color: rgba(128, 128, 128, 0.4);
-  color: #fff;
-}
-</style>
+<style></style>

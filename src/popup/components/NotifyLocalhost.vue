@@ -1,13 +1,10 @@
 <template>
   <section>
-    <b-notification
+    <el-alert
       v-model:active="isVisible"
-      type="is-danger"
-      aria-close-label="Close notification"
-      role="alert"
-    >
-      Could not find local extension server. Please ensure it is running.
-    </b-notification>
+      type="error"
+      title="Could not find local extension server. Please ensure it is running."
+    />
   </section>
 </template>
 

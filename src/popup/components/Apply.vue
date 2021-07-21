@@ -1,6 +1,6 @@
 <template>
   <section>
-    <button id="apply-button" class="button is-success" @click="apply">Apply</button>
+    <el-button id="apply-button" type="success" @click="apply">Apply</el-button>
   </section>
 </template>
 
@@ -33,8 +33,8 @@ export default {
       default: () => [],
     },
   },
-  setup(props): void {
-    function apply(): void {
+  methods: {
+    apply(props): void {
       let urlParser = new UrlParser();
       let env = props.config.environments.filter(
         (e: IEnvironment) => e.label === props.currentEnv,
@@ -75,7 +75,7 @@ export default {
         testExtension: props.localExtension,
         sideloadUrl,
       });
-    }
+    },
   },
 };
 </script>

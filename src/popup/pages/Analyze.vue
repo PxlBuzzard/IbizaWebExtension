@@ -1,27 +1,24 @@
 <template>
   <section>
     <section>
-      <b-message
+      <el-alert
         :active="loaded && link === ''"
-        type="is-danger"
-        aria-close-label="Close message"
-        role="alert"
+        type="error"
         title="No blade detected."
+        description="Please make sure you are in the Azure Portal."
+        show-icon
       >
-        Please make sure you are in the Azure Portal.
-      </b-message>
+      </el-alert>
     </section>
     <p>
       This is a shortcut to load Ibiza's Extension Analyzer website for the currently loaded blade.
       It will open a new tab.
     </p>
-    <b-field label="Extension">
-      <b-input v-model="extension" disabled />
-    </b-field>
-    <b-field label="Blade">
-      <b-input v-model="blade" disabled />
-    </b-field>
-    <button class="button is-success" @click="analyze">Analyze blade</button>
+    <h3>Extension</h3>
+    <el-input v-model="extension" disabled />
+    <h3>Blade</h3>
+    <el-input v-model="blade" disabled />
+    <el-button type="primary" @click="analyze">Analyze blade</el-button>
   </section>
 </template>
 
@@ -58,7 +55,7 @@ export default {
         chrome.tabs.create({ url: link.value });
       }
     }
-    return { blade, extension, link, loaded };
+    return { blade, extension, link, loaded, analyze };
   },
 };
 </script>

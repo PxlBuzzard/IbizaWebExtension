@@ -14,10 +14,8 @@
         The config powers all of the options available in the extension. By default the config is
         tuned for Microsoft Intune developers.
       </p>
-      <b-field>
-        <b-input v-model="configSource" expanded />
-        <button class="button is-success" @click="save">Save</button>
-      </b-field>
+      <el-input v-model="configSource" />
+      <el-button type="primary" @click="save">Save</el-button>
     </section>
     <section>
       <h2>Credits</h2>
@@ -38,7 +36,7 @@
 
 <script lang="ts">
 import { onMounted, ref } from "vue";
-import NotifyUpdate from "./NotifyUpdate.vue";
+import NotifyUpdate from "../components/NotifyUpdate.vue";
 
 export default {
   name: "Settings",
@@ -79,9 +77,8 @@ export default {
       );
     }
 
-    return { configSource, updatedConfig };
+    return { configSource, updatedConfig, save, helpClicked };
   },
-  methods: {},
 };
 </script>
 

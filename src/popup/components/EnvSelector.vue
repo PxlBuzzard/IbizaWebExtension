@@ -1,17 +1,14 @@
 <template>
   <section>
     <h2>Environment</h2>
-    <b-field>
-      <b-radio-button
+    <el-radio-group v-model="envSelected">
+      <el-radio
         v-for="env in environments"
         :key="env.label"
-        v-model="envSelected"
-        :native-value="env.label"
+        :label="env.label"
         @input="$emit('input', envSelected)"
-      >
-        {{ env.label }}
-      </b-radio-button>
-    </b-field>
+      />
+    </el-radio-group>
   </section>
 </template>
 

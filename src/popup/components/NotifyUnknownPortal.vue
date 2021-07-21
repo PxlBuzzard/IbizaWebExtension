@@ -1,15 +1,11 @@
 <template>
   <section>
-    <b-message
+    <el-alert
       :active="isVisible"
-      type="is-warning"
-      aria-close-label="Close message"
-      role="alert"
+      type="warning"
       title="Portal URL not found."
-    >
-      Using this extension outside of the Azure Portal will force the page to be redirected to the
-      Azure Portal if you apply the selected options.
-    </b-message>
+      description="Using this extension outside of the Azure Portal will force the page to be redirected to the Azure Portal if you apply the selected options."
+    />
   </section>
 </template>
 

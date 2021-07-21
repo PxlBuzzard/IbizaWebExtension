@@ -1,15 +1,11 @@
 <template>
   <section>
-    <b-message
+    <el-alert
       :active="isVisible"
-      type="is-info"
-      aria-close-label="Close message"
-      role="alert"
+      type="success"
       title="Update downloaded."
-    >
-      A newer configuration is available! Please reopen this extension to get the latest and
-      greatest.
-    </b-message>
+      description="A newer configuration is available! Please reopen this extension to get the latest and greatest."
+    />
   </section>
 </template>
 

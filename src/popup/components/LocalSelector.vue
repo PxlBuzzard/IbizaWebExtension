@@ -1,24 +1,16 @@
 <template>
   <section>
-    <h2>Local Extension</h2>
-    <div class="field">
-      <b-radio
-        v-model="extensionSelected"
-        :native-value="''"
+    <h2>Sideloaded Extension</h2>
+    <el-select v-model="extensionSelected" placeholder="Select an extension">
+      <el-option label="None" value="" @input="$emit('input', extensionSelected)" />
+      <el-option
+        v-for="ext in extensions"
+        :key="ext.name"
+        :label="ext.name"
+        :value="ext.name"
         @input="$emit('input', extensionSelected)"
-      >
-        None
-      </b-radio>
-    </div>
-    <div v-for="ext in extensions" :key="ext.name" class="field">
-      <b-radio
-        v-model="extensionSelected"
-        :native-value="ext.name"
-        @input="$emit('input', extensionSelected)"
-      >
-        {{ ext.name }}
-      </b-radio>
-    </div>
+      />
+    </el-select>
   </section>
 </template>
 
@@ -45,8 +37,4 @@ export default {
 };
 </script>
 
-<style>
-.field:not(:last-child) {
-  margin-bottom: 0.75rem;
-}
-</style>
+<style></style>
