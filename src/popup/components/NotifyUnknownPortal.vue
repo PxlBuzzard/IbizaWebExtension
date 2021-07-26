@@ -1,29 +1,27 @@
 <template>
-  <section>
-    <el-alert
-      v-model="isVisible"
-      type="warning"
-      title="Portal URL not found."
-      description="Using this extension outside of the Azure Portal will force the page to be redirected to the Azure Portal if you apply the selected options."
-    />
-  </section>
+  <i></i>
 </template>
 
 <script lang="ts">
+import { ElNotification } from "element-plus";
+
 export default {
   name: "NotifyUnknownPortal",
   props: {
     currentEnv: {
       type: String,
-      default: "",
+      required: true,
     },
   },
   setup(props) {
-    function isVisible(): boolean {
-      return props.currentEnv == "unknown";
+    if (props.currentEnv === "unknown") {
+      ElNotification({
+        title: "Portal URL not found",
+        message:
+          "Using this extension outside of the Azure Portal will force the page to be redirected to the Azure Portal if you apply the selected options.",
+        type: "warning",
+      });
     }
-
-    return { isVisible };
   },
 };
 </script>

@@ -1,8 +1,7 @@
 <template>
   <section>
-    <section>
+    <section v-if="loaded && link === ''">
       <el-alert
-        :active="loaded && link === ''"
         type="error"
         title="No blade detected."
         description="Please make sure you are in the Azure Portal."
@@ -11,14 +10,22 @@
       </el-alert>
     </section>
     <p>
-      This is a shortcut to load Ibiza's Extension Analyzer website for the currently loaded blade.
-      It will open a new tab.
+      This is a shortcut to open the Extension Analyzer website for the currently loaded blade. It
+      will open in a new tab.
     </p>
-    <h3>Extension</h3>
-    <el-input v-model="extension" disabled />
-    <h3>Blade</h3>
-    <el-input v-model="blade" disabled />
-    <el-button type="primary" @click="analyze">Analyze blade</el-button>
+  </section>
+  <section>
+    <el-card class="box-card">
+      <template #header>
+        <div class="card-header">
+          <span>{{ blade }}</span>
+          <el-button type="text" @click="analyze">Open Analyzer</el-button>
+        </div>
+      </template>
+      <div class="card-text">
+        {{ extension }}
+      </div>
+    </el-card>
   </section>
 </template>
 
@@ -28,7 +35,7 @@ import UrlParser from "../url/UrlParser";
 
 export default {
   name: "Analyze",
-  setup(props) {
+  setup() {
     const blade = ref("");
     const extension = ref("");
     const link = ref("");
@@ -60,4 +67,18 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-text {
+  font-size: 14px;
+}
+
+.box-card {
+  width: 400px;
+}
+</style>

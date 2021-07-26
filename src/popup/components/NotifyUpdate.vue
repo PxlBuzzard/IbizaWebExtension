@@ -1,15 +1,10 @@
 <template>
-  <section>
-    <el-alert
-      :active="isVisible"
-      type="success"
-      title="Update downloaded."
-      description="A newer configuration is available! Please reopen this extension to get the latest and greatest."
-    />
-  </section>
+  <i></i>
 </template>
 
 <script lang="ts">
+import { ElNotification } from "element-plus";
+
 export default {
   name: "NotifyUpdate",
   props: {
@@ -17,6 +12,16 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  setup(props) {
+    if (props.isVisible === true) {
+      ElNotification({
+        title: "Update downloaded",
+        message:
+          "A newer configuration is available! Please reopen this extension to get the latest and greatest.",
+        type: "success",
+      });
+    }
   },
 };
 </script>

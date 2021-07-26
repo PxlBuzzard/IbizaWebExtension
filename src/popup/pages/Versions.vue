@@ -11,6 +11,8 @@
       <el-button type="primary" @click="reload">Refresh</el-button>
     </section>
 
+    <el-skeleton :loading="isReloading" :rows="4" animated />
+
     <section>
       <el-card v-for="extension in Object.keys(extensions)" :key="extension" class="box-card">
         <template #header>
@@ -33,6 +35,7 @@ export default {
   name: "Versions",
   setup() {
     const extensions = ref({});
+    const isReloading = ref(false);
 
     chrome.webRequest.onCompleted.addListener(
       (response) => {
@@ -44,6 +47,7 @@ export default {
             extensions.value[ext] = ver;
           }
         }
+        isReloading.value = false;
       },
       {
         urls: ["https://hosting.onecloud.azure-test.net/*", "https://*.hosting.portal.azure.net/*"],
@@ -51,6 +55,7 @@ export default {
     );
 
     function reload(): void {
+      isReloading.value = true;
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         if (tabs[0].id != undefined) {
           chrome.tabs.reload(tabs[0].id);
@@ -58,12 +63,12 @@ export default {
       });
     }
 
-    return { extensions, reload };
+    return { extensions, isReloading, reload };
   },
 };
 </script>
 
-<style>
+<style scoped>
 .card-header {
   display: flex;
   justify-content: space-between;
