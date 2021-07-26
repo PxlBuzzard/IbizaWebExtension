@@ -1,6 +1,6 @@
 <template>
   <el-container id="app">
-    <el-header>
+    <el-header height="40px">
       <Header
         v-model:currentConfig="currentConfig"
         :config-file="configFile"
@@ -8,7 +8,7 @@
       />
     </el-header>
     <el-container>
-      <el-aside id="sidebar" width="195px">
+      <el-aside id="sidebar" width="220px">
         <Apply
           :config="currentConfig"
           :current-env="currentEnv"
@@ -244,7 +244,7 @@ export default {
       configFileLoader.failedFetch = (reason) => {
         console.error("Config load failed", reason);
       };
-      configFileLoader.incompatible = (extVer, configVer) => {
+      configFileLoader.incompatible = () => {
         updateRequired.value = true;
       };
 
@@ -281,6 +281,14 @@ body {
 
 #app {
   width: 780px;
+}
+
+.el-header {
+  padding: 0 !important;
+}
+
+#sidebar {
+  background-color: #e9e9e9;
 }
 
 #content {

@@ -39,7 +39,7 @@
       "name": "Intune - Endpoint",
       "environments": [
         {
-          "label": "DF",
+          "label": "Dogfood",
           "host": "df-devicemanagement.onecloud.azure-test.net"
         },
         {
@@ -78,7 +78,7 @@
           "host": "endpoint.microsoft.us"
         },
         {
-          "label": "MC",
+          "label": "Mooncake",
           "host": "endpoint.microsoftonline.cn"
         }
       ],
@@ -87,7 +87,7 @@
           "name": "Microsoft_Intune",
           "environments": [
             {
-              "label": "DF",
+              "label": "Dogfood",
               "sideloadUrl": "https://localhost:44300"
             },
             {
@@ -115,7 +115,7 @@
               "sideloadUrl": "https://localhost:44300"
             },
             {
-              "label": "MC",
+              "label": "Mooncake",
               "sideloadUrl": "https://localhost:44300"
             }
           ]
@@ -124,7 +124,7 @@
           "name": "Microsoft_Intune_Apps",
           "environments": [
             {
-              "label": "DF",
+              "label": "Dogfood",
               "sideloadUrl": "https://localhost:44300"
             },
             {
@@ -152,7 +152,7 @@
               "sideloadUrl": "https://localhost:44300"
             },
             {
-              "label": "MC",
+              "label": "Mooncake",
               "sideloadUrl": "https://localhost:44300"
             }
           ]
@@ -161,7 +161,7 @@
           "name": "Microsoft_Intune_Devices",
           "environments": [
             {
-              "label": "DF",
+              "label": "Dogfood",
               "sideloadUrl": "https://localhost:44300"
             },
             {
@@ -189,7 +189,7 @@
               "sideloadUrl": "https://localhost:44300"
             },
             {
-              "label": "MC",
+              "label": "Mooncake",
               "sideloadUrl": "https://localhost:44300"
             }
           ]
@@ -198,7 +198,7 @@
           "name": "Microsoft_Intune_DeviceSettings",
           "environments": [
             {
-              "label": "DF",
+              "label": "Dogfood",
               "sideloadUrl": "https://localhost:17159/intunedevicesettings"
             },
             {
@@ -226,7 +226,7 @@
               "sideloadUrl": "https://localhost:17159/intunedevicesettings"
             },
             {
-              "label": "MC",
+              "label": "Mooncake",
               "sideloadUrl": "https://localhost:17159/intunedevicesettings"
             }
           ]
@@ -235,7 +235,7 @@
           "name": "Microsoft_Intune_Enrollment",
           "environments": [
             {
-              "label": "DF",
+              "label": "Dogfood",
               "sideloadUrl": "https://localhost:44300"
             },
             {
@@ -263,7 +263,7 @@
               "sideloadUrl": "https://localhost:44300"
             },
             {
-              "label": "MC",
+              "label": "Mooncake",
               "sideloadUrl": "https://localhost:44300"
             }
           ]
@@ -272,7 +272,7 @@
           "name": "Microsoft_Intune_Workflows",
           "environments": [
             {
-              "label": "DF",
+              "label": "Dogfood",
               "sideloadUrl": "https://localhost:44300"
             },
             {
@@ -300,7 +300,7 @@
               "sideloadUrl": "https://localhost:44300"
             },
             {
-              "label": "MC",
+              "label": "Mooncake",
               "sideloadUrl": "https://localhost:44300"
             }
           ]
@@ -328,7 +328,7 @@
           "label": "Devices",
           "prefix": "microsoft_intune_devices_",
           "source": {
-            "DF": "https://hosting.onecloud.azure-test.net/intunedevices/Content/Scripts/Shared/Features.js",
+            "Dogfood": "https://hosting.onecloud.azure-test.net/intunedevices/Content/Scripts/Shared/Features.js",
             "Selfhost": "https://intunedevicessh.hosting.portal.azure.net/intunedevicessh/Content/Scripts/Shared/Features.js",
             "Canary": "https://intunedevicesctip.hosting.portal.azure.net/intunedevicesctip/Content/Scripts/Shared/Features.js",
             "TestProd": "https://intunedevices.hosting.portal.azure.net/intunedevices/Content/Scripts/Shared/Features.js",
@@ -340,7 +340,7 @@
           "label": "Enrollment",
           "prefix": "microsoft_intune_enrollment_",
           "source": {
-            "DF": "https://hosting.onecloud.azure-test.net/intuneenrollment/Content/Scripts/Shared/Features.js",
+            "Dogfood": "https://hosting.onecloud.azure-test.net/intuneenrollment/Content/Scripts/Shared/Features.js",
             "Selfhost": "https://intuneenrollmentsh.hosting.portal.azure.net/intuneenrollmentsh/Content/Scripts/Shared/Features.js",
             "Canary": "https://intuneenrollmentctip.hosting.portal.azure.net/intuneenrollmentctip/Content/Scripts/Shared/Features.js",
             "TestProd": "https://intuneenrollment.hosting.portal.azure.net/intuneenrollment/Content/Scripts/Shared/Features.js",
@@ -354,7 +354,7 @@
       "name": "Intune - EDU",
       "environments": [
         {
-          "label": "DF",
+          "label": "Dogfood",
           "host": "df-intune-edu.onecloud.azure-test.net"
         },
         {
@@ -394,7 +394,7 @@
           "name": "Microsoft_Intune_Edu",
           "environments": [
             {
-              "label": "DF",
+              "label": "Dogfood",
               "sideloadUrl": "https://localhost:17159/intuneedu"
             },
             {

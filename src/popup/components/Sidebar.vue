@@ -17,7 +17,7 @@
     >
     <el-menu-item index="4" @click="$emit('update-content', 'settings')">Settings</el-menu-item>
     <el-submenu v-if="featureGroups.length > 0" index="5">
-      <template #title><i class="el-icon-message"></i>Extension Features</template>
+      <template #title><i class="el-icon-s-tools"></i>Extension Features</template>
       <el-menu-item-group>
         <el-menu-item
           v-for="group in featureGroups"

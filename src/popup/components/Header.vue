@@ -1,11 +1,11 @@
 <template>
   <header>
-    <i class="el-icon-eleme" />
+    <i class="el-icon-eleme header-button-link" />
     <h1>Azure Portal Developer Extension</h1>
 
     <div class="flex-right">
       <el-dropdown>
-        <i class="el-icon-folder-opened" />
+        <i class="el-icon-folder-opened header-button-link" />
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item
@@ -20,7 +20,7 @@
         </template>
       </el-dropdown>
 
-      <i class="el-icon-help" @click="helpClicked" />
+      <i class="el-icon-help header-button-link" @click="helpClicked" />
     </div>
   </header>
 </template>
@@ -65,10 +65,9 @@ header {
 }
 
 h1 {
-  height: 40px;
-  font-size: 21px;
+  font-size: 1.5rem;
   font-weight: 500;
-  padding: 3px 0 0 10px;
+  padding-left: 10px;
   display: inline-flex;
 }
 
@@ -81,6 +80,7 @@ h1 {
 .header-button-link {
   width: 40px;
   height: 40px;
+  font-size: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -95,7 +95,6 @@ h1 {
 }
 
 .el-icon-eleme {
-  margin-top: -5px;
-  margin-left: 3px;
+  margin-left: 5px;
 }
 </style>

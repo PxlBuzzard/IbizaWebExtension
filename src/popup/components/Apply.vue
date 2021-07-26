@@ -85,6 +85,7 @@ export default {
 <style>
 #apply-button {
   width: 90%;
-  margin-left: 7%;
+  margin-top: 10px;
+  margin-left: 5%;
 }
 </style>
