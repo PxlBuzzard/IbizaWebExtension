@@ -1,17 +1,18 @@
 <template>
-  <section>
-    <h2 style="display: inline-block">Sideloaded Extension</h2>
+  <el-form-item label="Sideload">
     <el-select
       v-model="extensionSelected"
       placeholder="Select an extension"
+      style="width: 300px"
       filterable
+      clearable
       default-first-option
       :change="$emit('update-selected-extension', extensionSelected)"
     >
       <el-option label="None" value="" />
       <el-option v-for="ext in extensions" :key="ext.name" :label="ext.name" :value="ext.name" />
     </el-select>
-  </section>
+  </el-form-item>
 </template>
 
 <script lang="ts">

@@ -29,16 +29,18 @@
         <div v-if="currentContent === 'envEditor'" id="env-editor">
           <NotifyUnknownPortal :current-env="currentEnv" />
           <NotifyUpdate :is-visible="updateRequired" />
-          <EnvSelector
-            :value="currentEnv"
-            :environments="currentConfig.environments"
-            @update-current-env="updateCurrentEnv"
-          />
-          <LocalSelector
-            v-model="localExtension"
-            :extensions="currentConfig.extensions"
-            @update-selected-extension="updateSelectedExtension"
-          />
+          <el-form label-width="120px" @submit.prevent>
+            <EnvSelector
+              :value="currentEnv"
+              :environments="currentConfig.environments"
+              @update-current-env="updateCurrentEnv"
+            />
+            <LocalSelector
+              v-model="localExtension"
+              :extensions="currentConfig.extensions"
+              @update-selected-extension="updateSelectedExtension"
+            />
+          </el-form>
           <FeatureGroup
             v-for="group in currentConfig.featureGroups"
             :key="group.label"
@@ -48,7 +50,7 @@
         <div v-if="selectedDynamicGroup">
           <NotifyUnknownPortal :current-env="currentEnv" />
           <NotifyUpdate :is-visible="updateRequired" />
-          <FeatureGroup :feature-group="selectedDynamicGroup" />
+          <ExtensionFeatures :feature-group="selectedDynamicGroup" />
         </div>
         <div v-if="currentContent === 'analyzeBlade'" id="analyze-blade">
           <Analyze />
@@ -74,6 +76,7 @@ import Analyze from "./pages/Analyze.vue";
 import Apply from "./components/Apply.vue";
 import ConfigLoader from "./config/ConfigLoader";
 import EnvSelector from "./components/EnvSelector.vue";
+import ExtensionFeatures from "./pages/ExtensionFeatures.vue";
 import FeatureGroup from "./pages/FeatureGroup.vue";
 import Header from "./components/Header.vue";
 import LocalSelector from "./components/LocalSelector.vue";
@@ -94,6 +97,7 @@ export default {
     Apply,
     Settings,
     EnvSelector,
+    ExtensionFeatures,
     FeatureGroup,
     Header,
     LoadConfig,

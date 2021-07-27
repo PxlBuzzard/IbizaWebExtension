@@ -66,7 +66,7 @@ export default class ConfigLoader {
         .map((match) => (match.match(/\w+/) || [])[0])
         .map((feature, i) => ({
           label: nameMatches[i] != undefined ? nameMatches[i] : feature,
-          name: feature,
+          name: `${prefix || ""}${feature}`,
           options: ["true", "false"],
         }))
       : [];

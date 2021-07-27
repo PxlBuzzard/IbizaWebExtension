@@ -1,6 +1,5 @@
 <template>
   <header>
-    <i class="el-icon-eleme header-button-link" />
     <h1>Azure Portal Developer Extension</h1>
 
     <div class="flex-right">
@@ -65,10 +64,13 @@ header {
 }
 
 h1 {
-  font-size: 1.5rem;
-  font-weight: 500;
-  padding-left: 10px;
+  font-family: az_ea_font, "Segoe UI", az_font, system-ui, -apple-system, BlinkMacSystemFont, Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  padding-left: 20px;
   display: inline-flex;
+  user-select: none;
 }
 
 .flex-right {

@@ -1,7 +1,7 @@
 <template>
   <section>
     <h2>{{ featureGroup.label }}</h2>
-    <section v-for="feature in featureGroup.features" :key="feature.label">
+    <section v-for="feature in featureGroup.features" :key="feature.name">
       <el-tooltip
         :disabled="disabled"
         class="item"

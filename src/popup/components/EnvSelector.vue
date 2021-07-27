@@ -1,9 +1,9 @@
 <template>
-  <section>
-    <h2 style="display: inline-block">Environment</h2>
+  <el-form-item label="Environment">
     <el-select
       v-model="envSelected"
       placeholder="Select an environment"
+      style="width: 300px"
       filterable
       default-first-option
       :change="$emit('update-current-env', envSelected)"
@@ -15,7 +15,7 @@
         :value="env.label"
       />
     </el-select>
-  </section>
+  </el-form-item>
 </template>
 
 <script lang="ts">
