@@ -94,8 +94,13 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 section {
   margin-bottom: 20px;
+}
+
+.el-input {
+  width: 80%;
+  display: inline-block;
 }
 </style>

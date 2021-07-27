@@ -20,6 +20,7 @@ export default {
         message:
           "A newer configuration is available! Please reopen this extension to get the latest and greatest.",
         type: "success",
+        position: "bottom-right",
       });
     }
   },

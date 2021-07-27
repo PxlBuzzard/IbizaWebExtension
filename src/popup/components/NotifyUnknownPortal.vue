@@ -20,6 +20,7 @@ export default {
         message:
           "Using this extension outside of the Azure Portal will force the page to be redirected to the Azure Portal if you apply the selected options.",
         type: "warning",
+        position: "bottom-right",
       });
     }
   },

@@ -2,7 +2,7 @@
   <el-container id="app">
     <el-header height="40px">
       <Header
-        v-model:currentConfig="currentConfig"
+        :current-config="currentConfig"
         :config-file="configFile"
         @select-config="selectConfig"
       />
@@ -17,7 +17,7 @@
           :feature-groups="allFeatureGroups"
         />
         <Sidebar
-          v-model:currentContent="currentContent"
+          :current-env="currentEnv"
           :feature-groups="dynamicFeatureGroups.map((f) => f.label)"
           @update-content="updateContent"
         />
@@ -42,13 +42,13 @@
           <FeatureGroup
             v-for="group in currentConfig.featureGroups"
             :key="group.label"
-            v-model:featureGroup="group.features"
+            :feature-group="group"
           />
         </div>
         <div v-if="selectedDynamicGroup">
           <NotifyUnknownPortal :current-env="currentEnv" />
           <NotifyUpdate :is-visible="updateRequired" />
-          <FeatureGroup v-model:featureGroup="selectedDynamicGroup" />
+          <FeatureGroup :feature-group="selectedDynamicGroup" />
         </div>
         <div v-if="currentContent === 'analyzeBlade'" id="analyze-blade">
           <Analyze />
@@ -280,7 +280,7 @@ body {
 }
 
 #app {
-  width: 780px;
+  width: 700px;
 }
 
 .el-header {
@@ -293,10 +293,17 @@ body {
 
 #content {
   overflow: auto;
-  height: 500px;
+  height: 400px;
 }
 
 #content section {
   margin-bottom: 20px;
+}
+
+.el-menu-item,
+.el-submenu .el-menu-item,
+.el-submenu .el-submenu__title {
+  height: 35px;
+  line-height: 35px;
 }
 </style>

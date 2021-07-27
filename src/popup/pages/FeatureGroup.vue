@@ -2,11 +2,17 @@
   <section>
     <h2>{{ featureGroup.label }}</h2>
     <section v-for="feature in featureGroup.features" :key="feature.label">
-      <el-tooltip class="item" effect="dark" :content="feature.name" placement="top-start">
-        <h3>{{ feature.label }}</h3>
+      <el-tooltip
+        :disabled="disabled"
+        class="item"
+        effect="dark"
+        :content="feature.name"
+        placement="top-start"
+      >
+        <h3 @click="disabled = !disabled">{{ feature.label }}</h3>
       </el-tooltip>
       <el-radio-group v-model="feature.selected" size="small">
-        <el-radio-button label="unset" :value="undefined" />
+        <el-radio-button :label="undefined">unset</el-radio-button>
         <el-radio-button v-for="option in feature.options" :key="option" :label="option" />
       </el-radio-group>
     </section>
@@ -24,6 +30,11 @@ export default {
       type: Object as PropType<IFeatureGroup>,
       required: true,
     },
+  },
+  data() {
+    return {
+      disabled: true,
+    };
   },
 };
 </script>

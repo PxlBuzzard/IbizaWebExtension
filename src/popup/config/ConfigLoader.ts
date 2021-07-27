@@ -59,15 +59,16 @@ export default class ConfigLoader {
 
   public async loadFeatures(source: string, prefix?: string): Promise<IFeature[]> {
     const text = await fetch(source).then((response) => response.text());
-    const matches = text.match(/(?:\n\s*)(\w*?):/g);
-    return matches
-      ? matches
-          .map((match) => (match.match(/\w+/) || [])[0])
-          .map((feature) => ({
-            label: feature,
-            name: `${prefix || ""}${feature}`,
-            options: ["true", "false"],
-          }))
+    const featureMatches = text.match(/(?:\n\s*)(\w*?):/g);
+    const nameMatches = text.match(/(?<=create\(")[\s\S]+?(?=\")/g) || [];
+    return featureMatches
+      ? featureMatches
+        .map((match) => (match.match(/\w+/) || [])[0])
+        .map((feature, i) => ({
+          label: nameMatches[i] != undefined ? nameMatches[i] : feature,
+          name: feature,
+          options: ["true", "false"],
+        }))
       : [];
   }
 

@@ -36,7 +36,7 @@ export default {
   },
   emits: ["update-current-env"],
   setup(props) {
-    const envSelected = ref(props.value != "unknown" ? props.value : "");
+    const envSelected = ref(props.value !== "unknown" ? props.value : "");
     return { envSelected };
   },
 };

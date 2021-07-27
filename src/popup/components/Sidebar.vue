@@ -7,32 +7,40 @@
     active-text-color="#0078d4"
   >
     <el-menu-item index="1" @click="$emit('update-content', 'envEditor')"
-      >Environment Editor</el-menu-item
+      ><i class="el-icon-edit"></i>Environment Editor</el-menu-item
     >
-    <el-menu-item index="2" @click="$emit('update-content', 'analyzeBlade')"
-      >Analyze Blade</el-menu-item
+    <el-menu-item
+      :disabled="inPortal === false"
+      index="2"
+      @click="$emit('update-content', 'analyzeBlade')"
+      ><i class="el-icon-data-analysis"></i>Analyze Blade</el-menu-item
     >
-    <el-menu-item index="3" @click="$emit('update-content', 'version')"
-      >Check Ext Version</el-menu-item
+    <el-menu-item
+      :disabled="inPortal === false"
+      index="3"
+      @click="$emit('update-content', 'version')"
+      ><i class="el-icon-news"></i>Check Ext Version</el-menu-item
     >
-    <el-menu-item index="4" @click="$emit('update-content', 'settings')">Settings</el-menu-item>
+    <el-menu-item index="4" @click="$emit('update-content', 'settings')"
+      ><i class="el-icon-setting"></i>Settings</el-menu-item
+    >
     <el-submenu v-if="featureGroups.length > 0" index="5">
-      <template #title><i class="el-icon-s-tools"></i>Extension Features</template>
-      <el-menu-item-group>
-        <el-menu-item
-          v-for="group in featureGroups"
-          :key="group"
-          :index="`5-${group}`"
-          @click="$emit('update-content', group)"
-        >
-          {{ group }}
-        </el-menu-item>
-      </el-menu-item-group>
+      <template #title><i class="el-icon-set-up"></i>Extension Features</template>
+      <el-menu-item
+        v-for="group in featureGroups"
+        :key="group"
+        :index="`5-${group}`"
+        @click="$emit('update-content', group)"
+      >
+        {{ group }}
+      </el-menu-item>
     </el-submenu>
   </el-menu>
 </template>
 
 <script lang="ts">
+import { onUpdated, ref } from "vue";
+
 export default {
   name: "Sidebar",
   props: {
@@ -40,9 +48,31 @@ export default {
       type: Array,
       default: () => [],
     },
+    currentEnv: {
+      type: String,
+      required: true,
+    },
   },
   emits: ["update-content"],
+  setup(props) {
+    const inPortal = ref(false);
+
+    onUpdated(() => {
+      if (props.currentEnv != undefined && props.currentEnv !== "") {
+        inPortal.value = props.currentEnv !== "unknown";
+      }
+    });
+
+    return { inPortal };
+  },
 };
 </script>
 
-<style></style>
+<style scoped>
+.el-menu-item,
+.el-submenu .el-menu-item,
+.el-submenu .el-submenu__title {
+  height: 35px;
+  line-height: 35px;
+}
+</style>
