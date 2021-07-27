@@ -17,7 +17,7 @@
 
     <!-- P1: Infinite scroll for feature list -->
     <section v-for="feature in features" :key="feature.name">
-      <h3 style="display: inline-block">{{ feature.label }}</h3>
+      <h3 style="display: inline">{{ feature.label }}</h3>
       <el-tooltip class="item" effect="dark" :content="feature.name" placement="top-start">
         <i class="el-icon-info" style="margin-left: 5px" />
       </el-tooltip>

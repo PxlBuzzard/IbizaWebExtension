@@ -153,6 +153,7 @@ export default {
     }
 
     function selectConfig(config: IConfiguration): void {
+      currentContent.value = "envEditor";
       currentConfig.value = config;
     }
 

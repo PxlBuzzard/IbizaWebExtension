@@ -425,7 +425,7 @@
           "label": "Global features",
           "features": [
             {
-              "label": "Client optimizations",
+              "label": "Client optimizations (false loads all files)",
               "name": "clientOptimizations",
               "options": ["true", "false"]
             },
@@ -470,7 +470,7 @@
           "label": "Global features",
           "features": [
             {
-              "label": "Client optimizations",
+              "label": "Client optimizations (false loads all files)",
               "name": "clientOptimizations",
               "options": ["true", "false"]
             },

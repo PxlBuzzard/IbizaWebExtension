@@ -1,13 +1,15 @@
 <template>
   <section>
-    <el-button id="apply-button" type="success" @click="apply">Apply</el-button>
+    <el-button id="apply-button" type="success" :disabled="!enabled" @click="apply"
+      >Apply</el-button
+    >
   </section>
 </template>
 
 <script lang="ts">
 import UrlParser from "../url/UrlParser";
 import { IConfiguration, IFeatureGroup } from "../config/Schema";
-import { PropType } from "vue";
+import { PropType, onUpdated, ref } from "vue";
 
 export default {
   name: "Apply",
@@ -34,6 +36,12 @@ export default {
     },
   },
   setup(props) {
+    const enabled = ref(false);
+
+    onUpdated(() => {
+      enabled.value =
+        props.currentEnv != undefined && props.currentEnv !== "" && props.currentEnv !== "unknown";
+    });
     function apply(): void {
       const urlParser = new UrlParser();
       console.log(props.config.environments);
@@ -77,7 +85,7 @@ export default {
       });
     }
 
-    return { apply };
+    return { enabled, apply };
   },
 };
 </script>
@@ -87,5 +95,6 @@ export default {
   width: 90%;
   margin-top: 10px;
   margin-left: 5%;
+  margin-bottom: 10px;
 }
 </style>
