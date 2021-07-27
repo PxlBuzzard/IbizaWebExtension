@@ -155,6 +155,7 @@ export default {
     function selectConfig(config: IConfiguration): void {
       currentContent.value = "envEditor";
       currentConfig.value = config;
+      getDynamicFeatures();
     }
 
     function updateSelectedExtension(extension: string): void {
@@ -163,6 +164,36 @@ export default {
 
     function updateCurrentEnv(env: string): void {
       currentEnv.value = env;
+    }
+
+    function getDynamicFeatures(): void {
+      // get dynamic features
+      if (
+        currentConfig.value != undefined &&
+        currentConfig.value.dynamicFeatureGroups != undefined
+      ) {
+        dynamicFeatureGroups.value = [];
+        currentConfig.value.dynamicFeatureGroups.forEach(async (group) => {
+          if (group.source[currentEnv.value]) {
+            let features = await configFileLoader.loadFeatures(
+              group.source[currentEnv.value],
+              group.prefix,
+            );
+            features.forEach((feature) => {
+              if (currentUrl.value.query.hasOwnProperty(feature.name)) {
+                feature.selected = currentUrl.value.query[feature.name];
+              }
+            });
+            dynamicFeatureGroups.value.push({
+              label: group.label,
+              features: features,
+            });
+            dynamicFeatureGroups.value.sort();
+          }
+        });
+      } else {
+        dynamicFeatureGroups.value = [];
+      }
     }
 
     onMounted(async () => {
@@ -220,29 +251,7 @@ export default {
           });
         });
 
-        // get dynamic features
-        if (
-          currentConfig.value != undefined &&
-          currentConfig.value.dynamicFeatureGroups != undefined
-        ) {
-          currentConfig.value.dynamicFeatureGroups.forEach(async (group) => {
-            if (group.source[currentEnv.value]) {
-              let features = await configFileLoader.loadFeatures(
-                group.source[currentEnv.value],
-                group.prefix,
-              );
-              features.forEach((feature) => {
-                if (currentUrl.value.query.hasOwnProperty(feature.name)) {
-                  // $set.value(feature, "selected", currentUrl.value.query[feature.name]);
-                }
-              });
-              dynamicFeatureGroups.value.push({
-                label: group.label,
-                features: features,
-              });
-            }
-          });
-        }
+        getDynamicFeatures();
 
         currentContent.value = "envEditor";
       };
