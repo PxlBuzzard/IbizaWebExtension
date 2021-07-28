@@ -29,7 +29,7 @@
         <div v-if="currentContent === 'envEditor'" id="env-editor">
           <NotifyUnknownPortal :current-env="currentEnv" />
           <NotifyUpdate :is-visible="updateRequired" />
-          <el-form label-width="120px" @submit.prevent>
+          <el-form label-width="150px" @submit.prevent>
             <EnvSelector
               :value="currentEnv"
               :environments="currentConfig.environments"
@@ -40,12 +40,12 @@
               :extensions="currentConfig.extensions"
               @update-selected-extension="updateSelectedExtension"
             />
+            <FeatureGroup
+              v-for="group in currentConfig.featureGroups"
+              :key="group.label"
+              :feature-group="group"
+            />
           </el-form>
-          <FeatureGroup
-            v-for="group in currentConfig.featureGroups"
-            :key="group.label"
-            :feature-group="group"
-          />
         </div>
         <div v-if="selectedDynamicGroup">
           <NotifyUnknownPortal :current-env="currentEnv" />
@@ -77,7 +77,7 @@ import Apply from "./components/Apply.vue";
 import ConfigLoader from "./config/ConfigLoader";
 import EnvSelector from "./components/EnvSelector.vue";
 import ExtensionFeatures from "./pages/ExtensionFeatures.vue";
-import FeatureGroup from "./pages/FeatureGroup.vue";
+import FeatureGroup from "./components/FeatureGroup.vue";
 import Header from "./components/Header.vue";
 import LocalSelector from "./components/LocalSelector.vue";
 import LoadConfig from "./pages/LoadConfig.vue";
@@ -294,7 +294,7 @@ body {
 }
 
 #app {
-  width: 700px;
+  width: 650px;
 }
 
 .el-header {
@@ -307,7 +307,7 @@ body {
 
 #content {
   overflow: auto;
-  height: 400px;
+  height: 350px;
 }
 
 #content section {

@@ -3,7 +3,7 @@
     <el-select
       v-model="envSelected"
       placeholder="Select an environment"
-      style="width: 300px"
+      style="width: 250px"
       filterable
       default-first-option
       :change="$emit('update-current-env', envSelected)"

@@ -3,7 +3,7 @@
     <el-select
       v-model="extensionSelected"
       placeholder="Select an extension"
-      style="width: 300px"
+      style="width: 250px"
       filterable
       clearable
       default-first-option
