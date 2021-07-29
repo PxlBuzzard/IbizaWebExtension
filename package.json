@@ -1,6 +1,6 @@
 {
   "name": "ibizawebextension",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "Azure Portal Developer Web Extension",
   "private": true,
   "scripts": {
@@ -21,7 +21,7 @@
   "author": "Daniel Jost and David Wilson",
   "license": "MIT",
   "dependencies": {
-    "element-plus": "1.0.2-beta.62",
+    "element-plus": "1.0.2-beta.65",
     "vue": "^3.1.5"
   },
   "devDependencies": {

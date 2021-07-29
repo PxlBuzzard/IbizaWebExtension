@@ -1,8 +1,13 @@
 {
-  "version": "3.6",
+  "version": "4.0",
   "name": "Intune",
   "help": "https://intunewiki.com/wiki/Intune_Azure_Portal",
   "changelog": [
+    {
+      "version": "4.0",
+      "date": "July 28, 2021",
+      "notes": "Big changes! Moved from Vue 2 to Vue 3, and swapped out Fluent UI for Element Plus as it is actively maintained."
+    },
     {
       "version": "3.4",
       "date": "June 7, 2021",

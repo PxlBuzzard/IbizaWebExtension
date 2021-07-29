@@ -1,9 +1,9 @@
-# Azure Portal Developer Web Extension
+# Azure Portal Developer Extension
 
 ## Development
 
 `npm install`
-`npm run watch`
+`npm run build:dev`
 
 ## Test
 
@@ -11,3 +11,10 @@
 - Select `Developer mode`
 - Click on `Load unpacked`, navigate to the `/dist` folder, and hit `Select`
 - Go to `endpoint.microsoft.com`
+
+## Preparing a release
+
+- `npm run build`
+- Go to the Chrome Web Store Developer Dashboard
+- Upload new package, use `extension.zip` from the root folder
+- Update the config if necessary
