@@ -1,16 +1,13 @@
 <template>
-<section>
-    <span>Loading...</span>
-</section>
+  <section>
+    <el-skeleton :rows="10" animated />
+  </section>
 </template>
 
-<script>
-import Vue from "vue";
-
-export default Vue.extend({
-  name: "LoadConfig"
-});
+<script lang="ts">
+export default {
+  name: "LoadConfig",
+};
 </script>
 
-<style>
-</style>
+<style></style>

@@ -1,55 +1,56 @@
 <template>
-<header>
-    <Azure fillColor="#fff" class="icon-2x azure-icon"/>
+  <header>
     <h1>Azure Portal Developer Extension</h1>
 
     <div class="flex-right">
-        <b-dropdown aria-role="list">
-            <FormatListChecks fillColor="#fff" class="header-button-link" slot="trigger"/>
-            <b-dropdown-item
-                v-for="config in configFile.configs"
-                :key="config.name"
-                aria-role="listitem"
-                v-on:click="configSelected(config)">
-                <CheckBold fillColor="#000" v-if="config.name === currentConfig.name"/>
-                {{config.name}}
-            </b-dropdown-item>
-        </b-dropdown>
+      <el-dropdown>
+        <i class="el-icon-folder-opened header-button-link" />
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item
+              v-for="config in configFile.configs"
+              :key="config.name"
+              @click="$emit('select-config', config)"
+            >
+              {{ config.name }}
+              <i v-if="config.name === currentConfig.name" class="el-icon-check" />
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
 
-        <Help fillColor="#fff" class="header-button-link" @click="helpClicked"/>
+      <i class="el-icon-help header-button-link" @click="helpClicked" />
     </div>
-</header>
+  </header>
 </template>
 
 <script lang="ts">
-import Azure from "vue-material-design-icons/MicrosoftAzure.vue"
-import CheckBold from "vue-material-design-icons/CheckBold.vue"
-import FormatListChecks from "vue-material-design-icons/FormatListChecks.vue"
-import Help from "vue-material-design-icons/Help.vue"
-import Vue from "vue";
-import { IConfiguration } from "../config/Schema";
-
-export default Vue.extend({
+export default {
   name: "Header",
-  props: ["configFile", "currentConfig"],
-  components: {
-    Azure,
-    CheckBold,
-    FormatListChecks,
-    Help
-  },
-  methods: {
-    configSelected(config: IConfiguration) {
-      this.$emit("update:currentConfig", config);
+  props: {
+    configFile: {
+      type: Object,
+      required: true,
     },
-    helpClicked() {
-      return new Promise((resolve, reject) => chrome.tabs.create({ url: this.configFile.help }, () => {
-        resolve({});
-        window.close();
-      }));
+    currentConfig: {
+      type: Object,
+      required: true,
+    },
+  },
+  emits: ["select-config"],
+  setup(props) {
+    function helpClicked(): Promise<any> {
+      return new Promise((resolve) =>
+        chrome.tabs.create({ url: props.configFile.help }, () => {
+          resolve({});
+          window.close();
+        }),
+      );
     }
-  }
-});
+
+    return { helpClicked };
+  },
+};
 </script>
 
 <style scoped>
@@ -57,28 +58,31 @@ header {
   background-color: #1c1c1c;
   color: #fff;
   height: 40px;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,.16);
   display: flex;
   align-items: center;
 }
 
 h1 {
-  height: 40px;
-  font-size: 21px;
-  font-weight: 500;
-  padding: 3px 0 0 10px;
+  font-family: az_ea_font, "Segoe UI", az_font, system-ui, -apple-system, BlinkMacSystemFont, Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  padding-left: 20px;
   display: inline-flex;
+  user-select: none;
 }
 
 .flex-right {
   justify-content: flex-end;
   flex: 1;
-  display:inline-flex;
+  display: inline-flex;
 }
 
 .header-button-link {
+  color: #fff;
   width: 40px;
   height: 40px;
+  font-size: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -92,8 +96,7 @@ h1 {
   cursor: pointer;
 }
 
-.azure-icon {
-  margin-top: -5px;
-  margin-left: 3px;
+.el-icon-eleme {
+  margin-left: 5px;
 }
 </style>

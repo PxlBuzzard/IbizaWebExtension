@@ -1,44 +1,25 @@
 <template>
-<section>
-    <h2>{{ featureGroup.label }}</h2>
-    <section
-        v-for="feature in featureGroup.features"
-        v-bind:key="feature.label">
-        <b-tooltip
-        :label="feature.name"
-        position="is-top"
-        animated>
-            <h3>{{ feature.label }}</h3>
-        </b-tooltip>
-        <b-field>
-            <b-radio-button
-                v-model="feature.selected"
-                :native-value="undefined">
-                unset
-            </b-radio-button>
-            <b-radio-button
-                v-for="option in feature.options"
-                v-bind:key="option"
-                v-model="feature.selected"
-                :native-value="option">
-                {{ option }}
-            </b-radio-button>
-        </b-field>
-    </section>
-</section>
+  <el-form-item v-for="feature in featureGroup.features" :key="feature.name" :label="feature.label">
+    <el-radio-group v-model="feature.selected" size="small">
+      <el-radio-button :label="undefined">unset</el-radio-button>
+      <el-radio-button v-for="option in feature.options" :key="option" :label="option" />
+    </el-radio-group>
+  </el-form-item>
 </template>
 
 <script lang="ts">
-export default {
-    name: "FeatureGroup",
-    props: ['featureGroup'],
-    data() {
-        return {
+import { PropType } from "vue";
+import { IFeatureGroup } from "../config/Schema";
 
-        }
-    }
-}
+export default {
+  name: "FeatureGroup",
+  props: {
+    featureGroup: {
+      type: Object as PropType<IFeatureGroup>,
+      required: true,
+    },
+  },
+};
 </script>
 
-<style>
-</style>
+<style></style>

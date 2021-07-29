@@ -1,35 +1,45 @@
 <template>
-<section>
-    <h2>Environment</h2>
-    <b-field>
-        <b-radio-button
-            v-for="env in environments"
-            v-bind:key="env.label"
-            v-model="envSelected"
-            :native-value="env.label"
-            @input="$emit('input', envSelected)">
-            {{ env.label }}
-        </b-radio-button>
-    </b-field>
-</section>
+  <el-form-item label="Environment">
+    <el-select
+      v-model="envSelected"
+      placeholder="Select an environment"
+      style="width: 250px"
+      filterable
+      default-first-option
+      :change="$emit('update-current-env', envSelected)"
+    >
+      <el-option
+        v-for="env in environments"
+        :key="env.label"
+        :label="env.label"
+        :value="env.label"
+      />
+    </el-select>
+  </el-form-item>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { PropType, ref } from "vue";
+import { IEnvironment } from "../config/Schema";
 
-export default Vue.extend({
-    name: "EnvSelector",
-    props: ["environments", "value"],
-    data() {
-        return {
-            envSelected: ""
-        }
+export default {
+  name: "EnvSelector",
+  props: {
+    value: {
+      type: String,
+      required: true,
     },
-    mounted() {
-        this.envSelected = this.value;
-    }
-});
+    environments: {
+      type: Array as PropType<IEnvironment[]>,
+      required: true,
+    },
+  },
+  emits: ["update-current-env"],
+  setup(props) {
+    const envSelected = ref(props.value !== "unknown" ? props.value : "");
+    return { envSelected };
+  },
+};
 </script>
 
-<style>
-</style>
+<style></style>
