@@ -1,7 +1,7 @@
 <template>
   <section>
     <el-input
-      v-model="state1"
+      v-model="inputQuery"
       style="width: 300px"
       placeholder="Search for features"
       value-key="label"
@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { PropType, ref } from "vue";
+import { watch, PropType, ref } from "vue";
 import { IFeatureGroup } from "../config/Schema";
 
 export default {
@@ -43,6 +43,7 @@ export default {
   },
   setup(props) {
     const features = ref(props.featureGroup.features);
+    const inputQuery = ref("");
     const hiddenFeatureCount = ref(0);
     const noResults = ref(false);
 
@@ -71,11 +72,20 @@ export default {
       features.value = featuresFilter;
     };
 
+    watch(
+      () => props.featureGroup,
+      () => {
+        features.value = props.featureGroup.features;
+        inputQuery.value = "";
+        handleInput("");
+      },
+    );
+
     return {
       features,
+      inputQuery,
       hiddenFeatureCount,
       noResults,
-      state1: ref(""),
       handleInput,
     };
   },
