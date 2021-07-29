@@ -108,6 +108,9 @@ export default {
     Versions,
   },
   setup() {
+    /**
+     * Refs
+     */
     const currentUrl = ref<IUrlComponents>({
       origin: "host",
       query: {},
@@ -140,7 +143,9 @@ export default {
     const currentContent = ref("loadConfig");
     const updateRequired = ref(false);
 
-    // computeds
+    /**
+     * Computeds
+     */
     const selectedDynamicGroup = computed((): IFeatureGroup => {
       return dynamicFeatureGroups.value.filter((g) => g.label === currentContent.value)[0];
     });
@@ -148,6 +153,9 @@ export default {
       return [...currentConfig.value.featureGroups, ...dynamicFeatureGroups.value];
     });
 
+    /**
+     * Functions
+     */
     function updateContent(page: string): void {
       currentContent.value = page;
     }

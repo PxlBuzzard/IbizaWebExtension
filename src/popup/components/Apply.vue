@@ -44,8 +44,6 @@ export default {
     });
     function apply(): void {
       const urlParser = new UrlParser();
-      console.log(props.config.environments);
-      console.log(props.currentEnv);
       const env = props.config.environments.filter((e) => e.label === props.currentEnv)[0];
       const localExtConfig = props.config.extensions.filter(
         (e) => e.name === props.localExtension,

@@ -58,7 +58,6 @@ header {
   background-color: #1c1c1c;
   color: #fff;
   height: 40px;
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.16);
   display: flex;
   align-items: center;
 }
@@ -80,6 +79,7 @@ h1 {
 }
 
 .header-button-link {
+  color: #fff;
   width: 40px;
   height: 40px;
   font-size: 1.5rem;
