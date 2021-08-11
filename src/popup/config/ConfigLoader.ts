@@ -1,6 +1,6 @@
 import { IConfigFile, IFeature } from "./Schema";
 
-const COMPATIBLE_VERSION = "3";
+const COMPATIBLE_VERSION = "4";
 
 export default class ConfigLoader {
   public loaded?: (config: IConfigFile) => void;

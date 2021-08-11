@@ -1,8 +1,13 @@
 {
-  "version": "4.0",
+  "version": "4.1",
   "name": "Intune",
   "help": "https://intunewiki.com/wiki/Intune_Azure_Portal",
   "changelog": [
+    {
+      "version": "4.1",
+      "date": "August 11, 2021",
+      "notes": "FIXED: EDU environment flighting."
+    },
     {
       "version": "4.0",
       "date": "July 28, 2021",
@@ -368,7 +373,7 @@
           "params": {
             "feature.canmodifystamps": "true",
             "feature.canmodifyextensions": "true",
-            "Microsoft_Intune_Edu": "selfhost"
+            "Microsoft_Intune_Edu_portalEnvironment": "selfhost"
           }
         },
         {
@@ -377,7 +382,7 @@
           "params": {
             "feature.canmodifystamps": "true",
             "feature.canmodifyextensions": "true",
-            "Microsoft_Intune_Edu": "canary"
+            "Microsoft_Intune_Edu_portalEnvironment": "canary"
           }
         },
         {
@@ -386,7 +391,7 @@
           "params": {
             "feature.canmodifystamps": "true",
             "feature.canmodifyextensions": "true",
-            "Microsoft_Intune_Edu": "testprod"
+            "Microsoft_Intune_Edu_portalEnvironment": "testprod"
           }
         },
         {
