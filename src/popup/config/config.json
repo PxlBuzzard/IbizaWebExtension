@@ -1,8 +1,18 @@
 {
-  "version": "4.1",
+  "version": "4.3",
   "name": "Intune",
   "help": "https://intunewiki.com/wiki/Intune_Azure_Portal",
   "changelog": [
+    {
+      "version": "4.3",
+      "date": "September 14, 2021",
+      "notes": "REVERTED: React environment flighting."
+    },
+    {
+      "version": "4.2",
+      "date": "September 1, 2021",
+      "notes": "FIXED: React environment flighting."
+    },
     {
       "version": "4.1",
       "date": "August 11, 2021",
@@ -67,6 +77,7 @@
           "params": {
             "feature.canmodifystamps": "true",
             "feature.canmodifyextensions": "true",
+            "feature.intune_env": "canary",
             "feature.Microsoft_Intune": "ctip"
           }
         },
@@ -382,6 +393,7 @@
           "params": {
             "feature.canmodifystamps": "true",
             "feature.canmodifyextensions": "true",
+            "feature.intune_env": "canary",
             "Microsoft_Intune_Edu_portalEnvironment": "canary"
           }
         },
