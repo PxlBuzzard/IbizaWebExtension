@@ -63,12 +63,12 @@ export default class ConfigLoader {
     const nameMatches = text.match(/(?<=create\(")[\s\S]+?(?=\")/g) || [];
     return featureMatches
       ? featureMatches
-        .map((match) => (match.match(/\w+/) || [])[0])
-        .map((feature, i) => ({
-          label: nameMatches[i] != undefined ? nameMatches[i] : feature,
-          name: `${prefix || ""}${feature}`,
-          options: ["true", "false"],
-        }))
+          .map((match) => (match.match(/\w+/) || [])[0])
+          .map((feature, i) => ({
+            label: nameMatches[i] != undefined ? nameMatches[i] : feature,
+            name: `${prefix || ""}${feature}`,
+            options: ["true", "false"],
+          }))
       : [];
   }
 
@@ -77,7 +77,7 @@ export default class ConfigLoader {
       chrome.storage.sync.get("configEndpoint", (result) => {
         const configUrl =
           result.configEndpoint ||
-          "https://gist.github.com/PxlBuzzard/f055b8043c5972befc37b32f4d25feb2/raw/azureportaldevextensionconfig.json";
+          "https://raw.githubusercontent.com/PxlBuzzard/IbizaWebExtension/main/src/popup/config/config.json";
         console.log(`Getting config from ${configUrl}`);
         resolve(configUrl);
       }),

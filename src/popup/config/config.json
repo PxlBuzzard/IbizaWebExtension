@@ -1,8 +1,13 @@
 {
-  "version": "4.3",
+  "version": "4.4",
   "name": "Intune",
   "help": "https://intunewiki.com/wiki/Intune_Azure_Portal",
   "changelog": [
+    {
+      "version": "4.4",
+      "date": "October 12, 2021",
+      "notes": "FIXED: Cleaned up flighting parameters."
+    },
     {
       "version": "4.3",
       "date": "September 14, 2021",
@@ -68,7 +73,7 @@
           "params": {
             "feature.canmodifystamps": "true",
             "feature.canmodifyextensions": "true",
-            "feature.Microsoft_Intune": "sh"
+            "feature.intune_env": "selfhost"
           }
         },
         {
@@ -77,8 +82,7 @@
           "params": {
             "feature.canmodifystamps": "true",
             "feature.canmodifyextensions": "true",
-            "feature.intune_env": "canary",
-            "feature.Microsoft_Intune": "ctip"
+            "feature.intune_env": "canary"
           }
         },
         {
@@ -86,8 +90,7 @@
           "host": "endpoint.microsoft.com",
           "params": {
             "feature.canmodifystamps": "true",
-            "feature.canmodifyextensions": "true",
-            "feature.Microsoft_Intune": "testprod"
+            "feature.canmodifyextensions": "true"
           }
         },
         {
@@ -393,7 +396,6 @@
           "params": {
             "feature.canmodifystamps": "true",
             "feature.canmodifyextensions": "true",
-            "feature.intune_env": "canary",
             "Microsoft_Intune_Edu_portalEnvironment": "canary"
           }
         },
