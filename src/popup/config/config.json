@@ -1,8 +1,13 @@
 {
-  "version": "4.5",
+  "version": "4.6",
   "name": "Intune",
   "help": "https://intunewiki.com/wiki/Intune_Azure_Portal",
   "changelog": [
+	{
+      "version": "4.6",
+      "date": "November 10, 2022",
+      "notes": "FIXED: Sideloading for Apps, Workflows and Enrollment."
+    },
     {
       "version": "4.5",
       "date": "September 15, 2022",
@@ -154,35 +159,35 @@
           "environments": [
             {
               "label": "Dogfood",
-              "sideloadUrl": "https://localhost:44300"
+              "sideloadUrl": "https://localhost:17159/intuneapps"
             },
             {
               "label": "Selfhost",
               "stamp": "selfhost",
-              "sideloadUrl": "https://localhost:44300"
+              "sideloadUrl": "https://localhost:17159/intuneapps"
             },
             {
               "label": "Canary",
               "stamp": "canary",
-              "sideloadUrl": "https://localhost:44300"
+              "sideloadUrl": "https://localhost:17159/intuneapps"
             },
             {
               "label": "TestProd",
               "stamp": "testprod",
-              "sideloadUrl": "https://localhost:44300"
+              "sideloadUrl": "https://localhost:17159/intuneapps"
             },
             {
               "label": "Prod",
               "stamp": "prod",
-              "sideloadUrl": "https://localhost:44300"
+              "sideloadUrl": "https://localhost:17159/intuneapps"
             },
             {
               "label": "Fairfax",
-              "sideloadUrl": "https://localhost:44300"
+              "sideloadUrl": "https://localhost:17159/intuneapps"
             },
             {
               "label": "Mooncake",
-              "sideloadUrl": "https://localhost:44300"
+              "sideloadUrl": "https://localhost:17159/intuneapps"
             }
           ]
         },
@@ -265,35 +270,35 @@
           "environments": [
             {
               "label": "Dogfood",
-              "sideloadUrl": "https://localhost:44300"
+              "sideloadUrl": "https://localhost:17159/intuneenrollment"
             },
             {
               "label": "Selfhost",
               "stamp": "selfhost",
-              "sideloadUrl": "https://localhost:44300"
+              "sideloadUrl": "https://localhost:17159/intuneenrollment"
             },
             {
               "label": "Canary",
               "stamp": "canary",
-              "sideloadUrl": "https://localhost:44300"
+              "sideloadUrl": "https://localhost:17159/intuneenrollment"
             },
             {
               "label": "TestProd",
               "stamp": "testprod",
-              "sideloadUrl": "https://localhost:44300"
+              "sideloadUrl": "https://localhost:17159/intuneenrollment"
             },
             {
               "label": "Prod",
               "stamp": "prod",
-              "sideloadUrl": "https://localhost:44300"
+              "sideloadUrl": "https://localhost:17159/intuneenrollment"
             },
             {
               "label": "Fairfax",
-              "sideloadUrl": "https://localhost:44300"
+              "sideloadUrl": "https://localhost:17159/intuneenrollment"
             },
             {
               "label": "Mooncake",
-              "sideloadUrl": "https://localhost:44300"
+              "sideloadUrl": "https://localhost:17159/intuneenrollment"
             }
           ]
         },
@@ -302,35 +307,35 @@
           "environments": [
             {
               "label": "Dogfood",
-              "sideloadUrl": "https://localhost:44300"
+              "sideloadUrl": "https://localhost:17159/intuneworkflows"
             },
             {
               "label": "Selfhost",
               "stamp": "selfhost",
-              "sideloadUrl": "https://localhost:44300"
+              "sideloadUrl": "https://localhost:17159/intuneworkflows"
             },
             {
               "label": "Canary",
               "stamp": "canary",
-              "sideloadUrl": "https://localhost:44300"
+              "sideloadUrl": "https://localhost:17159/intuneworkflows"
             },
             {
               "label": "TestProd",
               "stamp": "testprod",
-              "sideloadUrl": "https://localhost:44300"
+              "sideloadUrl": "https://localhost:17159/intuneworkflows"
             },
             {
               "label": "Prod",
               "stamp": "prod",
-              "sideloadUrl": "https://localhost:44300"
+              "sideloadUrl": "https://localhost:17159/intuneworkflows"
             },
             {
               "label": "Fairfax",
-              "sideloadUrl": "https://localhost:44300"
+              "sideloadUrl": "https://localhost:17159/intuneworkflows"
             },
             {
               "label": "Mooncake",
-              "sideloadUrl": "https://localhost:44300"
+              "sideloadUrl": "https://localhost:17159/intuneworkflows"
             }
           ]
         }
