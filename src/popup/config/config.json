@@ -3,7 +3,7 @@
   "name": "Intune",
   "help": "https://intunewiki.com/wiki/Intune_Azure_Portal",
   "changelog": [
-	{
+    {
       "version": "4.6",
       "date": "November 10, 2022",
       "notes": "FIXED: Sideloading for Apps, Workflows and Enrollment."
@@ -338,6 +338,44 @@
               "sideloadUrl": "https://localhost:17159/intuneworkflows"
             }
           ]
+        },
+        {
+          "name": "Microsoft_Azure_CloudPC",
+          "environments": [
+            {
+              "label": "Int",
+              "feature.CloudPCGraphVersion": "testprodbeta_cpc_int",
+              "sideloadUrl": "https://localhost:17159/intuneworkflows"
+            },
+            {
+              "label": "Selfhost",
+              "stamp": "selfhost",
+              "sideloadUrl": "https://localhost:1339/cloudpc"
+            },
+            {
+              "label": "Canary",
+              "stamp": "canary",
+              "sideloadUrl": "https://localhost:1339/cloudpc"
+            },
+            {
+              "label": "TestProd",
+              "stamp": "testprod",
+              "sideloadUrl": "https://localhost:1339/cloudpc"
+            },
+            {
+              "label": "Prod",
+              "stamp": "prod",
+              "sideloadUrl": "https://localhost:1339/cloudpc"
+            },
+            {
+              "label": "Fairfax",
+              "sideloadUrl": "https://localhost:1339/cloudpc"
+            },
+            {
+              "label": "Mooncake",
+              "sideloadUrl": "https://localhost:1339/cloudpc"
+            }
+          ]
         }
       ],
       "featureGroups": [
@@ -347,12 +385,18 @@
             {
               "label": "Client optimizations",
               "name": "clientOptimizations",
-              "options": ["true", "false"]
+              "options": [
+                "true",
+                "false"
+              ]
             },
             {
               "label": "Mock data",
               "name": "feature.intune_mockgraph",
-              "options": ["true", "false"]
+              "options": [
+                "true",
+                "false"
+              ]
             }
           ]
         }
@@ -461,12 +505,17 @@
             {
               "label": "Client optimizations",
               "name": "clientOptimizations",
-              "options": ["true", "false"]
+              "options": [
+                "true",
+                "false"
+              ]
             },
             {
               "label": "Mock data",
               "name": "feature.configuration",
-              "options": ["UseMockData"]
+              "options": [
+                "UseMockData"
+              ]
             }
           ]
         }
@@ -506,12 +555,18 @@
             {
               "label": "Client optimizations",
               "name": "clientOptimizations",
-              "options": ["true", "false"]
+              "options": [
+                "true",
+                "false"
+              ]
             },
             {
               "label": "React reload",
               "name": "feature.reactreload",
-              "options": ["true", "false"]
+              "options": [
+                "true",
+                "false"
+              ]
             }
           ]
         }
