@@ -1,9 +1,14 @@
 {
-  "version": "4.6",
+  "version": "4.7",
   "name": "Intune",
   "help": "https://intunewiki.com/wiki/Intune_Azure_Portal",
   "changelog": [
-	{
+    {
+      "version": "4.7",
+      "date": "May 12, 2023",
+      "notes": "ADDED: CloudPC extension sideloading URL."
+    },
+    {
       "version": "4.6",
       "date": "November 10, 2022",
       "notes": "FIXED: Sideloading for Apps, Workflows and Enrollment."
@@ -78,8 +83,18 @@
           "host": "df-devicemanagement.onecloud.azure-test.net"
         },
         {
+          "label": "Int",
+          "host": "intune.microsoft.com",
+          "params": {
+            "feature.canmodifystamps": "true",
+            "feature.canmodifyextensions": "true",
+            "feature.intune_env": "selfhost",
+            "feature.CloudPCGraphVersion": "testprodbeta_cpc_int"
+          }
+        },
+        {
           "label": "Selfhost",
-          "host": "endpoint.microsoft.com",
+          "host": "intune.microsoft.com",
           "params": {
             "feature.canmodifystamps": "true",
             "feature.canmodifyextensions": "true",
@@ -88,7 +103,7 @@
         },
         {
           "label": "Canary",
-          "host": "endpoint.microsoft.com",
+          "host": "intune.microsoft.com",
           "params": {
             "feature.canmodifystamps": "true",
             "feature.canmodifyextensions": "true",
@@ -97,7 +112,7 @@
         },
         {
           "label": "TestProd",
-          "host": "endpoint.microsoft.com",
+          "host": "intune.microsoft.com",
           "params": {
             "feature.canmodifystamps": "true",
             "feature.canmodifyextensions": "true"
@@ -105,7 +120,7 @@
         },
         {
           "label": "Prod",
-          "host": "endpoint.microsoft.com"
+          "host": "intune.microsoft.com"
         },
         {
           "label": "Fairfax",
@@ -338,6 +353,40 @@
               "sideloadUrl": "https://localhost:17159/intuneworkflows"
             }
           ]
+        },
+        {
+          "name": "Microsoft_Azure_CloudPC",
+          "environments": [
+            {
+              "label": "Int",
+              "stamp": "Int",
+              "sideloadUrl": "https://localhost:1339/cloudpc"
+            },
+            {
+              "label": "Selfhost",
+              "stamp": "selfhost",
+              "sideloadUrl": "https://localhost:1339/cloudpc"
+            },
+            {
+              "label": "Canary",
+              "stamp": "canary",
+              "sideloadUrl": "https://localhost:1339/cloudpc"
+            },
+            {
+              "label": "TestProd",
+              "stamp": "testprod",
+              "sideloadUrl": "https://localhost:1339/cloudpc"
+            },
+            {
+              "label": "Prod",
+              "stamp": "prod",
+              "sideloadUrl": "https://localhost:1339/cloudpc"
+            },
+            {
+              "label": "Fairfax",
+              "sideloadUrl": "https://localhost:1339/cloudpc"
+            }
+          ]
         }
       ],
       "featureGroups": [
@@ -347,12 +396,18 @@
             {
               "label": "Client optimizations",
               "name": "clientOptimizations",
-              "options": ["true", "false"]
+              "options": [
+                "true",
+                "false"
+              ]
             },
             {
               "label": "Mock data",
               "name": "feature.intune_mockgraph",
-              "options": ["true", "false"]
+              "options": [
+                "true",
+                "false"
+              ]
             }
           ]
         }
@@ -461,12 +516,17 @@
             {
               "label": "Client optimizations",
               "name": "clientOptimizations",
-              "options": ["true", "false"]
+              "options": [
+                "true",
+                "false"
+              ]
             },
             {
               "label": "Mock data",
               "name": "feature.configuration",
-              "options": ["UseMockData"]
+              "options": [
+                "UseMockData"
+              ]
             }
           ]
         }
@@ -506,12 +566,18 @@
             {
               "label": "Client optimizations",
               "name": "clientOptimizations",
-              "options": ["true", "false"]
+              "options": [
+                "true",
+                "false"
+              ]
             },
             {
               "label": "React reload",
               "name": "feature.reactreload",
-              "options": ["true", "false"]
+              "options": [
+                "true",
+                "false"
+              ]
             }
           ]
         }
