@@ -1,8 +1,13 @@
 {
-  "version": "4.6",
+  "version": "4.7",
   "name": "Intune",
   "help": "https://intunewiki.com/wiki/Intune_Azure_Portal",
   "changelog": [
+    {
+      "version": "4.7",
+      "date": "May 12, 2023",
+      "notes": "ADDED: CloudPC extension sideloading URL."
+    },
     {
       "version": "4.6",
       "date": "November 10, 2022",
@@ -78,8 +83,18 @@
           "host": "df-devicemanagement.onecloud.azure-test.net"
         },
         {
+          "label": "Int",
+          "host": "intune.microsoft.com",
+          "params": {
+            "feature.canmodifystamps": "true",
+            "feature.canmodifyextensions": "true",
+            "feature.intune_env": "selfhost",
+            "feature.CloudPCGraphVersion": "testprodbeta_cpc_int"
+          }
+        },
+        {
           "label": "Selfhost",
-          "host": "endpoint.microsoft.com",
+          "host": "intune.microsoft.com",
           "params": {
             "feature.canmodifystamps": "true",
             "feature.canmodifyextensions": "true",
@@ -88,7 +103,7 @@
         },
         {
           "label": "Canary",
-          "host": "endpoint.microsoft.com",
+          "host": "intune.microsoft.com",
           "params": {
             "feature.canmodifystamps": "true",
             "feature.canmodifyextensions": "true",
@@ -97,7 +112,7 @@
         },
         {
           "label": "TestProd",
-          "host": "endpoint.microsoft.com",
+          "host": "intune.microsoft.com",
           "params": {
             "feature.canmodifystamps": "true",
             "feature.canmodifyextensions": "true"
@@ -105,15 +120,15 @@
         },
         {
           "label": "Prod",
-          "host": "endpoint.microsoft.com"
+          "host": "intune.microsoft.com"
         },
         {
           "label": "Fairfax",
-          "host": "endpoint.microsoft.us"
+          "host": "intune.microsoft.us"
         },
         {
           "label": "Mooncake",
-          "host": "endpoint.microsoftonline.cn"
+          "host": "intune.microsoftonline.cn"
         }
       ],
       "extensions": [
@@ -344,8 +359,8 @@
           "environments": [
             {
               "label": "Int",
-              "feature.CloudPCGraphVersion": "testprodbeta_cpc_int",
-              "sideloadUrl": "https://localhost:17159/intuneworkflows"
+              "stamp": "Int",
+              "sideloadUrl": "https://localhost:1339/cloudpc"
             },
             {
               "label": "Selfhost",
@@ -369,10 +384,6 @@
             },
             {
               "label": "Fairfax",
-              "sideloadUrl": "https://localhost:1339/cloudpc"
-            },
-            {
-              "label": "Mooncake",
               "sideloadUrl": "https://localhost:1339/cloudpc"
             }
           ]
