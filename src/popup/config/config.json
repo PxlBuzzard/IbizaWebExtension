@@ -124,11 +124,11 @@
         },
         {
           "label": "Fairfax",
-          "host": "intune.microsoft.us"
+          "host": "endpoint.microsoft.us"
         },
         {
           "label": "Mooncake",
-          "host": "intune.microsoftonline.cn"
+          "host": "endpoint.microsoftonline.cn"
         }
       ],
       "extensions": [
