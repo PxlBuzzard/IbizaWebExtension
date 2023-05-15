@@ -140,6 +140,11 @@
               "sideloadUrl": "https://localhost:44300"
             },
             {
+              "label": "Int",
+              "stamp": "sh",
+              "sideloadUrl": "https://localhost:44300"
+            },
+            {
               "label": "Selfhost",
               "stamp": "sh",
               "sideloadUrl": "https://localhost:44300"
@@ -174,6 +179,11 @@
           "environments": [
             {
               "label": "Dogfood",
+              "sideloadUrl": "https://localhost:17159/intuneapps"
+            },
+            {
+              "label": "Int",
+              "stamp": "selfhost",
               "sideloadUrl": "https://localhost:17159/intuneapps"
             },
             {
@@ -214,6 +224,11 @@
               "sideloadUrl": "https://localhost:17159/intunedevices"
             },
             {
+              "label": "Int",
+              "stamp": "selfhost",
+              "sideloadUrl": "https://localhost:17159/intunedevices"
+            },
+            {
               "label": "Selfhost",
               "stamp": "selfhost",
               "sideloadUrl": "https://localhost:17159/intunedevices"
@@ -248,6 +263,11 @@
           "environments": [
             {
               "label": "Dogfood",
+              "sideloadUrl": "https://localhost:17159/intunedevicesettings"
+            },
+            {
+              "label": "Int",
+              "stamp": "selfhost",
               "sideloadUrl": "https://localhost:17159/intunedevicesettings"
             },
             {
@@ -288,6 +308,11 @@
               "sideloadUrl": "https://localhost:17159/intuneenrollment"
             },
             {
+              "label": "Int",
+              "stamp": "selfhost",
+              "sideloadUrl": "https://localhost:17159/intuneenrollment"
+            },
+            {
               "label": "Selfhost",
               "stamp": "selfhost",
               "sideloadUrl": "https://localhost:17159/intuneenrollment"
@@ -322,6 +347,11 @@
           "environments": [
             {
               "label": "Dogfood",
+              "sideloadUrl": "https://localhost:17159/intuneworkflows"
+            },
+            {
+              "label": "Int",
+              "stamp": "selfhost",
               "sideloadUrl": "https://localhost:17159/intuneworkflows"
             },
             {
