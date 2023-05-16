@@ -1,8 +1,13 @@
 {
-  "version": "4.7",
+  "version": "4.8",
   "name": "Intune",
   "help": "https://intunewiki.com/wiki/Intune_Azure_Portal",
   "changelog": [
+    {
+      "version": "4.8",
+      "date": "May 12, 2023",
+      "notes": "FIXED: Added Int label for all Intune extensions and set to selfhost env."
+    },
     {
       "version": "4.7",
       "date": "May 12, 2023",
