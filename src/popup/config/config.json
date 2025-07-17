@@ -1,8 +1,13 @@
 {
-  "version": "4.8",
+  "version": "5.0",
   "name": "Intune",
   "help": "https://intunewiki.com/wiki/Intune_Azure_Portal",
   "changelog": [
+    {
+      "version": "5.0",
+      "date": "July 17, 2025",
+      "notes": "FIXED: Migrate Manifest from depricated V2 to new V3 format"
+    },
     {
       "version": "4.8",
       "date": "May 12, 2023",
@@ -431,18 +436,12 @@
             {
               "label": "Client optimizations",
               "name": "clientOptimizations",
-              "options": [
-                "true",
-                "false"
-              ]
+              "options": ["true", "false"]
             },
             {
               "label": "Mock data",
               "name": "feature.intune_mockgraph",
-              "options": [
-                "true",
-                "false"
-              ]
+              "options": ["true", "false"]
             }
           ]
         }
@@ -551,17 +550,12 @@
             {
               "label": "Client optimizations",
               "name": "clientOptimizations",
-              "options": [
-                "true",
-                "false"
-              ]
+              "options": ["true", "false"]
             },
             {
               "label": "Mock data",
               "name": "feature.configuration",
-              "options": [
-                "UseMockData"
-              ]
+              "options": ["UseMockData"]
             }
           ]
         }
@@ -601,18 +595,12 @@
             {
               "label": "Client optimizations",
               "name": "clientOptimizations",
-              "options": [
-                "true",
-                "false"
-              ]
+              "options": ["true", "false"]
             },
             {
               "label": "React reload",
               "name": "feature.reactreload",
-              "options": [
-                "true",
-                "false"
-              ]
+              "options": ["true", "false"]
             }
           ]
         }
