@@ -4,9 +4,9 @@
   "description": "Azure Portal Developer Web Extension",
   "private": true,
   "scripts": {
-    "build": "npx webpack --mode production",
-    "build:dev": "npx webpack --mode development",
-    "watch": "npx webpack --mode development --watch --progress",
+    "build": "SET NODE_OPTIONS=--openssl-legacy-provider && npx webpack --mode production",
+    "build:dev": "SET NODE_OPTIONS=--openssl-legacy-provider && npx webpack --mode development",
+    "watch": "SET NODE_OPTIONS=--openssl-legacy-provider && npx webpack --mode development --watch --progress",
     "lint": "npx eslint src/**/*.{ts,tsx,vue} --fix",
     "prettier": "npx prettier --write ./src/"
   },
