@@ -55,10 +55,6 @@
         <div v-if="currentContent === 'analyzeBlade'" id="analyze-blade">
           <Analyze />
         </div>
-        <div v-if="currentContent === 'version'" id="check-version">
-          <NotifyUnknownPortal :current-env="currentEnv" />
-          <Versions />
-        </div>
         <div v-if="currentContent === 'settings'" id="settings-content">
           <Settings
             :changelog="configFile.changelog"
@@ -86,7 +82,6 @@ import NotifyUpdate from "./components/NotifyUpdate.vue";
 import Settings from "./pages/Settings.vue";
 import Sidebar from "./components/Sidebar.vue";
 import UrlParser from "./url/UrlParser";
-import Versions from "./pages/Versions.vue";
 import { IConfigFile, IConfiguration, IFeatureGroup } from "./config/Schema";
 import { IUrlComponents } from "./url/IUrlComponents";
 import { computed, onMounted, ref } from "vue";
@@ -105,7 +100,6 @@ export default {
     NotifyUnknownPortal,
     NotifyUpdate,
     Sidebar,
-    Versions,
   },
   setup() {
     /**

@@ -15,21 +15,15 @@
       @click="$emit('update-content', 'analyzeBlade')"
       ><i class="el-icon-data-analysis"></i>Analyze Blade</el-menu-item
     >
-    <el-menu-item
-      :disabled="inPortal === false"
-      index="3"
-      @click="$emit('update-content', 'version')"
-      ><i class="el-icon-news"></i>Check Ext Version</el-menu-item
-    >
-    <el-menu-item index="4" @click="$emit('update-content', 'settings')"
+    <el-menu-item index="3" @click="$emit('update-content', 'settings')"
       ><i class="el-icon-setting"></i>Settings</el-menu-item
     >
-    <el-submenu v-if="featureGroups.length > 0" index="5">
+    <el-submenu v-if="featureGroups.length > 0" index="4">
       <template #title><i class="el-icon-set-up"></i>Extension Features</template>
       <el-menu-item
         v-for="group in featureGroups"
         :key="group"
-        :index="`5-${group}`"
+        :index="`4-${group}`"
         @click="$emit('update-content', group)"
       >
         {{ group }}
