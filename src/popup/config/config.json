@@ -4,6 +4,11 @@
   "help": "https://intunewiki.com/wiki/Intune_Azure_Portal",
   "changelog": [
     {
+      "version": "5.1",
+      "date": "July 17, 2025",
+      "notes": "FIXED: Bump ConfigLoader compatible version to major verion of 5"
+    },
+    {
       "version": "5.0",
       "date": "July 17, 2025",
       "notes": "FIXED: Migrate Manifest from depricated V2 to new V3 format"
